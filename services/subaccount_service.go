@@ -614,12 +614,12 @@ type SubAccountResponse struct {
 	Tag          string `json:"tag"`
 }
 
-type SubAccountService struct {
+type CreateSubAccountService struct {
 	c *Client
 }
 
 // Do send request
-func (s *SubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountResponse, err error) {
+func (s *CreateSubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountResponse, err error) {
 	r := &request{
 		method:   "POST",
 		endpoint: "/sapi/v1/broker/subAccount",

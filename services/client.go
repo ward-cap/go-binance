@@ -828,6 +828,14 @@ func (c *Client) NewTransferToSubAccountService() *TransferToSubAccountService {
 	return &TransferToSubAccountService{c: c}
 }
 
+func (c *Client) NewCreateSubAccountService() *CreateSubAccountService {
+	return &CreateSubAccountService{c: c}
+}
+
+func (c *Client) NewSubAccountApiKeyService() *SubAccountApiKeyService {
+	return &SubAccountApiKeyService{c: c}
+}
+
 // NewSubaccountAssetsService init list subaccount assets
 func (c *Client) NewSubaccountAssetsService() *SubaccountAssetsService {
 	return &SubaccountAssetsService{c: c}
