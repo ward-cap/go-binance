@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"net/http"
 )
 
 // TransferToSubAccountService transfer to subaccount
@@ -616,6 +617,32 @@ type SubAccountResponse struct {
 
 type CreateSubAccountService struct {
 	c *Client
+}
+
+type QuerySubAccountService struct {
+	c *Client
+}
+
+// Do send request
+func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountResponse, err error) {
+	r := &request{
+		method:   http.MethodGet,
+		endpoint: "/sapi/v1/broker/subAccount",
+		secType:  secTypeSigned,
+	}
+	m := params{}
+	r.setParams(m)
+	data, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	res = new(SubAccountResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }
 
 // Do send request

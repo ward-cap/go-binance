@@ -832,6 +832,10 @@ func (c *Client) NewCreateSubAccountService() *CreateSubAccountService {
 	return &CreateSubAccountService{c: c}
 }
 
+func (c *Client) NewQuerySubAccountService() *QuerySubAccountService {
+	return &QuerySubAccountService{c: c}
+}
+
 func (c *Client) NewSubAccountApiKeyService() *SubAccountApiKeyService {
 	return &SubAccountApiKeyService{c: c}
 }
