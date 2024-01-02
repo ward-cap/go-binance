@@ -635,7 +635,7 @@ type QuerySubAccountService struct {
 }
 
 // Do send request
-func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res []*SubAccountResponse, err error) {
+func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res []*QuerySubAccountResponse, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/subAccount",
@@ -648,7 +648,7 @@ func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 
-	res = make([]*SubAccountResponse, 0)
+	res = make([]*QuerySubAccountResponse, 0)
 	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
