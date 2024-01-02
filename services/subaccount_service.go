@@ -615,6 +615,17 @@ type SubAccountResponse struct {
 	Tag          string `json:"tag"`
 }
 
+type QuerySubAccountResponse struct {
+	SubaccountId          string  `json:"subaccountId"`
+	Email                 string  `json:"email"`
+	Tag                   string  `json:"tag"`
+	MakerCommission       float64 `json:"makerCommission"`
+	TakerCommission       float64 `json:"takerCommission"`
+	MarginMakerCommission int     `json:"marginMakerCommission"`
+	MarginTakerCommission int     `json:"marginTakerCommission"`
+	CreateTime            int64   `json:"createTime"`
+}
+
 type CreateSubAccountService struct {
 	c *Client
 }
@@ -624,7 +635,7 @@ type QuerySubAccountService struct {
 }
 
 // Do send request
-func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountResponse, err error) {
+func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res []*SubAccountResponse, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/subAccount",
@@ -637,8 +648,8 @@ func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 
-	res = new(SubAccountResponse)
-	err = json.Unmarshal(data, res)
+	res = make([]*SubAccountResponse, 0)
+	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
