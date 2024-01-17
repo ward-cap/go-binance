@@ -30,6 +30,7 @@ func (s *DeleteIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opt
 	m := params{
 		"subAccountId":     s.subAccountID,
 		"subAccountApiKey": s.subAccountApiKey,
+		"ipAddress":        s.ipAddress,
 	}
 	r.setParams(m)
 	_, err = s.c.callAPI(ctx, r, opts...)
