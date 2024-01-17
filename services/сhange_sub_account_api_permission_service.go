@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func (c *Client) NewChangeSubAccountApiPermissionService() *SubAccountDeleteApiKeyService {
-	return &SubAccountDeleteApiKeyService{c: c}
+func (c *Client) NewChangeSubAccountApiPermissionService() *ChangeSubAccountApiPermissionService {
+	return &ChangeSubAccountApiPermissionService{c: c}
 }
 
 type ChangeSubAccountApiPermissionService struct {
