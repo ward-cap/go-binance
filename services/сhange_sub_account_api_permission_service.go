@@ -45,7 +45,7 @@ func (s *ChangeSubAccountApiPermissionService) SubAccountApiKey(subAccountApiKey
 
 func (s *ChangeSubAccountApiPermissionService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
-		method:   http.MethodDelete,
+		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/subAccountApi/permission",
 		secType:  secTypeSigned,
 	}
