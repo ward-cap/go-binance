@@ -5,24 +5,20 @@ import (
 	"net/http"
 )
 
-func (c *Client) NewDeleteIPRestrictionSubAccountAPIKeyService() *DeleteIPRestrictionSubAccountAPIKeyService {
-	return &DeleteIPRestrictionSubAccountAPIKeyService{c: c}
+func (c *Client) NewDeleteIPRestrictionSubAccountAPIKeyService(subAccountID, subAccountApiKey, ipAddress string) *DeleteIPRestrictionSubAccountAPIKeyService {
+	return &DeleteIPRestrictionSubAccountAPIKeyService{
+		c:                c,
+		subAccountID:     subAccountID,
+		subAccountApiKey: subAccountApiKey,
+		ipAddress:        ipAddress,
+	}
 }
 
 type DeleteIPRestrictionSubAccountAPIKeyService struct {
 	c                *Client
 	subAccountID     string
 	subAccountApiKey string
-}
-
-func (s *DeleteIPRestrictionSubAccountAPIKeyService) SubAccountID(subAccountID string) *DeleteIPRestrictionSubAccountAPIKeyService {
-	s.subAccountID = subAccountID
-	return s
-}
-
-func (s *DeleteIPRestrictionSubAccountAPIKeyService) SubAccountApiKey(subAccountApiKey string) *DeleteIPRestrictionSubAccountAPIKeyService {
-	s.subAccountApiKey = subAccountApiKey
-	return s
+	ipAddress        string
 }
 
 func (s *DeleteIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts ...RequestOption) (err error) {
