@@ -41,7 +41,7 @@ func (s *GetIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts .
 
 type GetIPRestrictionSubAccountAPIKeyResponse struct {
 	SubAccountId string   `json:"subaccountId"`
-	IpRestrict   bool     `json:"ipRestrict"`
+	IpRestrict   string   `json:"ipRestrict"` // true/false
 	Apikey       string   `json:"apikey"`
 	IpList       []string `json:"ipList"`
 	UpdateTime   int64    `json:"updateTime"`
