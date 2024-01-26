@@ -3,9 +3,13 @@ package binance
 import (
 	"context"
 	"net/http"
+	"strings"
 )
 
-func (c *Client) NewDeleteIPRestrictionSubAccountAPIKeyService(subAccountID, subAccountApiKey, ipAddress string) *DeleteIPRestrictionSubAccountAPIKeyService {
+func (c *Client) NewDeleteIPRestrictionSubAccountAPIKeyService(
+	subAccountID, subAccountApiKey string,
+	ipAddress []string,
+) *DeleteIPRestrictionSubAccountAPIKeyService {
 	return &DeleteIPRestrictionSubAccountAPIKeyService{
 		c:                c,
 		subAccountID:     subAccountID,
@@ -18,7 +22,7 @@ type DeleteIPRestrictionSubAccountAPIKeyService struct {
 	c                *Client
 	subAccountID     string
 	subAccountApiKey string
-	ipAddress        string
+	ipAddress        []string
 }
 
 func (s *DeleteIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts ...RequestOption) (err error) {
@@ -30,7 +34,7 @@ func (s *DeleteIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opt
 	m := params{
 		"subAccountId":     s.subAccountID,
 		"subAccountApiKey": s.subAccountApiKey,
-		"ipAddress":        s.ipAddress,
+		"ipAddress":        strings.Join(s.ipAddress, ","),
 	}
 	r.setParams(m)
 	_, err = s.c.callAPI(ctx, r, opts...)
