@@ -604,11 +604,6 @@ func (c *Client) NewHistoricalTradesService() *HistoricalTradesService {
 	return &HistoricalTradesService{c: c}
 }
 
-// NewListDepositsService init listing deposits service
-func (c *Client) NewListDepositsService() *ListDepositsService {
-	return &ListDepositsService{c: c}
-}
-
 // NewGetDepositAddressService init getting deposit address service
 func (c *Client) NewGetDepositAddressService() *GetDepositsAddressService {
 	return &GetDepositsAddressService{c: c}
