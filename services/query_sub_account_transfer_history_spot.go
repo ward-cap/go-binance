@@ -6,8 +6,27 @@ import (
 	"strconv"
 )
 
-func (c *Client) NewSubAccountTransferHistorySpotService() *SubAccountTransferHistorySpotService {
-	return &SubAccountTransferHistorySpotService{c: c}
+func (c *Client) NewSubAccountTransferHistorySpotService(
+	fromId *string,
+	toId *string,
+	clientTranId *string,
+	showAllStatus *bool,
+	startTime *int64,
+	endTime *int64,
+	page *int,
+	limit *int,
+) *SubAccountTransferHistorySpotService {
+	return &SubAccountTransferHistorySpotService{
+		c:             c,
+		fromId:        fromId,
+		toId:          toId,
+		clientTranId:  clientTranId,
+		showAllStatus: showAllStatus,
+		startTime:     startTime,
+		endTime:       endTime,
+		page:          page,
+		limit:         limit,
+	}
 }
 
 type SubAccountTransferHistorySpotService struct {
