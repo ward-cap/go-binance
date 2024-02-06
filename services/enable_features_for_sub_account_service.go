@@ -25,7 +25,7 @@ func (s *EnableFuturesForSubAccountService) Do(ctx context.Context, opts ...Requ
 	}
 
 	m := params{
-		"subAccountID": s.subAccountID,
+		"subAccountId": s.subAccountID,
 		"futures":      true,
 	}
 
