@@ -41,21 +41,27 @@ func (s *SubAccountTransferFuturesService) Do(ctx context.Context, opts ...Reque
 		secType:  secTypeSigned,
 	}
 	m := params{
-		"fromId":       s.fromId,
-		"toId":         s.toId,
-		"futuresType":  s.futuresType,
-		"clientTranId": s.clientTranId,
-		"asset":        s.asset,
-		"amount":       s.amount,
+		"futuresType": s.futuresType,
+		"asset":       s.asset,
+		"amount":      s.amount,
 	}
+
+	if s.fromId != nil {
+		m["fromId"] = *s.fromId
+	}
+	if s.toId != nil {
+		m["toId"] = *s.toId
+	}
+	if s.clientTranId != nil {
+		m["clientTranId"] = *s.clientTranId
+	}
+
 	r.setParams(m)
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
 		return res, err
 	}
-
 	err = json.Unmarshal(data, &res)
-
 	return res, err
 }
 
@@ -63,4 +69,8 @@ type AccountTransferFuturesResponse struct {
 	Success      bool   `json:"success"`
 	TxnId        string `json:"txnId"`
 	ClientTranId string `json:"clientTranId"`
+	ErrorData    string `json:"errorData"`
+	Status       string `json:"status"`
+	Type         string `json:"type"`
+	Code         string `json:"code"`
 }

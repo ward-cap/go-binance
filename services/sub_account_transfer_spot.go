@@ -38,12 +38,20 @@ func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestO
 		secType:  secTypeSigned,
 	}
 	m := params{
-		"fromId":       s.fromId,
-		"toId":         s.toId,
-		"clientTranId": s.clientTranId,
-		"asset":        s.asset,
-		"amount":       s.amount,
+		"asset":  s.asset,
+		"amount": s.amount,
 	}
+
+	if s.fromId != nil {
+		m["fromId"] = *s.fromId
+	}
+	if s.toId != nil {
+		m["toId"] = *s.toId
+	}
+	if s.clientTranId != nil {
+		m["clientTranId"] = *s.clientTranId
+	}
+
 	r.setParams(m)
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
@@ -58,4 +66,8 @@ func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestO
 type AccountTransferSpotResponse struct {
 	TxnId        string `json:"txnId"`
 	ClientTranId string `json:"clientTranId"`
+	ErrorData    string `json:"errorData"`
+	Status       string `json:"status"`
+	Type         string `json:"type"`
+	Code         string `json:"code"`
 }
