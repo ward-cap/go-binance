@@ -64,10 +64,6 @@ func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestO
 }
 
 type AccountTransferSpotResponse struct {
-	TxnId        string `json:"txnId"`
-	ClientTranId string `json:"clientTranId"`
-	ErrorData    string `json:"errorData"`
-	Status       string `json:"status"`
-	Type         string `json:"type"`
-	Code         string `json:"code"`
+	TxnId     int64  `json:"txnId"`
+	ErrorData string `json:"errorData"`
 }
