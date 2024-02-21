@@ -30,7 +30,7 @@ type UniversalTransferService struct {
 	amount                         float64
 }
 
-func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (def UpdateIPRestrictionSubAccountAPIKeyResponse, _ error) {
+func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (def UniversalTransferServiceResponse, _ error) {
 	r := &request{
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/universalTransfer",
@@ -54,9 +54,6 @@ func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption
 	return def, err
 }
 
-type UniversalTransferServiceResd struct {
-	Status     string   `json:"status"`
-	IpList     []string `json:"ipList"`
-	UpdateTime int64    `json:"updateTime"`
-	ApiKey     string   `json:"apiKey"`
+type UniversalTransferServiceResponse struct {
+	TxnId int64 `json:"txnId"`
 }
