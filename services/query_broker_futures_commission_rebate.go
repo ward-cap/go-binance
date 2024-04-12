@@ -39,7 +39,7 @@ type BrokerFuturesCommissionRebateResponse struct {
 	Status       int    `json:"status"`
 }
 
-func (s *QueryBrokerFuturesCommissionRebateService) Do(ctx context.Context, opts ...RequestOption) (d *BrokerFuturesCommissionRebateResponse, _ error) {
+func (s *QueryBrokerFuturesCommissionRebateService) Do(ctx context.Context, opts ...RequestOption) (d []BrokerFuturesCommissionRebateResponse, _ error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/rebate/recentRecord",
