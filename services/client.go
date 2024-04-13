@@ -378,7 +378,7 @@ func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
 			return err
 		}
 		v := url.Values{}
-		v.Set(signatureKey, fmt.Sprintf("%x", (mac.Sum(nil))))
+		v.Set(signatureKey, fmt.Sprintf("%x", mac.Sum(nil)))
 		if queryString == "" {
 			queryString = v.Encode()
 		} else {
