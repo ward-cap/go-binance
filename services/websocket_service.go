@@ -10,10 +10,8 @@ import (
 
 // Endpoints
 const (
-	baseWsMainURL          = "wss://stream.binance.com:9443/ws"
-	baseWsTestnetURL       = "wss://testnet.binance.vision/ws"
-	baseCombinedMainURL    = "wss://stream.binance.com:9443/stream?streams="
-	baseCombinedTestnetURL = "wss://testnet.binance.vision/stream?streams="
+	baseWsMainURL       = "wss://stream.binance.com:9443/ws"
+	baseCombinedMainURL = "wss://stream.binance.com:9443/stream?streams="
 )
 
 var (
@@ -25,17 +23,11 @@ var (
 
 // getWsEndpoint return the base endpoint of the WS according the UseTestnet flag
 func getWsEndpoint() string {
-	if UseTestnet {
-		return baseWsTestnetURL
-	}
 	return baseWsMainURL
 }
 
 // getCombinedEndpoint return the base endpoint of the combined stream according the UseTestnet flag
 func getCombinedEndpoint() string {
-	if UseTestnet {
-		return baseCombinedTestnetURL
-	}
 	return baseCombinedMainURL
 }
 

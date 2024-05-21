@@ -5,10 +5,9 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -73,8 +72,7 @@ type ForceOrderCloseType string
 
 // Endpoints
 const (
-	baseApiMainUrl    = "https://fapi.binance.com"
-	baseApiTestnetUrl = "https://testnet.binancefuture.com"
+	baseApiMainUrl = "https://fapi.binance.com"
 )
 
 // Global enums
@@ -192,49 +190,48 @@ func newJSON(data []byte) (j *simplejson.Json, err error) {
 
 // getApiEndpoint return the base endpoint of the WS according the UseTestnet flag
 func getApiEndpoint() string {
-	if UseTestnet {
-		return baseApiTestnetUrl
-	}
 	return baseApiMainUrl
 }
 
 // NewClient initialize an API client instance with API key and secret key.
 // You should always call this function before using this SDK.
 // Services will be created by the form client.NewXXXService().
-func NewClient(apiKey, secretKey string) *Client {
+func NewClient(apiKey, secretKey string, client *http.Client) *Client {
+	if client == nil {
+		client = http.DefaultClient
+	}
 	return &Client{
 		APIKey:     apiKey,
 		SecretKey:  secretKey,
 		BaseURL:    getApiEndpoint(),
 		UserAgent:  "Binance/golang",
-		HTTPClient: http.DefaultClient,
+		HTTPClient: client,
 		Logger:     log.New(os.Stderr, "Binance-golang ", log.LstdFlags),
 	}
 }
 
-// NewProxiedClient passing a proxy url
-func NewProxiedClient(apiKey, secretKey, proxyUrl string) *Client {
-	proxy, err := url.Parse(proxyUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
-	tr := &http.Transport{
-		Proxy:           http.ProxyURL(proxy),
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	return &Client{
-		APIKey:    apiKey,
-		SecretKey: secretKey,
-		BaseURL:   getApiEndpoint(),
-		UserAgent: "Binance/golang",
-		HTTPClient: &http.Client{
-			Transport: tr,
-		},
-		Logger: log.New(os.Stderr, "Binance-golang ", log.LstdFlags),
-	}
-}
+//func NewProxiedClient(apiKey, secretKey, proxyUrl string) *Client {
+//	proxy, err := url.Parse(proxyUrl)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	tr := &http.Transport{
+//		Proxy:           http.ProxyURL(proxy),
+//		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+//	}
+//	return &Client{
+//		APIKey:    apiKey,
+//		SecretKey: secretKey,
+//		BaseURL:   getApiEndpoint(),
+//		UserAgent: "Binance/golang",
+//		HTTPClient: &http.Client{
+//			Transport: tr,
+//		},
+//		Logger: log.New(os.Stderr, "Binance-golang ", log.LstdFlags),
+//	}
+//}
 
-type doFunc func(req *http.Request) (*http.Response, error)
+//type doFunc func(req *http.Request) (*http.Response, error)
 
 // Client define API client
 type Client struct {
@@ -246,13 +243,6 @@ type Client struct {
 	Debug      bool
 	Logger     *log.Logger
 	TimeOffset int64
-	do         doFunc
-}
-
-func (c *Client) debug(format string, v ...interface{}) {
-	if c.Debug {
-		c.Logger.Printf(format, v...)
-	}
 }
 
 func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
@@ -295,7 +285,7 @@ func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
 			return err
 		}
 		v := url.Values{}
-		v.Set(signatureKey, fmt.Sprintf("%x", (mac.Sum(nil))))
+		v.Set(signatureKey, fmt.Sprintf("%x", mac.Sum(nil)))
 		if queryString == "" {
 			queryString = v.Encode()
 		} else {
@@ -305,7 +295,7 @@ func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
 	if queryString != "" {
 		fullURL = fmt.Sprintf("%s?%s", fullURL, queryString)
 	}
-	c.debug("full url: %s, body: %s", fullURL, bodyString)
+	//c.debug("full url: %s, body: %s", fullURL, bodyString)
 
 	r.fullURL = fullURL
 	r.header = header
@@ -324,16 +314,11 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 	}
 	req = req.WithContext(ctx)
 	req.Header = r.header
-	c.debug("request: %#v", req)
-	f := c.do
-	if f == nil {
-		f = c.HTTPClient.Do
-	}
-	res, err := f(req)
+	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return []byte{}, &http.Header{}, err
 	}
-	data, err = ioutil.ReadAll(res.Body)
+	data, err = io.ReadAll(res.Body)
 	if err != nil {
 		return []byte{}, &http.Header{}, err
 	}
@@ -345,16 +330,10 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 			err = cerr
 		}
 	}()
-	c.debug("response: %#v", res)
-	c.debug("response body: %s", string(data))
-	c.debug("response status code: %d", res.StatusCode)
 
 	if res.StatusCode >= http.StatusBadRequest {
 		apiErr := new(common.APIError)
-		e := json.Unmarshal(data, apiErr)
-		if e != nil {
-			c.debug("failed to unmarshal json: %s", e)
-		}
+		_ = json.Unmarshal(data, apiErr)
 		return nil, &http.Header{}, apiErr
 	}
 	return data, &res.Header, nil

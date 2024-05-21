@@ -49,7 +49,7 @@ type SetServerTimeService struct {
 }
 
 // Do send request
-func (s *SetServerTimeService) Do(ctx context.Context, opts ...RequestOption) (timeOffset int64, err error) {
+func (s *SetServerTimeService) Do(ctx context.Context) (timeOffset int64, err error) {
 	serverTime, err := s.c.NewServerTimeService().Do(ctx)
 	if err != nil {
 		return 0, err

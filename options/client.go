@@ -5,7 +5,6 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -75,8 +74,7 @@ type ForceOrderCloseType string
 
 // Endpoints
 const (
-	baseApiMainUrl    = "https://eapi.binance.com"
-	baseApiTestnetUrl = "https://testnet.binancefuture.com"
+	baseApiMainUrl = "https://eapi.binance.com"
 )
 
 // Global enums
@@ -216,26 +214,26 @@ func NewClient(apiKey, secretKey string) *Client {
 }
 
 // NewProxiedClient passing a proxy url
-func NewProxiedClient(apiKey, secretKey, proxyUrl string) *Client {
-	proxy, err := url.Parse(proxyUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
-	tr := &http.Transport{
-		Proxy:           http.ProxyURL(proxy),
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	return &Client{
-		APIKey:    apiKey,
-		SecretKey: secretKey,
-		BaseURL:   getApiEndpoint(),
-		UserAgent: "Binance/golang",
-		HTTPClient: &http.Client{
-			Transport: tr,
-		},
-		Logger: log.New(os.Stderr, "Binance-golang ", log.LstdFlags),
-	}
-}
+//func NewProxiedClient(apiKey, secretKey, proxyUrl string) *Client {
+//	proxy, err := url.Parse(proxyUrl)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	tr := &http.Transport{
+//		Proxy:           http.ProxyURL(proxy),
+//		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+//	}
+//	return &Client{
+//		APIKey:    apiKey,
+//		SecretKey: secretKey,
+//		BaseURL:   getApiEndpoint(),
+//		UserAgent: "Binance/golang",
+//		HTTPClient: &http.Client{
+//			Transport: tr,
+//		},
+//		Logger: log.New(os.Stderr, "Binance-golang ", log.LstdFlags),
+//	}
+//}
 
 type doFunc func(req *http.Request) (*http.Response, error)
 

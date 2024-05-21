@@ -65,8 +65,7 @@ type UserDataEventReasonType string
 
 // Endpoints
 const (
-	baseApiMainUrl    = "https://dapi.binance.com"
-	baseApiTestnetUrl = "https://testnet.binancefuture.com"
+	baseApiMainUrl = "https://dapi.binance.com"
 )
 
 // Global enums
@@ -177,9 +176,6 @@ func newJSON(data []byte) (j *simplejson.Json, err error) {
 
 // getApiEndpoint return the base endpoint of the WS according the UseTestnet flag
 func getApiEndpoint() string {
-	if UseTestnet {
-		return baseApiTestnetUrl
-	}
 	return baseApiMainUrl
 }
 

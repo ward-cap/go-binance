@@ -10,8 +10,7 @@ import (
 
 // Endpoints
 const (
-	baseWsMainUrl    = "wss://dstream.binance.com/ws"
-	baseWsTestnetUrl = "wss://dstream.binancefuture.com/ws"
+	baseWsMainUrl = "wss://dstream.binance.com/ws"
 )
 
 var (
@@ -19,15 +18,10 @@ var (
 	WebsocketTimeout = time.Second * 60
 	// WebsocketKeepalive enables sending ping/pong messages to check the connection stability
 	WebsocketKeepalive = false
-	// UseTestnet switch all the WS streams from production to the testnet
-	UseTestnet = false
 )
 
 // getWsEndpoint return the base endpoint of the WS according the UseTestnet flag
 func getWsEndpoint() string {
-	if UseTestnet {
-		return baseWsTestnetUrl
-	}
 	return baseWsMainUrl
 }
 
