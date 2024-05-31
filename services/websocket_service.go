@@ -2,6 +2,7 @@ package binance
 
 import (
 	"fmt"
+	"github.com/ward-cap/go-binance/futures"
 	"strings"
 	"time"
 
@@ -86,7 +87,7 @@ func wsPartialDepthServe(endpoint string, symbol string, handler WsPartialDepthH
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsCombinedPartialDepthServe is similar to WsPartialDepthServe, but it for multiple symbols
@@ -130,7 +131,7 @@ func WsCombinedPartialDepthServe(symbolLevels map[string]string, handler WsParti
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsDepthHandler handle websocket depth event
@@ -183,7 +184,7 @@ func wsDepthServe(endpoint string, handler WsDepthHandler, errHandler ErrHandler
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsDepthEvent define websocket depth event
@@ -253,7 +254,7 @@ func wsCombinedDepthServe(endpoint string, handler WsDepthHandler, errHandler Er
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsKlineHandler handle websocket kline event
@@ -291,7 +292,7 @@ func WsCombinedKlineServe(symbolIntervalPair map[string]string, handler WsKlineH
 
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsKlineServe serve websocket kline handler with a symbol and interval like 15m, 30s
@@ -307,7 +308,7 @@ func WsKlineServe(symbol string, interval string, handler WsKlineHandler, errHan
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsKlineEvent define websocket kline event
@@ -354,7 +355,7 @@ func WsAggTradeServe(symbol string, handler WsAggTradeHandler, errHandler ErrHan
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsCombinedAggTradeServe is similar to WsAggTradeServe, but it handles multiple symbolx
@@ -390,7 +391,7 @@ func WsCombinedAggTradeServe(symbols []string, handler WsAggTradeHandler, errHan
 
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsAggTradeEvent define websocket aggregate trade event
@@ -425,7 +426,7 @@ func WsTradeServe(symbol string, handler WsTradeHandler, errHandler ErrHandler) 
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 func WsCombinedTradeServe(symbols []string, handler WsCombinedTradeHandler, errHandler ErrHandler) (doneC, stopC chan struct{}, err error) {
@@ -444,7 +445,7 @@ func WsCombinedTradeServe(symbols []string, handler WsCombinedTradeHandler, errH
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsTradeEvent define websocket trade event
@@ -557,7 +558,12 @@ type WsOCOOrder struct {
 type WsUserDataHandler func(event *WsUserDataEvent)
 
 // WsUserDataServe serve user data handler with listen key
-func WsUserDataServe(listenKey string, handler WsUserDataHandler, errHandler ErrHandler) (doneC, stopC chan struct{}, err error) {
+func WsUserDataServe(
+	listenKey string,
+	handler WsUserDataHandler,
+	errHandler ErrHandler,
+	proxyFunc futures.DialFunc,
+) (doneC, stopC chan struct{}, err error) {
 	endpoint := fmt.Sprintf("%s/%s", getWsEndpoint(), listenKey)
 	cfg := newWsConfig(endpoint)
 	wsHandler := func(message []byte) {
@@ -610,7 +616,7 @@ func WsUserDataServe(listenKey string, handler WsUserDataHandler, errHandler Err
 
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, proxyFunc)
 }
 
 // WsMarketStatHandler handle websocket that push single market statistics for 24hr
@@ -650,7 +656,7 @@ func WsCombinedMarketStatServe(symbols []string, handler WsMarketStatHandler, er
 
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsMarketStatServe serve websocket that push 24hr statistics for single market every second
@@ -666,7 +672,7 @@ func WsMarketStatServe(symbol string, handler WsMarketStatHandler, errHandler Er
 		}
 		handler(&event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsAllMarketsStatHandler handle websocket that push all markets statistics for 24hr
@@ -685,7 +691,7 @@ func WsAllMarketsStatServe(handler WsAllMarketsStatHandler, errHandler ErrHandle
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsAllMarketsStatEvent define array of websocket market statistics events
@@ -734,7 +740,7 @@ func WsAllMiniMarketsStatServe(handler WsAllMiniMarketsStatServeHandler, errHand
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsAllMiniMarketsStatEvent define array of websocket market mini-ticker statistics events
@@ -784,7 +790,7 @@ func WsBookTickerServe(symbol string, handler WsBookTickerHandler, errHandler Er
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsCombinedBookTickerServe is similar to WsBookTickerServe, but it is for multiple symbols
@@ -804,7 +810,7 @@ func WsCombinedBookTickerServe(symbols []string, handler WsBookTickerHandler, er
 		}
 		handler(event.Data)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
 // WsAllBookTickerServe serve websocket that pushes updates to the best bid or ask price or quantity in real-time for all symbols.
@@ -820,5 +826,5 @@ func WsAllBookTickerServe(handler WsBookTickerHandler, errHandler ErrHandler) (d
 		}
 		handler(event)
 	}
-	return wsServe(cfg, wsHandler, errHandler)
+	return wsServe(cfg, wsHandler, errHandler, nil)
 }

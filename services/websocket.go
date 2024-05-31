@@ -1,7 +1,8 @@
 package binance
 
 import (
-	"net/http"
+	"github.com/ward-cap/go-binance/futures"
+	"golang.org/x/net/proxy"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -24,9 +25,18 @@ func newWsConfig(endpoint string) *WsConfig {
 	}
 }
 
-var wsServe = func(cfg *WsConfig, handler WsHandler, errHandler ErrHandler) (doneC, stopC chan struct{}, err error) {
+var wsServe = func(
+	cfg *WsConfig,
+	handler WsHandler,
+	errHandler ErrHandler,
+	dialer futures.DialFunc,
+) (doneC, stopC chan struct{}, err error) {
+	if dialer == nil {
+		dialer = proxy.Direct.Dial
+	}
+
 	Dialer := websocket.Dialer{
-		Proxy:             http.ProxyFromEnvironment,
+		NetDial:           dialer,
 		HandshakeTimeout:  45 * time.Second,
 		EnableCompression: false,
 	}
