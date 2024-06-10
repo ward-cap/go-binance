@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 // ChangeLeverageService change user's initial leverage of specific symbol market
@@ -28,9 +29,10 @@ func (s *ChangeLeverageService) Leverage(leverage int) *ChangeLeverageService {
 // Do send request
 func (s *ChangeLeverageService) Do(ctx context.Context, opts ...RequestOption) (res *SymbolLeverage, err error) {
 	r := &request{
-		method:   http.MethodPost,
-		endpoint: "/fapi/v1/leverage",
-		secType:  secTypeSigned,
+		method:     http.MethodPost,
+		endpoint:   "/fapi/v1/leverage",
+		secType:    secTypeSigned,
+		recvWindow: time.Second * 20,
 	}
 	r.setFormParams(params{
 		"symbol":   s.symbol,

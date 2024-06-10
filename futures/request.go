@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 type secType int
@@ -23,7 +24,7 @@ type request struct {
 	endpoint   string
 	query      url.Values
 	form       url.Values
-	recvWindow int64
+	recvWindow time.Duration
 	secType    secType
 	header     http.Header
 	body       io.Reader
@@ -78,7 +79,7 @@ func (r *request) validate() (err error) {
 type RequestOption func(*request)
 
 // WithRecvWindow set recvWindow param for the request
-func WithRecvWindow(recvWindow int64) RequestOption {
+func WithRecvWindow(recvWindow time.Duration) RequestOption {
 	return func(r *request) {
 		r.recvWindow = recvWindow
 	}
