@@ -10,7 +10,7 @@ func (c *Client) NewSubAccountTransferSpotService(
 	toId *string,
 	clientTranId *string,
 	asset string,
-	amount float64,
+	amount string,
 ) *SubAccountTransferSpotService {
 	return &SubAccountTransferSpotService{
 		c:            c,
@@ -28,7 +28,7 @@ type SubAccountTransferSpotService struct {
 	toId         *string
 	clientTranId *string
 	asset        string
-	amount       float64
+	amount       string
 }
 
 func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestOption) (res AccountTransferSpotResponse, err error) {

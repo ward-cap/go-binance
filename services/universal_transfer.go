@@ -9,7 +9,7 @@ func (c *Client) NewUniversalTransferService(
 	fromID, toID,
 	fromAccountType, toAccountType,
 	asset string,
-	amount float64,
+	amount string,
 ) *UniversalTransferService {
 	return &UniversalTransferService{
 		c:               c,
@@ -27,7 +27,7 @@ type UniversalTransferService struct {
 	fromID, toID                   string
 	fromAccountType, toAccountType string
 	asset                          string
-	amount                         float64
+	amount                         string
 }
 
 func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (def UniversalTransferServiceResponse, _ error) {

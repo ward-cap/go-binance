@@ -11,7 +11,7 @@ func (c *Client) NewSubAccountTransferFuturesService(
 	futuresType int64,
 	clientTranId *string,
 	asset string,
-	amount float64,
+	amount string,
 ) *SubAccountTransferFuturesService {
 	return &SubAccountTransferFuturesService{
 		c:            c,
@@ -31,7 +31,7 @@ type SubAccountTransferFuturesService struct {
 	futuresType  int64
 	clientTranId *string
 	asset        string
-	amount       float64
+	amount       string
 }
 
 func (s *SubAccountTransferFuturesService) Do(ctx context.Context, opts ...RequestOption) (res AccountTransferFuturesResponse, err error) {
