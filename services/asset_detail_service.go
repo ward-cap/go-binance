@@ -102,6 +102,7 @@ type Network struct {
 	Name                    string `json:"name"`
 	Network                 string `json:"network"`
 	ResetAddressStatus      bool   `json:"resetAddressStatus"`
+	EstimatedArrivalTime    int64  `json:"estimatedArrivalTime"`
 	SpecialTips             string `json:"specialTips"`
 	UnLockConfirm           int    `json:"unLockConfirm"`          // 解锁需要的确认数
 	WithdrawDesc            string `json:"withdrawDesc,omitempty"` // 仅在提现关闭时返回
