@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func (c *Client) NewSubAccountTransferHistorySpotService(
@@ -11,8 +12,8 @@ func (c *Client) NewSubAccountTransferHistorySpotService(
 	toId *string,
 	clientTranId *string,
 	showAllStatus *bool,
-	startTime *int64,
-	endTime *int64,
+	startTime *time.Time,
+	endTime *time.Time,
 	page *int,
 	limit *int,
 ) *SubAccountTransferHistorySpotService {
@@ -35,8 +36,8 @@ type SubAccountTransferHistorySpotService struct {
 	toId          *string
 	clientTranId  *string
 	showAllStatus *bool
-	startTime     *int64
-	endTime       *int64
+	startTime     *time.Time
+	endTime       *time.Time
 	page          *int
 	limit         *int
 }
@@ -62,10 +63,10 @@ func (s *SubAccountTransferHistorySpotService) Do(ctx context.Context, opts ...R
 		m["showAllStatus"] = strconv.FormatBool(*s.showAllStatus)
 	}
 	if s.startTime != nil {
-		m["startTime"] = *s.startTime
+		m["startTime"] = s.startTime.UnixMilli()
 	}
 	if s.endTime != nil {
-		m["endTime"] = *s.endTime
+		m["endTime"] = s.endTime.UnixMilli()
 	}
 	if s.page != nil {
 		m["page"] = *s.page
