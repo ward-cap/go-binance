@@ -3,14 +3,15 @@ package binance
 import (
 	"context"
 	"net/http"
+	"time"
 )
 
 func (c *Client) NewSubAccountTransferHistoryFuturesService(
 	subAccountId string,
 	futuresType int64,
 	clientTranId *string,
-	startTime *int64,
-	endTime *int64,
+	startTime *time.Time,
+	endTime *time.Time,
 	page *int,
 	limit *int,
 ) *SubAccountTransferHistoryFuturesService {
@@ -31,8 +32,8 @@ type SubAccountTransferHistoryFuturesService struct {
 	subAccountId *string
 	futuresType  int64
 	clientTranId *string
-	startTime    *int64
-	endTime      *int64
+	startTime    *time.Time
+	endTime      *time.Time
 	page         *int
 	limit        *int
 }
@@ -68,10 +69,10 @@ func (s *SubAccountTransferHistoryFuturesService) Do(ctx context.Context, opts .
 		m["clientTranId"] = *s.clientTranId
 	}
 	if s.startTime != nil {
-		m["startTime"] = *s.startTime
+		m["startTime"] = s.startTime.UnixMilli()
 	}
 	if s.endTime != nil {
-		m["endTime"] = *s.endTime
+		m["endTime"] = s.endTime.UnixMilli()
 	}
 	if s.page != nil {
 		m["page"] = *s.page
