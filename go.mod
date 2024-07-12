@@ -6,6 +6,7 @@ require (
 	github.com/bitly/go-simplejson v0.5.1
 	github.com/gorilla/websocket v1.5.3
 	github.com/json-iterator/go v1.1.12
+	github.com/shopspring/decimal v1.4.0
 	golang.org/x/net v0.27.0
 )
 

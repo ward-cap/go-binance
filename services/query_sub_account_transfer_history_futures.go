@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 	"time"
 )
@@ -39,13 +40,13 @@ type SubAccountTransferHistoryFuturesService struct {
 }
 
 type Transfer struct {
-	From         string `json:"from"`
-	To           string `json:"to"`
-	Asset        string `json:"asset"`
-	Qty          string `json:"qty"`
-	TranId       string `json:"tranId"`
-	ClientTranId string `json:"clientTranId"`
-	Time         int64  `json:"time"`
+	From   string          `json:"from"`
+	To     string          `json:"to"`
+	Asset  string          `json:"asset"`
+	Qty    decimal.Decimal `json:"qty"`
+	TranId string          `json:"tranId"`
+	//ClientTranId string          `json:"clientTranId"`
+	Time int64 `json:"time"`
 }
 
 type AccountTransferHistoryFuturesResponse struct {
