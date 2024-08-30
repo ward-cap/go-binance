@@ -953,6 +953,10 @@ func (c *Client) NewGetBNBBurnService() *GetBNBBurnService {
 	return &GetBNBBurnService{c: c}
 }
 
+func (c *Client) NewGetAssetFundingDetailService() *GetAssetFundingDetailService {
+	return &GetAssetFundingDetailService{c: c}
+}
+
 // NewToggleBNBBurnService init the service to toggle BNB Burn on spot trade and margin interest
 func (c *Client) NewToggleBNBBurnService() *ToggleBNBBurnService {
 	return &ToggleBNBBurnService{c: c}

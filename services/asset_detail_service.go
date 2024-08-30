@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -133,13 +134,13 @@ func (s *GetUserAssetService) NeedBtcValuation(val bool) *GetUserAssetService {
 }
 
 type UserAssetRecord struct {
-	Asset        string `json:"asset"`
-	Free         string `json:"free"`
-	Locked       string `json:"locked"`
-	Freeze       string `json:"freeze"`
-	Withdrawing  string `json:"withdrawing"`
-	Ipoable      string `json:"ipoable"`
-	BtcValuation string `json:"btcValuation"`
+	Asset        string          `json:"asset"`
+	Free         decimal.Decimal `json:"free"`
+	Locked       decimal.Decimal `json:"locked"`
+	Freeze       decimal.Decimal `json:"freeze"`
+	Withdrawing  string          `json:"withdrawing"`
+	Ipoable      string          `json:"ipoable"`
+	BtcValuation string          `json:"btcValuation"`
 }
 
 func (s *GetUserAssetService) Do(ctx context.Context) (res []UserAssetRecord, err error) {
