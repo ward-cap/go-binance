@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -33,10 +34,11 @@ func (s *GetBrokerInfoService) Do(ctx context.Context, opts ...RequestOption) (r
 }
 
 type GetBrokerInfoResponse struct {
-	//MaxMakerCommission string `json:"maxMakerCommission"`
-	//MinMakerCommission string `json:"minMakerCommission"`
-	//MaxTakerCommission string `json:"maxTakerCommission"`
-	//MinTakerCommission string `json:"minTakerCommission"`
+	MaxMakerCommission decimal.Decimal `json:"maxMakerCommission"`
+	MinMakerCommission decimal.Decimal `json:"minMakerCommission"`
+	MaxTakerCommission decimal.Decimal `json:"maxTakerCommission"`
+	MinTakerCommission decimal.Decimal `json:"minTakerCommission"`
+
 	SubAccountQty    int64 `json:"subAccountQty"`
 	MaxSubAccountQty int64 `json:"maxSubAccountQty"`
 }

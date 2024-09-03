@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -616,14 +617,14 @@ type SubAccountResponse struct {
 }
 
 type QuerySubAccountResponse struct {
-	SubaccountId          string  `json:"subaccountId"`
-	Email                 string  `json:"email"`
-	Tag                   string  `json:"tag"`
-	MakerCommission       float64 `json:"makerCommission"`
-	TakerCommission       float64 `json:"takerCommission"`
-	MarginMakerCommission int     `json:"marginMakerCommission"`
-	MarginTakerCommission int     `json:"marginTakerCommission"`
-	CreateTime            int64   `json:"createTime"`
+	SubaccountId          string          `json:"subaccountId"`
+	Email                 string          `json:"email"`
+	Tag                   string          `json:"tag"`
+	MakerCommission       decimal.Decimal `json:"makerCommission"`
+	TakerCommission       decimal.Decimal `json:"takerCommission"`
+	MarginMakerCommission decimal.Decimal `json:"marginMakerCommission"`
+	MarginTakerCommission decimal.Decimal `json:"marginTakerCommission"`
+	CreateTime            int64           `json:"createTime"`
 }
 
 type CreateSubAccountService struct {

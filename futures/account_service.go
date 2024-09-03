@@ -36,10 +36,10 @@ type Balance struct {
 	AccountAlias       string          `json:"accountAlias"`
 	Asset              string          `json:"asset"`
 	Balance            decimal.Decimal `json:"balance"`
-	CrossWalletBalance string          `json:"crossWalletBalance"`
-	CrossUnPnl         string          `json:"crossUnPnl"`
+	CrossWalletBalance decimal.Decimal `json:"crossWalletBalance"`
+	CrossUnPnl         decimal.Decimal `json:"crossUnPnl"`
 	AvailableBalance   decimal.Decimal `json:"availableBalance"`
-	MaxWithdrawAmount  string          `json:"maxWithdrawAmount"`
+	MaxWithdrawAmount  decimal.Decimal `json:"maxWithdrawAmount"`
 }
 
 // GetAccountService get account info
