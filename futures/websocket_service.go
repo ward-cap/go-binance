@@ -1045,7 +1045,7 @@ func WsUserDataServe(
 		event := new(WsUserDataEvent)
 		err := json.Unmarshal(message, event)
 		if err != nil {
-			errHandler(err)
+			errHandler(fmt.Errorf("error: %v. raw: %s", err, message))
 			return
 		}
 		handler(event)
