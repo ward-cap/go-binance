@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/shopspring/decimal"
 	"strings"
 	"time"
 )
@@ -991,36 +992,36 @@ type WsPosition struct {
 
 // WsOrderTradeUpdate define order trade update
 type WsOrderTradeUpdate struct {
-	Symbol               string             `json:"s"`
-	ClientOrderID        string             `json:"c"`
-	Side                 SideType           `json:"S"`
-	Type                 OrderType          `json:"o"`
-	TimeInForce          TimeInForceType    `json:"f"`
-	OriginalQty          string             `json:"q"`
-	OriginalPrice        string             `json:"p"`
-	AveragePrice         string             `json:"ap"`
-	StopPrice            string             `json:"sp"`
-	ExecutionType        OrderExecutionType `json:"x"`
-	Status               OrderStatusType    `json:"X"`
-	ID                   int64              `json:"i"`
-	LastFilledQty        string             `json:"l"`
-	AccumulatedFilledQty string             `json:"z"`
-	LastFilledPrice      string             `json:"L"`
-	CommissionAsset      string             `json:"N"`
-	Commission           string             `json:"n"`
-	TradeTime            int64              `json:"T"`
-	TradeID              int64              `json:"t"`
-	BidsNotional         string             `json:"b"`
-	AsksNotional         string             `json:"a"`
-	IsMaker              bool               `json:"m"`
-	IsReduceOnly         bool               `json:"R"`
-	WorkingType          WorkingType        `json:"wt"`
-	OriginalType         OrderType          `json:"ot"`
-	PositionSide         PositionSideType   `json:"ps"`
-	IsClosingPosition    bool               `json:"cp"`
-	ActivationPrice      string             `json:"AP"`
-	CallbackRate         string             `json:"cr"`
-	RealizedPnL          string             `json:"rp"`
+	Symbol               string              `json:"s"`
+	ClientOrderID        string              `json:"c"`
+	Side                 SideType            `json:"S"`
+	Type                 OrderType           `json:"o"`
+	TimeInForce          TimeInForceType     `json:"f"`
+	OriginalQty          decimal.Decimal     `json:"q"`
+	OriginalPrice        decimal.Decimal     `json:"p"`
+	AveragePrice         string              `json:"ap"`
+	StopPrice            decimal.NullDecimal `json:"sp"`
+	ExecutionType        OrderExecutionType  `json:"x"`
+	Status               OrderStatusType     `json:"X"`
+	ID                   int64               `json:"i"`
+	LastFilledQty        string              `json:"l"`
+	AccumulatedFilledQty decimal.NullDecimal `json:"z"`
+	LastFilledPrice      string              `json:"L"`
+	CommissionAsset      string              `json:"N"`
+	Commission           string              `json:"n"`
+	TradeTime            int64               `json:"T"`
+	TradeID              int64               `json:"t"`
+	BidsNotional         string              `json:"b"`
+	AsksNotional         string              `json:"a"`
+	IsMaker              bool                `json:"m"`
+	IsReduceOnly         bool                `json:"R"`
+	WorkingType          WorkingType         `json:"wt"`
+	OriginalType         OrderType           `json:"ot"`
+	PositionSide         PositionSideType    `json:"ps"`
+	IsClosingPosition    bool                `json:"cp"`
+	ActivationPrice      string              `json:"AP"`
+	CallbackRate         string              `json:"cr"`
+	RealizedPnL          string              `json:"rp"`
 }
 
 // WsAccountConfigUpdate define account config update

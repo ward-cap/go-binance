@@ -3,6 +3,7 @@ package binance
 import (
 	"context"
 	stdjson "encoding/json"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -513,25 +514,25 @@ func (s *GetOrderService) Do(ctx context.Context, opts ...RequestOption) (res *O
 
 // Order define order info
 type Order struct {
-	Symbol                   string          `json:"symbol"`
-	OrderID                  int64           `json:"orderId"`
-	OrderListId              int64           `json:"orderListId"`
-	ClientOrderID            string          `json:"clientOrderId"`
-	Price                    string          `json:"price"`
-	OrigQuantity             string          `json:"origQty"`
-	ExecutedQuantity         string          `json:"executedQty"`
-	CummulativeQuoteQuantity string          `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType `json:"status"`
-	TimeInForce              TimeInForceType `json:"timeInForce"`
-	Type                     OrderType       `json:"type"`
-	Side                     SideType        `json:"side"`
-	StopPrice                string          `json:"stopPrice"`
-	IcebergQuantity          string          `json:"icebergQty"`
-	Time                     int64           `json:"time"`
-	UpdateTime               int64           `json:"updateTime"`
-	IsWorking                bool            `json:"isWorking"`
-	IsIsolated               bool            `json:"isIsolated"`
-	OrigQuoteOrderQuantity   string          `json:"origQuoteOrderQty"`
+	Symbol                   string              `json:"symbol"`
+	OrderID                  int64               `json:"orderId"`
+	OrderListId              int64               `json:"orderListId"`
+	ClientOrderID            string              `json:"clientOrderId"`
+	Price                    decimal.Decimal     `json:"price"`
+	OrigQuantity             decimal.Decimal     `json:"origQty"`
+	ExecutedQuantity         decimal.NullDecimal `json:"executedQty"`
+	CummulativeQuoteQuantity string              `json:"cummulativeQuoteQty"`
+	Status                   OrderStatusType     `json:"status"`
+	TimeInForce              TimeInForceType     `json:"timeInForce"`
+	Type                     OrderType           `json:"type"`
+	Side                     SideType            `json:"side"`
+	StopPrice                decimal.NullDecimal `json:"stopPrice"`
+	IcebergQuantity          string              `json:"icebergQty"`
+	Time                     int64               `json:"time"`
+	UpdateTime               int64               `json:"updateTime"`
+	IsWorking                bool                `json:"isWorking"`
+	IsIsolated               bool                `json:"isIsolated"`
+	OrigQuoteOrderQuantity   string              `json:"origQuoteOrderQty"`
 }
 
 // ListOrdersService all account orders; active, canceled, or filled

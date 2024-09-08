@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/shopspring/decimal"
 	"net/http"
 	"strings"
 )
@@ -366,30 +367,30 @@ func (s *GetOrderService) Do(ctx context.Context, opts ...RequestOption) (res *O
 
 // Order define order info
 type Order struct {
-	Symbol           string           `json:"symbol"`
-	OrderID          int64            `json:"orderId"`
-	ClientOrderID    string           `json:"clientOrderId"`
-	Price            string           `json:"price"`
-	ReduceOnly       bool             `json:"reduceOnly"`
-	OrigQuantity     string           `json:"origQty"`
-	ExecutedQuantity string           `json:"executedQty"`
-	CumQuantity      string           `json:"cumQty"`
-	CumQuote         string           `json:"cumQuote"`
-	Status           OrderStatusType  `json:"status"`
-	TimeInForce      TimeInForceType  `json:"timeInForce"`
-	Type             OrderType        `json:"type"`
-	Side             SideType         `json:"side"`
-	StopPrice        string           `json:"stopPrice"`
-	Time             int64            `json:"time"`
-	UpdateTime       int64            `json:"updateTime"`
-	WorkingType      WorkingType      `json:"workingType"`
-	ActivatePrice    string           `json:"activatePrice"`
-	PriceRate        string           `json:"priceRate"`
-	AvgPrice         string           `json:"avgPrice"`
-	OrigType         string           `json:"origType"`
-	PositionSide     PositionSideType `json:"positionSide"`
-	PriceProtect     bool             `json:"priceProtect"`
-	ClosePosition    bool             `json:"closePosition"`
+	Symbol           string              `json:"symbol"`
+	OrderID          int64               `json:"orderId"`
+	ClientOrderID    string              `json:"clientOrderId"`
+	Price            decimal.Decimal     `json:"price"`
+	ReduceOnly       bool                `json:"reduceOnly"`
+	OrigQuantity     decimal.Decimal     `json:"origQty"`
+	ExecutedQuantity decimal.NullDecimal `json:"executedQty"`
+	CumQuantity      string              `json:"cumQty"`
+	CumQuote         string              `json:"cumQuote"`
+	Status           OrderStatusType     `json:"status"`
+	TimeInForce      TimeInForceType     `json:"timeInForce"`
+	Type             OrderType           `json:"type"`
+	Side             SideType            `json:"side"`
+	StopPrice        decimal.NullDecimal `json:"stopPrice"`
+	Time             int64               `json:"time"`
+	UpdateTime       int64               `json:"updateTime"`
+	WorkingType      WorkingType         `json:"workingType"`
+	ActivatePrice    string              `json:"activatePrice"`
+	PriceRate        string              `json:"priceRate"`
+	AvgPrice         string              `json:"avgPrice"`
+	OrigType         string              `json:"origType"`
+	PositionSide     PositionSideType    `json:"positionSide"`
+	PriceProtect     bool                `json:"priceProtect"`
+	ClosePosition    bool                `json:"closePosition"`
 }
 
 // ListOrdersService all account orders; active, canceled, or filled
