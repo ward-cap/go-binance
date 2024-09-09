@@ -2,6 +2,7 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -154,20 +155,20 @@ type Trade struct {
 
 // TradeV3 define v3 trade info
 type TradeV3 struct {
-	ID              int64  `json:"id"`
-	Symbol          string `json:"symbol"`
-	OrderID         int64  `json:"orderId"`
-	OrderListId     int64  `json:"orderListId"`
-	Price           string `json:"price"`
-	Quantity        string `json:"qty"`
-	QuoteQuantity   string `json:"quoteQty"`
-	Commission      string `json:"commission"`
-	CommissionAsset string `json:"commissionAsset"`
-	Time            int64  `json:"time"`
-	IsBuyer         bool   `json:"isBuyer"`
-	IsMaker         bool   `json:"isMaker"`
-	IsBestMatch     bool   `json:"isBestMatch"`
-	IsIsolated      bool   `json:"isIsolated"`
+	ID              int64           `json:"id"`
+	Symbol          string          `json:"symbol"`
+	OrderID         int64           `json:"orderId"`
+	OrderListId     int64           `json:"orderListId"`
+	Price           decimal.Decimal `json:"price"`
+	Quantity        decimal.Decimal `json:"qty"`
+	QuoteQuantity   string          `json:"quoteQty"`
+	Commission      decimal.Decimal `json:"commission"`
+	CommissionAsset string          `json:"commissionAsset"`
+	Time            int64           `json:"time"`
+	IsBuyer         bool            `json:"isBuyer"`
+	IsMaker         bool            `json:"isMaker"`
+	IsBestMatch     bool            `json:"isBestMatch"`
+	IsIsolated      bool            `json:"isIsolated"`
 }
 
 // AggTradesService list aggregate trades

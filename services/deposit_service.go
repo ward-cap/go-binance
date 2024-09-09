@@ -2,22 +2,23 @@ package binance
 
 import (
 	"context"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
 // Deposit represents a single deposit entry.
 type Deposit struct {
-	Amount        string `json:"amount"`
-	Coin          string `json:"coin"`
-	Network       string `json:"network"`
-	Status        int    `json:"status"`
-	Address       string `json:"address"`
-	AddressTag    string `json:"addressTag"`
-	TxID          string `json:"txId"`
-	InsertTime    int64  `json:"insertTime"`
-	TransferType  int64  `json:"transferType"`
-	UnlockConfirm int64  `json:"unlockConfirm"`
-	ConfirmTimes  string `json:"confirmTimes"`
+	Amount        decimal.Decimal `json:"amount"`
+	Coin          string          `json:"coin"`
+	Network       string          `json:"network"`
+	Status        int             `json:"status"`
+	Address       string          `json:"address"`
+	AddressTag    string          `json:"addressTag"`
+	TxID          string          `json:"txId"`
+	InsertTime    int64           `json:"insertTime"`
+	TransferType  int64           `json:"transferType"`
+	UnlockConfirm int64           `json:"unlockConfirm"`
+	ConfirmTimes  string          `json:"confirmTimes"`
 }
 
 // GetDepositsAddressService retrieves the details of a deposit address.

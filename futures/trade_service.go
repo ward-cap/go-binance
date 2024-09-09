@@ -3,6 +3,7 @@ package futures
 import (
 	"context"
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -293,13 +294,13 @@ func (s *ListAccountTradeService) Do(ctx context.Context, opts ...RequestOption)
 // AccountTrade define account trade
 type AccountTrade struct {
 	Buyer           bool             `json:"buyer"`
-	Commission      string           `json:"commission"`
+	Commission      decimal.Decimal  `json:"commission"`
 	CommissionAsset string           `json:"commissionAsset"`
 	ID              int64            `json:"id"`
 	Maker           bool             `json:"maker"`
 	OrderID         int64            `json:"orderId"`
-	Price           string           `json:"price"`
-	Quantity        string           `json:"qty"`
+	Price           decimal.Decimal  `json:"price"`
+	Quantity        decimal.Decimal  `json:"qty"`
 	QuoteQuantity   string           `json:"quoteQty"`
 	RealizedPnl     string           `json:"realizedPnl"`
 	Side            SideType         `json:"side"`

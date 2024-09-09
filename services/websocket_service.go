@@ -487,14 +487,14 @@ type WsAccountUpdateList struct {
 
 // WsAccountUpdate define account update
 type WsAccountUpdate struct {
-	Asset  string `json:"a"`
-	Free   string `json:"f"`
-	Locked string `json:"l"`
+	Asset  string          `json:"a"`
+	Free   decimal.Decimal `json:"f"`
+	Locked decimal.Decimal `json:"l"`
 }
 
 type WsBalanceUpdate struct {
-	Asset  string `json:"a"`
-	Change string `json:"d"`
+	Asset  string          `json:"a"`
+	Change decimal.Decimal `json:"d"`
 }
 
 type WsOrderUpdate struct {
@@ -514,11 +514,11 @@ type WsOrderUpdate struct {
 	Status                  string              `json:"X"` // order status
 	RejectReason            string              `json:"r"`
 	Id                      int64               `json:"i"` // order id
-	LatestVolume            string              `json:"l"` // quantity for the latest trade
+	LatestVolume            decimal.Decimal     `json:"l"` // quantity for the latest trade
 	FilledVolume            decimal.NullDecimal `json:"z"`
-	LatestPrice             string              `json:"L"` // price for the latest trade
+	LatestPrice             decimal.Decimal     `json:"L"` // price for the latest trade
 	FeeAsset                string              `json:"N"`
-	FeeCost                 string              `json:"n"`
+	FeeCost                 decimal.Decimal     `json:"n"`
 	TransactionTime         int64               `json:"T"`
 	TradeId                 int64               `json:"t"`
 	IsInOrderBook           bool                `json:"w"` // is the order in the order book?

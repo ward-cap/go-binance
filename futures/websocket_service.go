@@ -970,20 +970,20 @@ type WsAccountUpdate struct {
 
 // WsBalance define balance
 type WsBalance struct {
-	Asset              string `json:"a"`
-	Balance            string `json:"wb"`
-	CrossWalletBalance string `json:"cw"`
-	ChangeBalance      string `json:"bc"`
+	Asset              string          `json:"a"`
+	Balance            decimal.Decimal `json:"wb"`
+	CrossWalletBalance string          `json:"cw"`
+	ChangeBalance      string          `json:"bc"`
 }
 
 // WsPosition define position
 type WsPosition struct {
 	Symbol                    string           `json:"s"`
 	Side                      PositionSideType `json:"ps"`
-	Amount                    string           `json:"pa"`
+	Amount                    decimal.Decimal  `json:"pa"`
 	MarginType                MarginType       `json:"mt"`
 	IsolatedWallet            string           `json:"iw"`
-	EntryPrice                string           `json:"ep"`
+	EntryPrice                decimal.Decimal  `json:"ep"`
 	MarkPrice                 string           `json:"mp"`
 	UnrealizedPnL             string           `json:"up"`
 	AccumulatedRealized       string           `json:"cr"`
@@ -1004,11 +1004,11 @@ type WsOrderTradeUpdate struct {
 	ExecutionType        OrderExecutionType  `json:"x"`
 	Status               OrderStatusType     `json:"X"`
 	ID                   int64               `json:"i"`
-	LastFilledQty        string              `json:"l"`
+	LastFilledQty        decimal.Decimal     `json:"l"`
 	AccumulatedFilledQty decimal.NullDecimal `json:"z"`
-	LastFilledPrice      string              `json:"L"`
+	LastFilledPrice      decimal.Decimal     `json:"L"`
 	CommissionAsset      string              `json:"N"`
-	Commission           string              `json:"n"`
+	Commission           decimal.Decimal     `json:"n"`
 	TradeTime            int64               `json:"T"`
 	TradeID              int64               `json:"t"`
 	BidsNotional         string              `json:"b"`
@@ -1019,7 +1019,7 @@ type WsOrderTradeUpdate struct {
 	OriginalType         OrderType           `json:"ot"`
 	PositionSide         PositionSideType    `json:"ps"`
 	IsClosingPosition    bool                `json:"cp"`
-	ActivationPrice      string              `json:"AP"`
+	ActivationPrice      decimal.NullDecimal `json:"AP"`
 	CallbackRate         string              `json:"cr"`
 	RealizedPnL          string              `json:"rp"`
 }
