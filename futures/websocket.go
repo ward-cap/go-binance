@@ -68,7 +68,7 @@ var wsServe = func(
 				silent = true
 			case <-doneC:
 			}
-			c.Close()
+			_ = c.Close()
 		}()
 		for {
 			_, message, err := c.ReadMessage()

@@ -1031,25 +1031,25 @@ type WsAccountConfigUpdate struct {
 }
 
 // WsUserDataHandler handle WsUserDataEvent
-type WsUserDataHandler func(event *WsUserDataEvent)
+type WsUserDataHandler func([]byte)
 
 // WsUserDataServe serve user data handler with listen key
 func WsUserDataServe(
 	listenKey string,
-	handler WsUserDataHandler,
+	handler func([]byte), // WsUserDataEvent
 	errHandler ErrHandler,
 	proxyFunc DialFunc,
 ) (doneC, stopC chan struct{}, err error) {
 	endpoint := fmt.Sprintf("%s/%s", getWsEndpoint(), listenKey)
 	cfg := newWsConfig(endpoint)
-	wsHandler := func(message []byte) {
-		event := new(WsUserDataEvent)
-		err := json.Unmarshal(message, event)
-		if err != nil {
-			errHandler(fmt.Errorf("error: %v. raw: %s", err, message))
-			return
-		}
-		handler(event)
-	}
-	return wsServe(cfg, wsHandler, errHandler, proxyFunc)
+	//wsHandler := func(message []byte) {
+	//	//event := new(WsUserDataEvent)
+	//	//err := json.Unmarshal(message, event)
+	//	//if err != nil {
+	//	//	errHandler(fmt.Errorf("error: %v. raw: %s", err, message))
+	//	//	return
+	//	//}
+	//	handler(message)
+	//}
+	return wsServe(cfg, handler, errHandler, proxyFunc)
 }
