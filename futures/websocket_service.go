@@ -951,14 +951,14 @@ func WsCompositiveIndexServe(symbol string, handler WsCompositeIndexHandler, err
 
 // WsUserDataEvent define user data event
 type WsUserDataEvent struct {
-	Event               UserDataEventType     `json:"e"`
-	Time                int64                 `json:"E"`
-	CrossWalletBalance  string                `json:"cw"`
-	MarginCallPositions []WsPosition          `json:"p"`
-	TransactionTime     int64                 `json:"T"`
-	AccountUpdate       WsAccountUpdate       `json:"a"`
-	OrderTradeUpdate    WsOrderTradeUpdate    `json:"o"`
-	AccountConfigUpdate WsAccountConfigUpdate `json:"ac"`
+	Event               UserDataEventType      `json:"e"`
+	Time                int64                  `json:"E"`
+	CrossWalletBalance  string                 `json:"cw"`
+	MarginCallPositions []WsPosition           `json:"p,omitempty"`
+	TransactionTime     int64                  `json:"T"`
+	AccountUpdate       *WsAccountUpdate       `json:"a,omitempty"`
+	OrderTradeUpdate    *WsOrderTradeUpdate    `json:"o,omitempty"`
+	AccountConfigUpdate *WsAccountConfigUpdate `json:"ac,omitempty"`
 }
 
 // WsAccountUpdate define account update
