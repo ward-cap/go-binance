@@ -469,16 +469,67 @@ type WsCombinedTradeEvent struct {
 	Data   WsTradeEvent `json:"data"`
 }
 
+type WsUserDataEventType struct {
+	Event UserDataEventType `json:"e"`
+	Time  int64             `json:"E"`
+}
+
 // WsUserDataEvent define user data event
 type WsUserDataEvent struct {
-	Event             UserDataEventType `json:"e"`
-	Time              int64             `json:"E"`
-	TransactionTime   int64             `json:"T"`
-	AccountUpdateTime int64             `json:"u"`
+	WsUserDataEventType
+
+	TransactionTime   int64 `json:"T"`
+	AccountUpdateTime int64 `json:"u"`
 	AccountUpdate     WsAccountUpdateList
 	BalanceUpdate     WsBalanceUpdate
 	OrderUpdate       WsOrderUpdate
 	OCOUpdate         WsOCOUpdate
+}
+
+func (w *WsUserDataEvent) UnmarshalJSON(message []byte) error {
+	j, err := newJSON(message)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(message, &w.WsUserDataEventType)
+	if err != nil {
+		return err
+	}
+
+	switch w.WsUserDataEventType.Event {
+	case UserDataEventTypeOutboundAccountPosition:
+		err = json.Unmarshal(message, &w.AccountUpdate)
+		if err != nil {
+			return err
+		}
+
+	case UserDataEventTypeBalanceUpdate:
+		err = json.Unmarshal(message, &w.BalanceUpdate)
+		if err != nil {
+			return err
+		}
+
+	case UserDataEventTypeExecutionReport:
+		err = json.Unmarshal(message, &w.OrderUpdate)
+		if err != nil {
+			return err
+		}
+
+		w.TransactionTime = j.Get("T").MustInt64()
+		w.OrderUpdate.TransactionTime = j.Get("T").MustInt64()
+		w.OrderUpdate.Id = j.Get("i").MustInt64()
+		w.OrderUpdate.TradeId = j.Get("t").MustInt64()
+		w.OrderUpdate.FeeAsset = j.Get("N").MustString()
+
+	case UserDataEventTypeListStatus:
+		err = json.Unmarshal(message, &w.OCOUpdate)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 type WsAccountUpdateList struct {
@@ -556,68 +607,19 @@ type WsOCOOrder struct {
 }
 
 // WsUserDataHandler handle WsUserDataEvent
-type WsUserDataHandler func(event *WsUserDataEvent)
+//type WsUserDataHandler func(event *WsUserDataEvent)
 
 // WsUserDataServe serve user data handler with listen key
 func WsUserDataServe(
 	listenKey string,
-	handler WsUserDataHandler,
+	handler func([]byte),
 	errHandler ErrHandler,
 	proxyFunc futures.DialFunc,
 ) (doneC, stopC chan struct{}, err error) {
 	endpoint := fmt.Sprintf("%s/%s", getWsEndpoint(), listenKey)
 	cfg := newWsConfig(endpoint)
-	wsHandler := func(message []byte) {
-		j, err := newJSON(message)
-		if err != nil {
-			errHandler(err)
-			return
-		}
 
-		event := new(WsUserDataEvent)
-
-		err = json.Unmarshal(message, event)
-		if err != nil {
-			errHandler(err)
-			return
-		}
-
-		switch UserDataEventType(j.Get("e").MustString()) {
-		case UserDataEventTypeOutboundAccountPosition:
-			err = json.Unmarshal(message, &event.AccountUpdate)
-			if err != nil {
-				errHandler(err)
-				return
-			}
-		case UserDataEventTypeBalanceUpdate:
-			err = json.Unmarshal(message, &event.BalanceUpdate)
-			if err != nil {
-				errHandler(err)
-				return
-			}
-		case UserDataEventTypeExecutionReport:
-			err = json.Unmarshal(message, &event.OrderUpdate)
-			if err != nil {
-				errHandler(err)
-				return
-			}
-			// Unmarshal has case sensitive problem
-			event.TransactionTime = j.Get("T").MustInt64()
-			event.OrderUpdate.TransactionTime = j.Get("T").MustInt64()
-			event.OrderUpdate.Id = j.Get("i").MustInt64()
-			event.OrderUpdate.TradeId = j.Get("t").MustInt64()
-			event.OrderUpdate.FeeAsset = j.Get("N").MustString()
-		case UserDataEventTypeListStatus:
-			err = json.Unmarshal(message, &event.OCOUpdate)
-			if err != nil {
-				errHandler(err)
-				return
-			}
-		}
-
-		handler(event)
-	}
-	return wsServe(cfg, wsHandler, errHandler, proxyFunc)
+	return wsServe(cfg, handler, errHandler, proxyFunc)
 }
 
 // WsMarketStatHandler handle websocket that push single market statistics for 24hr
