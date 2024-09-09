@@ -949,9 +949,14 @@ func WsCompositiveIndexServe(symbol string, handler WsCompositeIndexHandler, err
 	return wsServe(cfg, wsHandler, errHandler, nil)
 }
 
+type WsUserDataEventType struct {
+	Event UserDataEventType `json:"e"`
+}
+
 // WsUserDataEvent define user data event
 type WsUserDataEvent struct {
-	Event               UserDataEventType      `json:"e"`
+	WsUserDataEventType
+
 	Time                int64                  `json:"E"`
 	CrossWalletBalance  string                 `json:"cw"`
 	MarginCallPositions []WsPosition           `json:"p,omitempty"`
