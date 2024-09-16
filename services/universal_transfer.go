@@ -6,7 +6,7 @@ import (
 )
 
 func (c *Client) NewUniversalTransferService(
-	fromID, toID,
+	fromID, toID *string,
 	fromAccountType, toAccountType,
 	asset string,
 	amount string,
@@ -24,7 +24,7 @@ func (c *Client) NewUniversalTransferService(
 
 type UniversalTransferService struct {
 	c                              *Client
-	fromID, toID                   string
+	fromID, toID                   *string
 	fromAccountType, toAccountType string
 	asset                          string
 	amount                         string
@@ -37,13 +37,18 @@ func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption
 		secType:  secTypeSigned,
 	}
 	m := params{
-		"fromId":          s.fromID,
-		"toId":            s.toID,
 		"fromAccountType": s.fromAccountType,
 		"toAccountType":   s.toAccountType,
 		"asset":           s.asset,
 		"amount":          s.amount,
 	}
+	if s.fromID != nil {
+		m["fromId"] = *s.fromID
+	}
+	if s.toID != nil {
+		m["toId"] = *s.toID
+	}
+
 	r.setParams(m)
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
