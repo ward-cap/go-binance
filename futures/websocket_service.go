@@ -104,14 +104,14 @@ func WsCombinedAggTradeServe(symbols []string, handler WsAggTradeHandler, errHan
 
 // WsMarkPriceEvent define websocket markPriceUpdate event.
 type WsMarkPriceEvent struct {
-	Event                string `json:"e"`
-	Time                 int64  `json:"E"`
-	Symbol               string `json:"s"`
-	MarkPrice            string `json:"p"`
-	IndexPrice           string `json:"i"`
-	EstimatedSettlePrice string `json:"P"`
-	FundingRate          string `json:"r"`
-	NextFundingTime      int64  `json:"T"`
+	Event                string          `json:"e"`
+	Time                 int64           `json:"E"`
+	Symbol               string          `json:"s"`
+	MarkPrice            decimal.Decimal `json:"p"`
+	IndexPrice           string          `json:"i"`
+	EstimatedSettlePrice string          `json:"P"`
+	FundingRate          string          `json:"r"`
+	NextFundingTime      int64           `json:"T"`
 }
 
 // WsMarkPriceHandler handle websocket that pushes price and funding rate for a single symbol.
