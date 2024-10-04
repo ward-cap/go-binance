@@ -14,9 +14,10 @@ import (
 func ToJSONList(v []byte) []byte {
 	if len(v) > 0 && v[0] == '{' {
 		var b bytes.Buffer
-		b.Write([]byte("["))
+		b.Grow(len(v) + 2)
+		b.WriteString("[")
 		b.Write(v)
-		b.Write([]byte("]"))
+		b.WriteString("]")
 		return b.Bytes()
 	}
 	return v
