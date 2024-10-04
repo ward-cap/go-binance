@@ -3,6 +3,7 @@ package futures
 import (
 	"context"
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"net/http"
 
 	"github.com/ward-cap/go-binance/common"
@@ -127,21 +128,21 @@ func (s *ListPriceChangeStatsService) Do(ctx context.Context, opts ...RequestOpt
 
 // PriceChangeStats define price change stats
 type PriceChangeStats struct {
-	Symbol             string `json:"symbol"`
-	PriceChange        string `json:"priceChange"`
-	PriceChangePercent string `json:"priceChangePercent"`
-	WeightedAvgPrice   string `json:"weightedAvgPrice"`
-	PrevClosePrice     string `json:"prevClosePrice"`
-	LastPrice          string `json:"lastPrice"`
-	LastQuantity       string `json:"lastQty"`
-	OpenPrice          string `json:"openPrice"`
-	HighPrice          string `json:"highPrice"`
-	LowPrice           string `json:"lowPrice"`
-	Volume             string `json:"volume"`
-	QuoteVolume        string `json:"quoteVolume"`
-	OpenTime           int64  `json:"openTime"`
-	CloseTime          int64  `json:"closeTime"`
-	FirstID            int64  `json:"firstId"`
-	LastID             int64  `json:"lastId"`
-	Count              int64  `json:"count"`
+	Symbol             string              `json:"symbol"`
+	PriceChange        string              `json:"priceChange"`
+	PriceChangePercent string              `json:"priceChangePercent"`
+	WeightedAvgPrice   string              `json:"weightedAvgPrice"`
+	PrevClosePrice     string              `json:"prevClosePrice"`
+	LastPrice          string              `json:"lastPrice"`
+	LastQuantity       string              `json:"lastQty"`
+	OpenPrice          decimal.NullDecimal `json:"openPrice"`
+	HighPrice          string              `json:"highPrice"`
+	LowPrice           string              `json:"lowPrice"`
+	Volume             string              `json:"volume"`
+	QuoteVolume        string              `json:"quoteVolume"`
+	OpenTime           int64               `json:"openTime"`
+	CloseTime          int64               `json:"closeTime"`
+	FirstID            int64               `json:"firstId"`
+	LastID             int64               `json:"lastId"`
+	Count              int64               `json:"count"`
 }
