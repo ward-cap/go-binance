@@ -110,7 +110,7 @@ type AccountAsset struct {
 // AccountPosition define account position
 type AccountPosition struct {
 	Isolated               bool             `json:"isolated"`
-	Leverage               string           `json:"leverage"`
+	Leverage               decimal.Decimal  `json:"leverage"`
 	InitialMargin          string           `json:"initialMargin"`
 	MaintMargin            string           `json:"maintMargin"`
 	OpenOrderInitialMargin string           `json:"openOrderInitialMargin"`
