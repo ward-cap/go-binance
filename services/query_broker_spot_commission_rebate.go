@@ -3,6 +3,8 @@ package binance
 import (
 	"context"
 	"net/http"
+
+	"github.com/shopspring/decimal"
 )
 
 func (c *Client) NewQueryBrokerSpotCommissionRebateService(
