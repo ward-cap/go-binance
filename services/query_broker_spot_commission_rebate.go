@@ -29,13 +29,13 @@ type QueryBrokerSpotCommissionRebateService struct {
 }
 
 type BrokerCommissionRebateResponse struct {
-	SubAccountID string `json:"subaccountId"`
-	Income       string `json:"income"`
-	Asset        string `json:"asset"`
-	Symbol       string `json:"symbol"`
-	Time         int64  `json:"time"`
-	TradeId      int    `json:"tradeId"`
-	Status       int    `json:"status"`
+	SubAccountID string          `json:"subaccountId"`
+	Income       decimal.Decimal `json:"income"`
+	Asset        string          `json:"asset"`
+	Symbol       string          `json:"symbol"`
+	Time         int64           `json:"time"`
+	TradeId      int             `json:"tradeId"`
+	Status       int             `json:"status"`
 }
 
 func (s *QueryBrokerSpotCommissionRebateService) Do(ctx context.Context, opts ...RequestOption) (d []BrokerCommissionRebateResponse, _ error) {
