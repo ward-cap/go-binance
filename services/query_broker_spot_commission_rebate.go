@@ -53,7 +53,6 @@ func (s *QueryBrokerSpotCommissionRebateService) Do(ctx context.Context, opts ..
 		"size":      s.size,
 	}
 	r.setParams(m)
-	//r.setFormParams(m)
 
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
