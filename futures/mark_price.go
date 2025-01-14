@@ -3,6 +3,7 @@ package futures
 import (
 	"context"
 	"encoding/json"
+	"github.com/shopspring/decimal"
 	"net/http"
 
 	"github.com/ward-cap/go-binance/common"
@@ -171,10 +172,11 @@ type LeverageBracket struct {
 
 // Bracket define the bracket
 type Bracket struct {
-	Bracket          int     `json:"bracket"`
-	InitialLeverage  int     `json:"initialLeverage"`
-	NotionalCap      float64 `json:"notionalCap"`
-	NotionalFloor    float64 `json:"notionalFloor"`
-	MaintMarginRatio float64 `json:"maintMarginRatio"`
-	Cum              float64 `json:"cum"`
+	InitialLeverage decimal.Decimal `json:"initialLeverage"`
+	NotionalCap     decimal.Decimal `json:"notionalCap"`
+
+	//Bracket          int             `json:"bracket"`
+	//NotionalFloor    float64         `json:"notionalFloor"`
+	//MaintMarginRatio float64         `json:"maintMarginRatio"`
+	//Cum              float64         `json:"cum"`
 }
