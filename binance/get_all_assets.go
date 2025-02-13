@@ -40,5 +40,5 @@ func (s *GetAllAssetsService) Do(ctx context.Context) (res GetAllAssetsResponse,
 	if !res.Success {
 		err = errors.New("failed to get the assets")
 	}
-	return res, nil
+	return res, err
 }
