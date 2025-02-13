@@ -153,3 +153,7 @@ func (c *Client) callAPI(ctx context.Context, r *request) (data []byte, err erro
 func (c *Client) NewGetAllAssetsService() *GetAllAssetsService {
 	return &GetAllAssetsService{c: c}
 }
+
+func (c *Client) NewGetAllAnnouncementsService() *GetAllAnnouncementsService {
+	return &GetAllAnnouncementsService{c: c}
+}
