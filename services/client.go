@@ -1006,3 +1006,7 @@ func (c *Client) NewSubAccountFuturesAccountService() *SubAccountFuturesAccountS
 func (c *Client) NewSubAccountFuturesSummaryV1Service() *SubAccountFuturesSummaryV1Service {
 	return &SubAccountFuturesSummaryV1Service{c: c}
 }
+
+func (c *Client) NewGetListingService() *ListingService {
+	return &ListingService{c: c}
+}

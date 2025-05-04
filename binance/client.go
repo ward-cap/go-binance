@@ -144,16 +144,6 @@ func (c *Client) callAPI(ctx context.Context, r *request) (data []byte, err erro
 	return data, nil
 }
 
-//// SetApiEndpoint set api Endpoint
-//func (c *Client) SetApiEndpoint(url string) *Client {
-//	c.BaseURL = url
-//	return c
-//}
-
 func (c *Client) NewGetAllAssetsService() *GetAllAssetsService {
 	return &GetAllAssetsService{c: c}
-}
-
-func (c *Client) NewGetAllAnnouncementsService() *GetAllAnnouncementsService {
-	return &GetAllAnnouncementsService{c: c}
 }
