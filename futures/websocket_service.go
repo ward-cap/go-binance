@@ -975,10 +975,10 @@ type WsAccountUpdate struct {
 
 // WsBalance define balance
 type WsBalance struct {
-	Asset              string          `json:"a"`
-	Balance            decimal.Decimal `json:"wb"`
-	CrossWalletBalance string          `json:"cw"`
-	ChangeBalance      string          `json:"bc"`
+	Asset              string              `json:"a"`
+	Balance            decimal.Decimal     `json:"wb"`
+	CrossWalletBalance string              `json:"cw"`
+	ChangeBalance      decimal.NullDecimal `json:"bc"`
 }
 
 // WsPosition define position
