@@ -632,7 +632,19 @@ type CreateSubAccountService struct {
 }
 
 type QuerySubAccountService struct {
-	c *Client
+	c    *Client
+	size uint64
+	page uint64
+}
+
+func (s *QuerySubAccountService) Size(size uint64) *QuerySubAccountService {
+	s.size = size
+	return s
+}
+
+func (s *QuerySubAccountService) Page(page uint64) *QuerySubAccountService {
+	s.page = page
+	return s
 }
 
 // Do send request
@@ -643,6 +655,12 @@ func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) 
 		secType:  secTypeSigned,
 	}
 	m := params{}
+	if s.size != 0 {
+		m["size"] = s.size
+	}
+	if s.page != 0 {
+		m["page"] = s.page
+	}
 	r.setParams(m)
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
