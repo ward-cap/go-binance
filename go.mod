@@ -1,13 +1,13 @@
 module github.com/ward-cap/go-binance
 
-go 1.18
+go 1.24.5
 
 require (
 	github.com/bitly/go-simplejson v0.5.1
 	github.com/gorilla/websocket v1.5.3
 	github.com/json-iterator/go v1.1.12
 	github.com/shopspring/decimal v1.4.0
-	golang.org/x/net v0.28.0
+	golang.org/x/net v0.42.0
 )
 
 require (

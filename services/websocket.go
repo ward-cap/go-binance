@@ -1,6 +1,7 @@
 package binance
 
 import (
+	"context"
 	"github.com/ward-cap/go-binance/futures"
 	"golang.org/x/net/proxy"
 	"time"
@@ -26,6 +27,7 @@ func newWsConfig(endpoint string) *WsConfig {
 }
 
 var wsServe = func(
+	ctx context.Context,
 	cfg *WsConfig,
 	handler WsHandler,
 	errHandler ErrHandler,
@@ -34,6 +36,9 @@ var wsServe = func(
 	if dialer == nil {
 		dialer = proxy.Direct.Dial
 	}
+	if ctx == nil {
+		ctx = context.Background()
+	}
 
 	Dialer := websocket.Dialer{
 		NetDial:           dialer,
@@ -41,7 +46,7 @@ var wsServe = func(
 		EnableCompression: false,
 	}
 
-	c, _, err := Dialer.Dial(cfg.Endpoint, nil)
+	c, _, err := Dialer.DialContext(ctx, cfg.Endpoint, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -66,7 +71,7 @@ var wsServe = func(
 				silent = true
 			case <-doneC:
 			}
-			c.Close()
+			_ = c.Close()
 		}()
 		for {
 			_, message, err := c.ReadMessage()
