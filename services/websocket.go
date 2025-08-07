@@ -3,6 +3,7 @@ package binance
 import (
 	"context"
 	"github.com/ward-cap/go-binance/futures"
+	"go.uber.org/zap"
 	"golang.org/x/net/proxy"
 	"time"
 
@@ -32,6 +33,7 @@ var wsServe = func(
 	handler WsHandler,
 	errHandler ErrHandler,
 	dialer futures.DialFunc,
+	logger *zap.SugaredLogger,
 ) (doneC, stopC chan struct{}, err error) {
 	if dialer == nil {
 		dialer = proxy.Direct.Dial
@@ -59,7 +61,7 @@ var wsServe = func(
 		// closed by the client.
 		defer close(doneC)
 		if WebsocketKeepalive {
-			keepAlive(c, WebsocketTimeout)
+			keepAlive(c, WebsocketTimeout, logger)
 		}
 		// Wait for the stopC channel to be closed.  We do that in a
 		// separate goroutine because ReadMessage is a blocking
@@ -87,11 +89,12 @@ var wsServe = func(
 	return
 }
 
-func keepAlive(c *websocket.Conn, timeout time.Duration) {
+func keepAlive(c *websocket.Conn, timeout time.Duration, logger *zap.SugaredLogger) {
 	ticker := time.NewTicker(timeout)
 
 	lastResponse := time.Now()
 	c.SetPongHandler(func(msg string) error {
+		logger.Info("pong")
 		lastResponse = time.Now()
 		return nil
 	})
@@ -106,7 +109,11 @@ func keepAlive(c *websocket.Conn, timeout time.Duration) {
 			}
 			<-ticker.C
 			if time.Since(lastResponse) > timeout {
-				c.Close()
+				logger.Info("close")
+				err = c.Close()
+				if err != nil {
+					logger.Info(err.Error())
+				}
 				return
 			}
 		}
