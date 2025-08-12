@@ -48,6 +48,18 @@ func (s *KlinesService) EndTime(endTime int64) *KlinesService {
 
 // Do send request
 func (s *KlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*Kline, err error) {
+
+	defer func() {
+		if r := recover(); r != nil {
+			switch v := r.(type) {
+			case error:
+				err = v
+			default:
+				err = fmt.Errorf("%v", v)
+			}
+		}
+	}()
+
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/klines",
