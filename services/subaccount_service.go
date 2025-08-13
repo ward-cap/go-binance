@@ -708,10 +708,16 @@ type SubAccountApiKeyService struct {
 	futuresTrade bool
 	marginTrade  bool
 	subAccountID string
+	publicKey    string
 }
 
 func (s *SubAccountApiKeyService) CanTrade(canTrade bool) *SubAccountApiKeyService {
 	s.canTrade = canTrade
+	return s
+}
+
+func (s *SubAccountApiKeyService) PublicKey(publicKey string) *SubAccountApiKeyService {
+	s.publicKey = publicKey
 	return s
 }
 
@@ -733,7 +739,7 @@ func (s *SubAccountApiKeyService) SubAccountID(subAccountID string) *SubAccountA
 // Do send request
 func (s *SubAccountApiKeyService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountAPIKeyResponse, err error) {
 	r := &request{
-		method:   "POST",
+		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/subAccountApi",
 		secType:  secTypeSigned,
 	}
@@ -743,6 +749,10 @@ func (s *SubAccountApiKeyService) Do(ctx context.Context, opts ...RequestOption)
 		"futuresTrade": s.futuresTrade,
 		"marginTrade":  s.marginTrade,
 	}
+	if s.publicKey != "" {
+		m["publicKey"] = s.publicKey
+	}
+
 	r.setParams(m)
 	data, err := s.c.callAPI(ctx, r, opts...)
 	if err != nil {
