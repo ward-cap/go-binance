@@ -437,6 +437,12 @@ func WsContinuousKlineServe(
 	return wsServe(ctx, cfg, wsHandler, errHandler, nil, logger)
 }
 
+type WsRPC struct {
+	Method string   `json:"method"`
+	Params []string `json:"params"`
+	ID     int      `json:"id"`
+}
+
 // WsCombinedContinuousKlineServe is similar to WsContinuousKlineServe, but it handles multiple pairs of different contractType with its interval
 func WsCombinedContinuousKlineServe(
 	ctx context.Context,
@@ -445,12 +451,27 @@ func WsCombinedContinuousKlineServe(
 	errHandler ErrHandler,
 	logger *zap.SugaredLogger,
 ) (doneC, stopC chan struct{}, err error) {
-	endpoint := getCombinedEndpoint()
-	for _, val := range subscribeArgsList {
-		endpoint += fmt.Sprintf("%s_%s@continuousKline_%s", strings.ToLower(val.Pair),
-			strings.ToLower(val.ContractType), val.Interval) + "/"
+	const endpoint = "wss://fstream.binance.com/stream"
+
+	rpc := WsRPC{
+		Method: "SUBSCRIBE",
+		ID:     1,
 	}
-	endpoint = endpoint[:len(endpoint)-1]
+
+	for _, val := range subscribeArgsList {
+		subscribe := fmt.Sprintf("%s_%s@continuousKline_%s",
+			strings.ToLower(val.Pair),
+			strings.ToLower(val.ContractType),
+			val.Interval,
+		)
+		rpc.Params = append(rpc.Params, subscribe)
+	}
+
+	rpcMsg, err := json.Marshal(rpc)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	cfg := newWsConfig(endpoint)
 	wsHandler := func(message []byte) {
 		j, err := newJSON(message)
@@ -472,7 +493,7 @@ func WsCombinedContinuousKlineServe(
 
 		handler(event)
 	}
-	return wsServe(ctx, cfg, wsHandler, errHandler, nil, logger)
+	return wsServe(ctx, cfg, wsHandler, errHandler, nil, logger, rpcMsg)
 }
 
 // WsMiniMarketTickerEvent define websocket mini market ticker event.

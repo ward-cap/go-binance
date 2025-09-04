@@ -36,6 +36,7 @@ var wsServe = func(
 	errHandler ErrHandler,
 	dialer DialFunc,
 	logger *zap.SugaredLogger,
+	sendMessageAfterConnect ...[]byte,
 ) (doneC, stopC chan struct{}, err error) {
 	if dialer == nil {
 		dialer = proxy.Direct.Dial
@@ -76,6 +77,14 @@ var wsServe = func(
 			case <-doneC:
 			}
 			_ = c.Close()
+		}()
+		go func() {
+			for _, msg := range sendMessageAfterConnect {
+				err := c.WriteMessage(websocket.TextMessage, msg)
+				if err != nil {
+					logger.Error(err.Error())
+				}
+			}
 		}()
 		for {
 			_, message, err := c.ReadMessage()
