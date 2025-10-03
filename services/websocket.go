@@ -2,10 +2,13 @@ package binance
 
 import (
 	"context"
+	"errors"
+	"time"
+
 	"github.com/ward-cap/go-binance/futures"
+	"github.com/ward-cap/go-binance/utils"
 	"go.uber.org/zap"
 	"golang.org/x/net/proxy"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -34,13 +37,15 @@ var wsServe = func(
 	errHandler ErrHandler,
 	dialer futures.DialFunc,
 	logger *zap.SugaredLogger,
-) (doneC, stopC chan struct{}, err error) {
+) (doneC chan struct{}, err error) {
 	if dialer == nil {
 		dialer = proxy.Direct.Dial
 	}
 	if ctx == nil {
-		ctx = context.Background()
+		return nil, errors.New("context is required")
 	}
+
+	ctx, cancel := context.WithCancel(ctx)
 
 	Dialer := websocket.Dialer{
 		NetDial:           dialer,
@@ -50,72 +55,25 @@ var wsServe = func(
 
 	c, _, err := Dialer.DialContext(ctx, cfg.Endpoint, nil)
 	if err != nil {
-		return nil, nil, err
+		cancel()
+		return nil, err
 	}
 	c.SetReadLimit(655350)
 	doneC = make(chan struct{})
-	stopC = make(chan struct{})
 	go func() {
-		// This function will exit either on error from
-		// websocket.Conn.ReadMessage or when the stopC channel is
-		// closed by the client.
+		defer cancel()
 		defer close(doneC)
-		if WebsocketKeepalive {
-			keepAlive(c, WebsocketTimeout, logger)
-		}
-		// Wait for the stopC channel to be closed.  We do that in a
-		// separate goroutine because ReadMessage is a blocking
-		// operation.
-		silent := false
-		go func() {
-			select {
-			case <-stopC:
-				silent = true
-			case <-doneC:
-			}
-			_ = c.Close()
-		}()
+		go utils.KeepAlive(ctx, c, WebsocketTimeout, logger)
+
 		for {
 			_, message, err := c.ReadMessage()
 			if err != nil {
-				if !silent {
-					errHandler(err)
-				}
+				cancel()
+				errHandler(err)
 				return
 			}
 			handler(message)
 		}
 	}()
 	return
-}
-
-func keepAlive(c *websocket.Conn, timeout time.Duration, logger *zap.SugaredLogger) {
-	ticker := time.NewTicker(timeout)
-
-	lastResponse := time.Now()
-	c.SetPongHandler(func(msg string) error {
-		logger.Info("pong")
-		lastResponse = time.Now()
-		return nil
-	})
-
-	go func() {
-		defer ticker.Stop()
-		for {
-			deadline := time.Now().Add(10 * time.Second)
-			err := c.WriteControl(websocket.PingMessage, []byte{}, deadline)
-			if err != nil {
-				return
-			}
-			<-ticker.C
-			if time.Since(lastResponse) > timeout {
-				logger.Info("close")
-				err = c.Close()
-				if err != nil {
-					logger.Info(err.Error())
-				}
-				return
-			}
-		}
-	}()
 }

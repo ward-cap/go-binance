@@ -15,7 +15,6 @@ import (
 	jsoniter "github.com/json-iterator/go"
 
 	"github.com/ward-cap/go-binance/common"
-	"github.com/ward-cap/go-binance/delivery"
 	"github.com/ward-cap/go-binance/futures"
 	"github.com/ward-cap/go-binance/options"
 )
@@ -299,11 +298,6 @@ func NewClient(apiKey, secretKey string, client *http.Client) *Client {
 // NewFuturesClient initialize client for futures API
 func NewFuturesClient(apiKey, secretKey string, client *http.Client) *futures.Client {
 	return futures.NewClient(apiKey, secretKey, client)
-}
-
-// NewDeliveryClient initialize client for coin-M futures API
-func NewDeliveryClient(apiKey, secretKey string) *delivery.Client {
-	return delivery.NewClient(apiKey, secretKey)
 }
 
 // NewOptionsClient initialize client for options API
