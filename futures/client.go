@@ -85,6 +85,7 @@ const (
 	PositionSideTypeShort PositionSideType = "SHORT"
 
 	OrderTypeLimit              OrderType = "LIMIT"
+	OrderTypeLiquidation        OrderType = "LIQUIDATION"
 	OrderTypeMarket             OrderType = "MARKET"
 	OrderTypeStop               OrderType = "STOP"
 	OrderTypeStopMarket         OrderType = "STOP_MARKET"
