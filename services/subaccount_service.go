@@ -2,8 +2,9 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"net/http"
+
+	"github.com/shopspring/decimal"
 )
 
 // TransferToSubAccountService transfer to subaccount
