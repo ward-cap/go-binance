@@ -86,8 +86,7 @@ func (s *CloseAlgoOrdersService) SetSymbol(symbol string) *CloseAlgoOrdersServic
 
 func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res CloseAlgoOrderResponse, err error) {
 	r := &request{
-		method: http.MethodDelete,
-		//endpoint: "/fapi/v1/algoOrder",
+		method:  http.MethodDelete,
 		secType: secTypeSigned,
 	}
 	if (s.algoID == 0) == (s.symbol == "") {
