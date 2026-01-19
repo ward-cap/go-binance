@@ -3,6 +3,7 @@ package futures
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -66,23 +67,43 @@ type CloseAlgoOrderResponse struct {
 }
 
 type CloseAlgoOrdersService struct {
-	c      *Client
+	c *Client
+
+	// only 1 param is required
 	algoID string // real type is LONG
+	symbol string // closes all by symbol
 }
 
+//goland:noinspection GoMixedReceiverTypes
 func (s CloseAlgoOrdersService) SetAlgoID(algoId string) CloseAlgoOrdersService {
 	s.algoID = algoId
 	return s
 }
 
+//goland:noinspection GoMixedReceiverTypes
+func (s CloseAlgoOrdersService) SetSymbol(symbol string) CloseAlgoOrdersService {
+	s.symbol = symbol
+	return s
+}
+
+//goland:noinspection GoMixedReceiverTypes
 func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res CloseAlgoOrderResponse, err error) {
 	r := &request{
-		method:   http.MethodDelete,
-		endpoint: "/fapi/v1/algoOrder",
-		secType:  secTypeSigned,
+		method: http.MethodDelete,
+		//endpoint: "/fapi/v1/algoOrder",
+		secType: secTypeSigned,
 	}
+	if (s.algoID == "") == (s.symbol == "") {
+		return res, fmt.Errorf("either algoID or symbol must be set, but not both")
+	}
+
 	if s.algoID != "" {
 		r.setFormParam("algoId", s.algoID)
+		r.endpoint = "/fapi/v1/algoOrder"
+	}
+	if s.symbol != "" {
+		r.setFormParam("symbol", s.symbol)
+		r.endpoint = "fapi/v1/algoOpenOrders"
 	}
 
 	data, _, err := s.c.callAPI(ctx, r, opts...)
