@@ -70,11 +70,11 @@ type CloseAlgoOrdersService struct {
 	c *Client
 
 	// only 1 param is required
-	algoID string // real type is LONG
+	algoID int64  // real type is LONG
 	symbol string // closes all by symbol
 }
 
-func (s *CloseAlgoOrdersService) SetAlgoID(algoId string) *CloseAlgoOrdersService {
+func (s *CloseAlgoOrdersService) SetAlgoID(algoId int64) *CloseAlgoOrdersService {
 	s.algoID = algoId
 	return s
 }
@@ -90,11 +90,11 @@ func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) 
 		//endpoint: "/fapi/v1/algoOrder",
 		secType: secTypeSigned,
 	}
-	if (s.algoID == "") == (s.symbol == "") {
+	if (s.algoID == 0) == (s.symbol == "") {
 		return res, fmt.Errorf("either algoID or symbol must be set, but not both")
 	}
 
-	if s.algoID != "" {
+	if s.algoID != 0 {
 		r.setFormParam("algoId", s.algoID)
 		r.endpoint = "/fapi/v1/algoOrder"
 	}
