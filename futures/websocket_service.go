@@ -1096,6 +1096,7 @@ type WsOrderTradeUpdate struct {
 	ExecutionType        OrderExecutionType  `json:"x"`
 	Status               OrderStatusType     `json:"X"`
 	ID                   int64               `json:"i"`
+	AlgoID               int64               `json:"aid"`
 	LastFilledQty        decimal.Decimal     `json:"l"`
 	AccumulatedFilledQty decimal.NullDecimal `json:"z"`
 	LastFilledPrice      decimal.Decimal     `json:"L"`
@@ -1114,6 +1115,7 @@ type WsOrderTradeUpdate struct {
 	ActivationPrice      decimal.NullDecimal `json:"AP"`
 	CallbackRate         string              `json:"cr"`
 	RealizedPnL          string              `json:"rp"`
+	AlgoType             string              `json:"at"`
 }
 
 // WsAccountConfigUpdate define account config update

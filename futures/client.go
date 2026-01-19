@@ -153,6 +153,7 @@ const (
 	UserDataEventTypeAccountUpdate       UserDataEventType = "ACCOUNT_UPDATE"
 	UserDataEventTypeOrderTradeUpdate    UserDataEventType = "ORDER_TRADE_UPDATE"
 	UserDataEventTypeAccountConfigUpdate UserDataEventType = "ACCOUNT_CONFIG_UPDATE"
+	UserDataEventTypeAlgoUpdate          UserDataEventType = "ALGO_UPDATE"
 
 	UserDataEventReasonTypeDeposit             UserDataEventReasonType = "DEPOSIT"
 	UserDataEventReasonTypeWithdraw            UserDataEventReasonType = "WITHDRAW"
@@ -357,6 +358,10 @@ func (c *Client) NewPingService() *PingService {
 // NewServerTimeService init server time service
 func (c *Client) NewServerTimeService() *ServerTimeService {
 	return &ServerTimeService{c: c}
+}
+
+func (c *Client) NewOpenAlgoOrdersService() *OpenAlgoOrdersService {
+	return &OpenAlgoOrdersService{c: c}
 }
 
 // NewSetServerTimeService init set server time service
