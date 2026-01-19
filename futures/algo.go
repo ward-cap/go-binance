@@ -74,19 +74,16 @@ type CloseAlgoOrdersService struct {
 	symbol string // closes all by symbol
 }
 
-//goland:noinspection GoMixedReceiverTypes
-func (s CloseAlgoOrdersService) SetAlgoID(algoId string) CloseAlgoOrdersService {
+func (s *CloseAlgoOrdersService) SetAlgoID(algoId string) *CloseAlgoOrdersService {
 	s.algoID = algoId
 	return s
 }
 
-//goland:noinspection GoMixedReceiverTypes
-func (s CloseAlgoOrdersService) SetSymbol(symbol string) CloseAlgoOrdersService {
+func (s *CloseAlgoOrdersService) SetSymbol(symbol string) *CloseAlgoOrdersService {
 	s.symbol = symbol
 	return s
 }
 
-//goland:noinspection GoMixedReceiverTypes
 func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res CloseAlgoOrderResponse, err error) {
 	r := &request{
 		method: http.MethodDelete,
