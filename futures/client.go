@@ -364,6 +364,10 @@ func (c *Client) NewOpenAlgoOrdersService() *OpenAlgoOrdersService {
 	return &OpenAlgoOrdersService{c: c}
 }
 
+func (c *Client) NewCloseAlgoOrderService() *CloseAlgoOrdersService {
+	return &CloseAlgoOrdersService{c: c}
+}
+
 // NewSetServerTimeService init set server time service
 func (c *Client) NewSetServerTimeService() *SetServerTimeService {
 	return &SetServerTimeService{c: c}

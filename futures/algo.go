@@ -57,3 +57,38 @@ type AlgoOrders struct {
 	TriggerTime             int         `json:"triggerTime"`
 	GoodTillDate            int         `json:"goodTillDate"`
 }
+
+type CloseAlgoOrderResponse struct {
+	AlgoId       int    `json:"algoId"`
+	ClientAlgoId string `json:"clientAlgoId"`
+	Code         string `json:"code"`
+	Msg          string `json:"msg"`
+}
+
+type CloseAlgoOrdersService struct {
+	c      *Client
+	algoID string // real type is LONG
+}
+
+func (s CloseAlgoOrdersService) SetAlgoID(algoId string) CloseAlgoOrdersService {
+	s.algoID = algoId
+	return s
+}
+
+func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res CloseAlgoOrderResponse, err error) {
+	r := &request{
+		method:   http.MethodDelete,
+		endpoint: "/fapi/v1/algoOrder",
+		secType:  secTypeSigned,
+	}
+	if s.algoID != "" {
+		r.setFormParam("algoId", s.algoID)
+	}
+
+	data, _, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(data, &res)
+	return
+}
