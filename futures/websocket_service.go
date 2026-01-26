@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
+	decimal2 "github.com/ward-cap/go-binance/decimal"
 	"go.uber.org/zap"
 )
 
@@ -1084,38 +1085,39 @@ type WsPosition struct {
 
 // WsOrderTradeUpdate define order trade update
 type WsOrderTradeUpdate struct {
-	Symbol               string              `json:"s"`
-	ClientOrderID        string              `json:"c"`
-	Side                 SideType            `json:"S"`
-	Type                 OrderType           `json:"o"`
-	TimeInForce          TimeInForceType     `json:"f"`
-	OriginalQty          decimal.Decimal     `json:"q"`
-	OriginalPrice        decimal.Decimal     `json:"p"`
-	AveragePrice         string              `json:"ap"`
-	StopPrice            decimal.NullDecimal `json:"sp"`
-	ExecutionType        OrderExecutionType  `json:"x"`
-	Status               OrderStatusType     `json:"X"`
-	ID                   int64               `json:"i"`
-	AlgoID               int64               `json:"aid"`
-	LastFilledQty        decimal.Decimal     `json:"l"`
-	AccumulatedFilledQty decimal.NullDecimal `json:"z"`
-	LastFilledPrice      decimal.Decimal     `json:"L"`
-	CommissionAsset      string              `json:"N"`
-	Commission           decimal.Decimal     `json:"n"`
-	TradeTime            int64               `json:"T"`
-	TradeID              int64               `json:"t"`
-	BidsNotional         string              `json:"b"`
-	AsksNotional         string              `json:"a"`
-	IsMaker              bool                `json:"m"`
-	IsReduceOnly         bool                `json:"R"`
-	WorkingType          WorkingType         `json:"wt"`
-	OriginalType         OrderType           `json:"ot"`
-	PositionSide         PositionSideType    `json:"ps"`
-	IsClosingPosition    bool                `json:"cp"`
-	ActivationPrice      decimal.NullDecimal `json:"AP"`
-	CallbackRate         string              `json:"cr"`
-	RealizedPnL          string              `json:"rp"`
-	AlgoType             string              `json:"at"`
+	Symbol               string                 `json:"s"`
+	ClientOrderID        string                 `json:"c"`
+	Side                 SideType               `json:"S"`
+	Type                 OrderType              `json:"o"`
+	TimeInForce          TimeInForceType        `json:"f"`
+	OriginalQty          decimal.Decimal        `json:"q"`
+	OriginalPrice        decimal.Decimal        `json:"p"`
+	AveragePrice         string                 `json:"ap"`
+	StopPrice            decimal.NullDecimal    `json:"sp"`
+	ExecutionType        OrderExecutionType     `json:"x"`
+	Status               OrderStatusType        `json:"X"`
+	ID                   int64                  `json:"i"`
+	AlgoID               int64                  `json:"aid"`
+	LastFilledQty        decimal.Decimal        `json:"l"`
+	AccumulatedFilledQty decimal.NullDecimal    `json:"z"`
+	LastFilledPrice      decimal.Decimal        `json:"L"`
+	CommissionAsset      string                 `json:"N"`
+	Commission           decimal.Decimal        `json:"n"`
+	TradeTime            int64                  `json:"T"`
+	TradeID              int64                  `json:"t"`
+	BidsNotional         string                 `json:"b"`
+	AsksNotional         string                 `json:"a"`
+	IsMaker              bool                   `json:"m"`
+	IsReduceOnly         bool                   `json:"R"`
+	WorkingType          WorkingType            `json:"wt"`
+	OriginalType         OrderType              `json:"ot"`
+	PositionSide         PositionSideType       `json:"ps"`
+	IsClosingPosition    bool                   `json:"cp"`
+	ActivationPrice      decimal.NullDecimal    `json:"AP"`
+	CallbackRate         string                 `json:"cr"`
+	RealizedPnL          string                 `json:"rp"`
+	AlgoType             string                 `json:"at"`
+	TriggerPrice         decimal2.NullDecimalV2 `json:"tp"`
 }
 
 // WsAccountConfigUpdate define account config update
