@@ -23,6 +23,9 @@ func (s *SignTradeFiService) Do(ctx context.Context, opts ...RequestOption) (res
 	if err != nil {
 		return common.APIError{}, err
 	}
+	if string(data) == "SUCCESS" {
+		return common.APIError{}, nil
+	}
 	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return common.APIError{}, err
