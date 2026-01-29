@@ -373,6 +373,10 @@ func (c *Client) NewSetServerTimeService() *SetServerTimeService {
 	return &SetServerTimeService{c: c}
 }
 
+func (c *Client) NewSignTradeFiService() *SignTradeFiService {
+	return &SignTradeFiService{c: c}
+}
+
 // NewDepthService init depth service
 func (c *Client) NewDepthService() *DepthService {
 	return &DepthService{c: c}
