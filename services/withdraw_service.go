@@ -46,7 +46,9 @@ func (s *CreateWithdrawService) Address(v string) *CreateWithdrawService {
 
 // AddressTag sets the addressTag parameter.
 func (s *CreateWithdrawService) AddressTag(v string) *CreateWithdrawService {
-	s.addressTag = &v
+	if v != "" {
+		s.addressTag = &v
+	}
 	return s
 }
 
