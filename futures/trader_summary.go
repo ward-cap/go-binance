@@ -50,7 +50,7 @@ type TraderSummaryResponse struct {
 }
 
 // Do send request
-func (s *TraderSummaryService) Do(ctx context.Context, opts ...RequestOption) (res []TraderSummaryResponse, err error) {
+func (s *TraderSummaryService) Do(ctx context.Context, opts ...RequestOption) (res []*TraderSummaryResponse, err error) {
 	r := &request{
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/apiReferral/traderSummary",
