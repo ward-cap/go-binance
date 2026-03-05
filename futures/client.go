@@ -556,6 +556,10 @@ func (c *Client) NewListLiquidationOrdersService() *ListLiquidationOrdersService
 	return &ListLiquidationOrdersService{c: c}
 }
 
+func (c *Client) NewReferralOverview() *ReferralOverview {
+	return &ReferralOverview{c: c}
+}
+
 // NewChangeLeverageService init change leverage service
 func (c *Client) NewChangeLeverageService() *ChangeLeverageService {
 	return &ChangeLeverageService{c: c}
