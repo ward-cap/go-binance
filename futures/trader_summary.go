@@ -44,7 +44,7 @@ func (s *TraderSummaryService) EndTime(endTime int64) *TraderSummaryService {
 func (s *TraderSummaryService) Do(ctx context.Context, opts ...RequestOption) (res []byte, err error) {
 	r := &request{
 		method:   http.MethodGet,
-		endpoint: "/fapi/v1/markPriceKlines",
+		endpoint: "/fapi/v1/apiReferral/traderSummary",
 	}
 	if s.customerId != nil {
 		r.setParam("customerId", *s.customerId)
