@@ -497,6 +497,10 @@ func (c *Client) NewGetIncomeHistoryService() *GetIncomeHistoryService {
 	return &GetIncomeHistoryService{c: c}
 }
 
+func (c *Client) NewTraderSummaryService() *TraderSummaryService {
+	return &TraderSummaryService{c: c}
+}
+
 // NewHistoricalTradesService init listing trades service
 func (c *Client) NewHistoricalTradesService() *HistoricalTradesService {
 	return &HistoricalTradesService{c: c}
