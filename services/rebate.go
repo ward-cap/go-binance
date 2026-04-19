@@ -33,6 +33,7 @@ func (s *SpotRebateHistoryService) Page(page int32) *SpotRebateHistoryService {
 // Do send request
 func (s *SpotRebateHistoryService) Do(ctx context.Context, opts ...RequestOption) (*SpotRebateHistory, error) {
 	r := &request{
+		service:  "SpotRebateHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/rebate/taxQuery",
 		secType:  secTypeSigned,

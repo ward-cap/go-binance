@@ -21,6 +21,7 @@ func (s *GetOpenInterestService) Symbol(symbol string) *GetOpenInterestService {
 // Do send request
 func (s *GetOpenInterestService) Do(ctx context.Context, opts ...RequestOption) (res *OpenInterest, err error) {
 	r := &request{
+		service:  "GetOpenInterestService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/openInterest",
 	}
@@ -88,6 +89,7 @@ func (s *OpenInterestStatisticsService) EndTime(endTime int64) *OpenInterestStat
 // Do send request
 func (s *OpenInterestStatisticsService) Do(ctx context.Context, opts ...RequestOption) (res []*OpenInterestStatistic, err error) {
 	r := &request{
+		service:  "OpenInterestStatisticsService",
 		method:   http.MethodGet,
 		endpoint: "/futures/data/openInterestHist",
 	}

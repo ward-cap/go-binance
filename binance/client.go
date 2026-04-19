@@ -5,11 +5,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/ward-cap/go-binance/common"
 	"io"
 	"net/http"
 	"net/url"
 	"reflect"
+	"time"
+
+	"github.com/ward-cap/go-binance/common"
+	"go.uber.org/zap"
 )
 
 func NewClient(client *http.Client) *Client {
@@ -30,6 +33,8 @@ type Client struct {
 	HTTPClient *http.Client
 	Debug      bool
 	TimeOffset int64
+
+	Logger *zap.SugaredLogger
 }
 
 type request struct {
@@ -42,6 +47,7 @@ type request struct {
 	header  http.Header
 	body    io.Reader
 	fullURL string
+	service string
 }
 
 func (r *request) setParam(key string, value any) *request {
@@ -49,10 +55,12 @@ func (r *request) setParam(key string, value any) *request {
 		r.query = url.Values{}
 	}
 
-	if reflect.TypeOf(value).Kind() == reflect.Slice {
-		v, err := json.Marshal(value)
-		if err == nil {
-			value = string(v)
+	if value != nil {
+		if valueType := reflect.TypeOf(value); valueType != nil && valueType.Kind() == reflect.Slice {
+			v, err := json.Marshal(value)
+			if err == nil {
+				value = string(v)
+			}
 		}
 	}
 
@@ -108,40 +116,114 @@ func (c *Client) parseRequest(r *request) (err error) {
 }
 
 func (c *Client) callAPI(ctx context.Context, r *request) (data []byte, err error) {
+	startedAt := time.Now()
+	service := r.service
+
 	err = c.parseRequest(r)
 	if err != nil {
+		c.logAPIError(ctx, service, r, nil, startedAt, err)
 		return []byte{}, err
 	}
-	req, err := http.NewRequest(r.method, r.fullURL, r.body)
+	req, err := http.NewRequestWithContext(ctx, r.method, r.fullURL, r.body)
 	if err != nil {
+		c.logAPIError(ctx, service, r, nil, startedAt, err)
 		return []byte{}, err
 	}
-	req = req.WithContext(ctx)
 	req.Header = r.header
+
+	c.logAPIRequest(ctx, service, r, req)
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
-		return []byte{}, err
-	}
-	data, err = io.ReadAll(res.Body)
-	if err != nil {
+		c.logAPIError(ctx, service, r, req, startedAt, err)
 		return []byte{}, err
 	}
 	defer func() {
 		cerr := res.Body.Close()
-		// Only overwrite the retured error if the original error was nil and an
-		// error occurred while closing the body.
 		if err == nil && cerr != nil {
 			err = cerr
 		}
 	}()
 
+	data, err = io.ReadAll(res.Body)
+	if err != nil {
+		c.logAPIError(ctx, service, r, req, startedAt, err)
+		return []byte{}, err
+	}
+
+	c.logAPIResponse(ctx, service, r, req, res, data, startedAt)
+
 	if res.StatusCode >= http.StatusBadRequest {
 		apiErr := new(common.APIError)
 		_ = json.Unmarshal(data, apiErr)
+		c.logAPIError(ctx, service, r, req, startedAt, apiErr)
 		return nil, apiErr
 	}
 	return data, nil
+}
+
+func (c *Client) logAPIRequest(ctx context.Context, service string, r *request, req *http.Request) {
+	if c == nil || c.Logger == nil || req == nil {
+		return
+	}
+
+	fields := []any{
+		"binance.package", "binance",
+		"binance.service", service,
+		"http.method", r.method,
+		"url.full", common.SanitizeURL(req.URL.String()),
+		"server.address", req.URL.Host,
+		"http.request.header", common.SanitizeHeaders(req.Header),
+		"http.request.body", common.ReadBodyForLog(r.body),
+	}
+	fields = common.AppendTraceFields(ctx, fields)
+
+	c.Logger.Debugw("binance api request", fields...)
+}
+
+func (c *Client) logAPIResponse(ctx context.Context, service string, r *request, req *http.Request, res *http.Response, data []byte, startedAt time.Time) {
+	if c == nil || c.Logger == nil || req == nil || res == nil {
+		return
+	}
+
+	fields := []any{
+		"binance.package", "binance",
+		"binance.service", service,
+		"http.method", r.method,
+		"url.full", common.SanitizeURL(req.URL.String()),
+		"server.address", req.URL.Host,
+		"http.response.status_code", res.StatusCode,
+		"http.response.header", common.SanitizeHeaders(res.Header),
+		"http.response.body", string(data),
+		"event.duration", time.Since(startedAt),
+	}
+	fields = common.AppendTraceFields(ctx, fields)
+
+	c.Logger.Debugw("binance api response", fields...)
+}
+
+func (c *Client) logAPIError(ctx context.Context, service string, r *request, req *http.Request, startedAt time.Time, err error) {
+	if c == nil || c.Logger == nil || err == nil {
+		return
+	}
+
+	serverAddress := ""
+	if req != nil && req.URL != nil {
+		serverAddress = req.URL.Host
+	}
+
+	fields := []any{
+		"binance.package", "binance",
+		"binance.service", service,
+		"http.method", r.method,
+		"url.full", common.SanitizeURL(r.fullURL),
+		"server.address", serverAddress,
+		"event.duration", time.Since(startedAt),
+		"error", err,
+	}
+	fields = common.AppendTraceFields(ctx, fields)
+
+	c.Logger.Errorw("binance api error", fields...)
 }
 
 func (c *Client) NewGetAllAssetsService() *GetAllAssetsService {

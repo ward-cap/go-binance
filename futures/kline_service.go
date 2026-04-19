@@ -61,6 +61,7 @@ func (s *KlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*K
 	}()
 
 	r := &request{
+		service:  "KlinesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/klines",
 	}

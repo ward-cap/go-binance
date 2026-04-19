@@ -34,6 +34,7 @@ type AssetFundingResponse struct {
 // Do sends the request.
 func (s *GetAssetFundingDetailService) Do(ctx context.Context) (res []AssetFundingResponse, err error) {
 	r := &request{
+		service:  "GetAssetFundingDetailService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/asset/get-funding-asset",
 		secType:  secTypeSigned,

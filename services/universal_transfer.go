@@ -32,6 +32,7 @@ type UniversalTransferService struct {
 
 func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (def UniversalTransferServiceResponse, _ error) {
 	r := &request{
+		service:  "UniversalTransferService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/universalTransfer",
 		secType:  secTypeSigned,

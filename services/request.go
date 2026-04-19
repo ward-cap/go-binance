@@ -29,6 +29,7 @@ type request struct {
 	header     http.Header
 	body       io.Reader
 	fullURL    string
+	service    string
 }
 
 // addParam add param with key/value to query string
@@ -46,10 +47,12 @@ func (r *request) setParam(key string, value interface{}) *request {
 		r.query = url.Values{}
 	}
 
-	if reflect.TypeOf(value).Kind() == reflect.Slice {
-		v, err := json.Marshal(value)
-		if err == nil {
-			value = string(v)
+	if value != nil {
+		if valueType := reflect.TypeOf(value); valueType != nil && valueType.Kind() == reflect.Slice {
+			v, err := json.Marshal(value)
+			if err == nil {
+				value = string(v)
+			}
 		}
 	}
 

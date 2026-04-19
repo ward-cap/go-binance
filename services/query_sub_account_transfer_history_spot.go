@@ -45,6 +45,7 @@ type SubAccountTransferHistorySpotService struct {
 
 func (s *SubAccountTransferHistorySpotService) Do(ctx context.Context, opts ...RequestOption) (res []AccountTransferHistorySpotResponse, err error) {
 	r := &request{
+		service:  "SubAccountTransferHistorySpotService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/transfer",
 		secType:  secTypeSigned,

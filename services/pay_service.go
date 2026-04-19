@@ -34,6 +34,7 @@ func (s *PayTradeHistoryService) Limit(limit int32) *PayTradeHistoryService {
 // Do send request
 func (s *PayTradeHistoryService) Do(ctx context.Context, opts ...RequestOption) (*PayTradeHistory, error) {
 	r := &request{
+		service:  "PayTradeHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/pay/transactions",
 		secType:  secTypeSigned,

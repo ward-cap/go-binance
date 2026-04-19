@@ -16,6 +16,7 @@ type ExchangeInfoService struct {
 // Do send request
 func (s *ExchangeInfoService) Do(ctx context.Context, opts ...RequestOption) (res *ExchangeInfo, err error) {
 	r := &request{
+		service:  "ExchangeInfoService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/exchangeInfo",
 		secType:  secTypeNone,

@@ -43,6 +43,7 @@ func (s *AssetDividendService) EndTime(endTime int64) *AssetDividendService {
 // Do sends the request.
 func (s *AssetDividendService) Do(ctx context.Context) (*DividendResponseWrapper, error) {
 	r := &request{
+		service:  "AssetDividendService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/asset/assetDividend",
 		secType:  secTypeSigned,

@@ -48,6 +48,7 @@ func (s *StakingProductPositionService) Size(size int32) *StakingProductPosition
 // Do sends the request.
 func (s *StakingProductPositionService) Do(ctx context.Context) (*StakingProductPositions, error) {
 	r := &request{
+		service:  "StakingProductPositionService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/staking/position",
 		secType:  secTypeSigned,
@@ -167,6 +168,7 @@ func (s *StakingHistoryService) Size(size int32) *StakingHistoryService {
 // Do sends the request.
 func (s *StakingHistoryService) Do(ctx context.Context) (*StakingHistory, error) {
 	r := &request{
+		service:  "StakingHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/staking/stakingRecord",
 		secType:  secTypeSigned,

@@ -20,6 +20,7 @@ func (s *TradeFeeService) Symbol(symbol string) *TradeFeeService {
 // Do send request
 func (s *TradeFeeService) Do(ctx context.Context) (res []*TradeFeeDetails, err error) {
 	r := &request{
+		service:  "TradeFeeService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/asset/tradeFee",
 		secType:  secTypeSigned,

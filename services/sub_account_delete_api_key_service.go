@@ -27,6 +27,7 @@ func (s *SubAccountDeleteApiKeyService) SubAccountApiKey(subAccountApiKey string
 
 func (s *SubAccountDeleteApiKeyService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "SubAccountDeleteApiKeyService",
 		method:   http.MethodDelete,
 		endpoint: "/sapi/v1/broker/subAccountApi",
 		secType:  secTypeSigned,

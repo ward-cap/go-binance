@@ -29,6 +29,7 @@ func (s *DepthService) Limit(limit int) *DepthService {
 // Do send request
 func (s *DepthService) Do(ctx context.Context, opts ...RequestOption) (res *DepthResponse, err error) {
 	r := &request{
+		service:  "DepthService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/depth",
 	}

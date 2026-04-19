@@ -36,6 +36,7 @@ func (s *HistoricalTradesService) FromID(fromID int64) *HistoricalTradesService 
 // Do send request
 func (s *HistoricalTradesService) Do(ctx context.Context, opts ...RequestOption) (res []*Trade, err error) {
 	r := &request{
+		service:  "HistoricalTradesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/historicalTrades",
 		secType:  secTypeAPIKey,
@@ -129,6 +130,7 @@ func (s *AggTradesService) Limit(limit int) *AggTradesService {
 // Do send request
 func (s *AggTradesService) Do(ctx context.Context, opts ...RequestOption) (res []*AggTrade, err error) {
 	r := &request{
+		service:  "AggTradesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/aggTrades",
 	}
@@ -190,6 +192,7 @@ func (s *RecentTradesService) Limit(limit int) *RecentTradesService {
 // Do send request
 func (s *RecentTradesService) Do(ctx context.Context, opts ...RequestOption) (res []*Trade, err error) {
 	r := &request{
+		service:  "RecentTradesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/trades",
 	}
@@ -259,6 +262,7 @@ func (s *ListAccountTradeService) Limit(limit int) *ListAccountTradeService {
 // Do send request
 func (s *ListAccountTradeService) Do(ctx context.Context, opts ...RequestOption) (res []*AccountTrade, err error) {
 	r := &request{
+		service:  "ListAccountTradeService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/userTrades",
 		secType:  secTypeSigned,

@@ -57,6 +57,7 @@ func (s *InterestHistoryService) Size(size int32) *InterestHistoryService {
 // Do sends the request.
 func (s *InterestHistoryService) Do(ctx context.Context) (*InterestHistory, error) {
 	r := &request{
+		service:  "InterestHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/lending/union/interestHistory",
 		secType:  secTypeSigned,

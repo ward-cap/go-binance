@@ -49,6 +49,7 @@ func (s *LongShortRatioService) EndTime(endTime int64) *LongShortRatioService {
 // Do send request
 func (s *LongShortRatioService) Do(ctx context.Context, opts ...RequestOption) (res []*LongShortRatio, err error) {
 	r := &request{
+		service:  "LongShortRatioService",
 		method:   http.MethodGet,
 		endpoint: "/futures/data/globalLongShortAccountRatio",
 	}

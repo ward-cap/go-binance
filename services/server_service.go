@@ -13,6 +13,7 @@ type PingService struct {
 // Do send request
 func (s *PingService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "PingService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/ping",
 	}
@@ -28,6 +29,7 @@ type ServerTimeService struct {
 // Do send request
 func (s *ServerTimeService) Do(ctx context.Context, opts ...RequestOption) (serverTime int64, err error) {
 	r := &request{
+		service:  "ServerTimeService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/time",
 	}

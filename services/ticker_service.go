@@ -23,6 +23,7 @@ func (s *ListBookTickersService) Symbol(symbol string) *ListBookTickersService {
 // Do send request
 func (s *ListBookTickersService) Do(ctx context.Context, opts ...RequestOption) (res []*BookTicker, err error) {
 	r := &request{
+		service:  "ListBookTickersService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/ticker/bookTicker",
 	}
@@ -67,6 +68,7 @@ func (s *ListPricesService) Symbol(symbol string) *ListPricesService {
 // Do send request
 func (s *ListPricesService) Do(ctx context.Context, opts ...RequestOption) (res []*SymbolPrice, err error) {
 	r := &request{
+		service:  "ListPricesService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/ticker/price",
 	}
@@ -123,6 +125,7 @@ func (s *ListPricesService) Symbols(symbols []string) *ListPricesService {
 // Do send request
 func (s *ListPriceChangeStatsService) Do(ctx context.Context, opts ...RequestOption) (res []*PriceChangeStats, err error) {
 	r := &request{
+		service:  "ListPriceChangeStatsService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/ticker/24hr",
 	}
@@ -186,6 +189,7 @@ func (s *AveragePriceService) Symbol(symbol string) *AveragePriceService {
 // Do send request
 func (s *AveragePriceService) Do(ctx context.Context, opts ...RequestOption) (res *AvgPrice, err error) {
 	r := &request{
+		service:  "AveragePriceService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/avgPrice",
 	}
@@ -263,6 +267,7 @@ func (s *ListSymbolTickerService) WindowSize(windowSize string) *ListSymbolTicke
 
 func (s *ListSymbolTickerService) Do(ctx context.Context, opts ...RequestOption) (res []*SymbolTicker, err error) {
 	r := &request{
+		service:  "ListSymbolTickerService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/ticker",
 	}

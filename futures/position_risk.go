@@ -22,6 +22,7 @@ func (s *GetPositionRiskService) Symbol(symbol string) *GetPositionRiskService {
 // Do send request
 func (s *GetPositionRiskService) Do(ctx context.Context, opts ...RequestOption) (res []*PositionRisk, err error) {
 	r := &request{
+		service:  "GetPositionRiskService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v2/positionRisk",
 		secType:  secTypeSigned,

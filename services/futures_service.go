@@ -34,6 +34,7 @@ func (s *FuturesTransferService) Type(transferType FuturesTransferType) *Futures
 // Do send request
 func (s *FuturesTransferService) Do(ctx context.Context, opts ...RequestOption) (res *TransactionResponse, err error) {
 	r := &request{
+		service:  "FuturesTransferService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/futures/transfer",
 		secType:  secTypeSigned,
@@ -99,6 +100,7 @@ func (s *ListFuturesTransferService) Size(size int64) *ListFuturesTransferServic
 // Do send request
 func (s *ListFuturesTransferService) Do(ctx context.Context, opts ...RequestOption) (res *FuturesTransferHistory, err error) {
 	r := &request{
+		service:  "ListFuturesTransferService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/futures/transfer",
 		secType:  secTypeSigned,

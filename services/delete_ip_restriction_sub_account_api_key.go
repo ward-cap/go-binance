@@ -27,6 +27,7 @@ type DeleteIPRestrictionSubAccountAPIKeyService struct {
 
 func (s *DeleteIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "DeleteIPRestrictionSubAccountAPIKeyService",
 		method:   http.MethodDelete,
 		endpoint: "/sapi/v1/broker/subAccountApi/ipRestriction/ipList",
 		secType:  secTypeSigned,

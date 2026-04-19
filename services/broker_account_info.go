@@ -17,6 +17,7 @@ func (c *Client) NewGetBrokerInfoService() *GetBrokerInfoService {
 // Do send request
 func (s *GetBrokerInfoService) Do(ctx context.Context, opts ...RequestOption) (res *GetBrokerInfoResponse, err error) {
 	r := &request{
+		service:  "GetBrokerInfoService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/info",
 		secType:  secTypeSigned,

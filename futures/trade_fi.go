@@ -14,6 +14,7 @@ type SignTradeFiService struct {
 
 func (s *SignTradeFiService) Do(ctx context.Context, opts ...RequestOption) (res common.APIError, err error) {
 	r := &request{
+		service:  "SignTradeFiService",
 		method:   http.MethodPost,
 		endpoint: "/fapi/v1/stock/contract",
 		secType:  secTypeSigned,

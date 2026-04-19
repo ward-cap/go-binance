@@ -49,6 +49,7 @@ func (s *GetPositionMarginHistoryService) Limit(limit int64) *GetPositionMarginH
 // Do send request
 func (s *GetPositionMarginHistoryService) Do(ctx context.Context, opts ...RequestOption) (res []*PositionMarginHistory, err error) {
 	r := &request{
+		service:  "GetPositionMarginHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/positionMargin/history",
 		secType:  secTypeSigned,

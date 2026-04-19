@@ -23,6 +23,7 @@ func (s *GetAssetDetailService) Asset(asset string) *GetAssetDetailService {
 // Do sends the request.
 func (s *GetAssetDetailService) Do(ctx context.Context) (res map[string]AssetDetail, err error) {
 	r := &request{
+		service:  "GetAssetDetailService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/asset/assetDetail",
 		secType:  secTypeSigned,
@@ -50,6 +51,7 @@ type GetAllCoinsInfoService struct {
 // Do send request
 func (s *GetAllCoinsInfoService) Do(ctx context.Context) (res []*CoinInfo, err error) {
 	r := &request{
+		service:  "GetAllCoinsInfoService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/capital/config/getall",
 		secType:  secTypeSigned,
@@ -145,6 +147,7 @@ type UserAssetRecord struct {
 
 func (s *GetUserAssetService) Do(ctx context.Context) (res []UserAssetRecord, err error) {
 	r := &request{
+		service:  "GetUserAssetService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v3/asset/getUserAsset",
 		secType:  secTypeSigned,

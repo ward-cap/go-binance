@@ -56,6 +56,7 @@ func (s *ContinuousKlinesService) EndTime(endTime int64) *ContinuousKlinesServic
 // Do send request
 func (s *ContinuousKlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*ContinuousKline, err error) {
 	r := &request{
+		service:  "ContinuousKlinesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/continuousKlines",
 	}

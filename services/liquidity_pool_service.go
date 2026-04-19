@@ -13,6 +13,7 @@ type GetAllLiquidityPoolService struct {
 // Do send request
 func (s *GetAllLiquidityPoolService) Do(ctx context.Context, opts ...RequestOption) ([]*LiquidityPool, error) {
 	r := &request{
+		service:  "GetAllLiquidityPoolService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/pools",
 		secType:  secTypeAPIKey,
@@ -63,6 +64,7 @@ type PoolShareInformation struct {
 // Do sends the request.
 func (s *GetLiquidityPoolDetailService) Do(ctx context.Context) ([]*LiquidityPoolDetail, error) {
 	r := &request{
+		service:  "GetLiquidityPoolDetailService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/liquidity",
 		secType:  secTypeSigned,
@@ -129,6 +131,7 @@ type AddLiquidityPreviewResponse struct {
 // Do sends the request.
 func (s *AddLiquidityPreviewService) Do(ctx context.Context) (*AddLiquidityPreviewResponse, error) {
 	r := &request{
+		service:  "AddLiquidityPreviewService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/addLiquidityPreview",
 		secType:  secTypeSigned,
@@ -190,6 +193,7 @@ type GetSwapQuoteResponse struct {
 // Do sends the request.
 func (s *GetSwapQuoteService) Do(ctx context.Context) (*GetSwapQuoteResponse, error) {
 	r := &request{
+		service:  "GetSwapQuoteService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/quote",
 		secType:  secTypeSigned,
@@ -244,6 +248,7 @@ type SwapResponse struct {
 // Do sends the request.
 func (s *SwapService) Do(ctx context.Context) (*SwapResponse, error) {
 	r := &request{
+		service:  "SwapService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/bswap/swap",
 		secType:  secTypeSigned,
@@ -333,6 +338,7 @@ func (s *GetUserSwapRecordsService) ResultSize(resultSize int64) *GetUserSwapRec
 // Do sends the request.
 func (s *GetUserSwapRecordsService) Do(ctx context.Context) ([]*SwapRecord, error) {
 	r := &request{
+		service:  "GetUserSwapRecordsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/swap",
 		secType:  secTypeSigned,
@@ -412,6 +418,7 @@ type AddLiquidityResponse struct {
 // Do sends the request.
 func (s *AddLiquidityService) Do(ctx context.Context) (*AddLiquidityResponse, error) {
 	r := &request{
+		service:  "AddLiquidityService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/bswap/liquidityAdd",
 		secType:  secTypeSigned,
@@ -474,6 +481,7 @@ type RemoveLiquidityResponse struct {
 // Do sends the request.
 func (s *RemoveLiquidityService) Do(ctx context.Context) (*RemoveLiquidityResponse, error) {
 	r := &request{
+		service:  "RemoveLiquidityService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/bswap/liquidityRemove",
 		secType:  secTypeSigned,
@@ -517,6 +525,7 @@ type ClaimRewardResponse struct {
 // Do sends the request.
 func (s *ClaimRewardService) Do(ctx context.Context) (*ClaimRewardResponse, error) {
 	r := &request{
+		service:  "ClaimRewardService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/bswap/claimRewards",
 		secType:  secTypeSigned,
@@ -596,6 +605,7 @@ type ClaimedRewardHistory struct {
 // Do sends the request.
 func (s *QueryClaimedRewardHistoryService) Do(ctx context.Context) ([]*ClaimedRewardHistory, error) {
 	r := &request{
+		service:  "QueryClaimedRewardHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bswap/claimedHistory",
 		secType:  secTypeSigned,

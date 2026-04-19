@@ -30,6 +30,7 @@ type ReferralOverviewResponse struct {
 // Do send request
 func (s *ReferralOverview) Do(ctx context.Context, opts ...RequestOption) (res ReferralOverviewResponse, err error) {
 	r := &request{
+		service:  "ReferralOverview",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/apiReferral/overview",
 		secType:  secTypeSigned,

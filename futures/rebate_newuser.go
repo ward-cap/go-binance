@@ -28,6 +28,7 @@ func (s *GetRebateNewUserService) Type(type_future int) *GetRebateNewUserService
 // Do send request
 func (s *GetRebateNewUserService) Do(ctx context.Context, opts ...RequestOption) (res *RebateNewUser, err error) {
 	r := &request{
+		service:  "GetRebateNewUserService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/apiReferral/ifNewUser",
 		secType:  secTypeSigned,

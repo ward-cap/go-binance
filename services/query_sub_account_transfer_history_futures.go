@@ -57,6 +57,7 @@ type AccountTransferHistoryFuturesResponse struct {
 
 func (s *SubAccountTransferHistoryFuturesService) Do(ctx context.Context, opts ...RequestOption) (res AccountTransferHistoryFuturesResponse, err error) {
 	r := &request{
+		service:  "SubAccountTransferHistoryFuturesService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/transfer/futures",
 		secType:  secTypeSigned,

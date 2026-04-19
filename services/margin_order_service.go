@@ -104,6 +104,7 @@ func (s *CreateMarginOrderService) SideEffectType(sideEffectType SideEffectType)
 // Do send request
 func (s *CreateMarginOrderService) Do(ctx context.Context, opts ...RequestOption) (res *CreateOrderResponse, err error) {
 	r := &request{
+		service:  "CreateMarginOrderService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/margin/order",
 		secType:  secTypeSigned,
@@ -203,6 +204,7 @@ func (s *CancelMarginOrderService) NewClientOrderID(newClientOrderID string) *Ca
 // Do send request
 func (s *CancelMarginOrderService) Do(ctx context.Context, opts ...RequestOption) (res *CancelMarginOrderResponse, err error) {
 	r := &request{
+		service:  "CancelMarginOrderService",
 		method:   http.MethodDelete,
 		endpoint: "/sapi/v1/margin/order",
 		secType:  secTypeSigned,
@@ -273,6 +275,7 @@ func (s *GetMarginOrderService) OrigClientOrderID(origClientOrderID string) *Get
 // Do send request
 func (s *GetMarginOrderService) Do(ctx context.Context, opts ...RequestOption) (res *Order, err error) {
 	r := &request{
+		service:  "GetMarginOrderService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/margin/order",
 		secType:  secTypeSigned,
@@ -322,6 +325,7 @@ func (s *ListMarginOpenOrdersService) IsIsolated(isIsolated bool) *ListMarginOpe
 // Do send request
 func (s *ListMarginOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*Order, err error) {
 	r := &request{
+		service:  "ListMarginOpenOrdersService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/margin/openOrders",
 		secType:  secTypeSigned,
@@ -395,6 +399,7 @@ func (s *ListMarginOrdersService) Limit(limit int) *ListMarginOrdersService {
 // Do send request
 func (s *ListMarginOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*Order, err error) {
 	r := &request{
+		service:  "ListMarginOrdersService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/margin/allOrders",
 		secType:  secTypeSigned,
@@ -557,6 +562,7 @@ func (s *CreateMarginOCOService) SideEffectType(sideEffectType SideEffectType) *
 
 func (s *CreateMarginOCOService) createOrder(ctx context.Context, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "CreateMarginOCOService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/margin/order/oco",
 		secType:  secTypeSigned,
@@ -709,6 +715,7 @@ func (s *CancelMarginOCOService) NewClientOrderID(newClientOrderID string) *Canc
 // Do send request
 func (s *CancelMarginOCOService) Do(ctx context.Context, opts ...RequestOption) (res *CancelMarginOCOResponse, err error) {
 	r := &request{
+		service:  "CancelMarginOCOService",
 		method:   http.MethodDelete,
 		endpoint: "/sapi/v1/margin/orderList",
 		secType:  secTypeSigned,

@@ -55,6 +55,7 @@ func (s *GetIncomeHistoryService) Page(page int64) *GetIncomeHistoryService {
 // Do send request
 func (s *GetIncomeHistoryService) Do(ctx context.Context, opts ...RequestOption) (res []*IncomeHistory, err error) {
 	r := &request{
+		service:  "GetIncomeHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/income",
 		secType:  secTypeSigned,

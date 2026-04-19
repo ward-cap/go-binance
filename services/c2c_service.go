@@ -48,6 +48,7 @@ func (s *C2CTradeHistoryService) Rows(rows int32) *C2CTradeHistoryService {
 // Do send request
 func (s *C2CTradeHistoryService) Do(ctx context.Context, opts ...RequestOption) (*C2CTradeHistory, error) {
 	r := &request{
+		service:  "C2CTradeHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/c2c/orderMatch/listUserOrderHistory",
 		secType:  secTypeSigned,

@@ -23,6 +23,7 @@ type GetAllAssetsResponse struct {
 
 func (s *GetAllAssetsService) Do(ctx context.Context) (res GetAllAssetsResponse, err error) {
 	r := &request{
+		service:  "GetAllAssetsService",
 		method:   http.MethodGet,
 		endpoint: "/bapi/asset/v2/public/asset/asset/get-all-asset",
 	}

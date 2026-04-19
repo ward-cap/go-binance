@@ -58,6 +58,7 @@ func (s *InternalUniversalTransferService) ClientTranId(v string) *InternalUnive
 
 func (s *InternalUniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (*InternalUniversalTransferResponse, error) {
 	r := &request{
+		service:  "InternalUniversalTransferService",
 		method:   "POST",
 		endpoint: "/sapi/v1/sub-account/universalTransfer",
 		secType:  secTypeSigned,
@@ -150,6 +151,7 @@ func (s *InternalUniversalTransferHistoryService) ClientTranId(v string) *Intern
 
 func (s *InternalUniversalTransferHistoryService) Do(ctx context.Context, opts ...RequestOption) (res InternalUniversalTransferHistoryResponse, err error) {
 	r := &request{
+		service:  "InternalUniversalTransferHistoryService",
 		method:   "GET",
 		endpoint: "/sapi/v1/sub-account/universalTransfer",
 		secType:  secTypeSigned,

@@ -13,6 +13,7 @@ type StartUserStreamService struct {
 // Do send request
 func (s *StartUserStreamService) Do(ctx context.Context, opts ...RequestOption) (listenKey string, err error) {
 	r := &request{
+		service:  "StartUserStreamService",
 		method:   http.MethodPost,
 		endpoint: "/api/v3/userDataStream",
 		secType:  secTypeAPIKey,
@@ -44,6 +45,7 @@ func (s *KeepaliveUserStreamService) ListenKey(listenKey string) *KeepaliveUserS
 // Do send request
 func (s *KeepaliveUserStreamService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "KeepaliveUserStreamService",
 		method:   http.MethodPut,
 		endpoint: "/api/v3/userDataStream",
 		secType:  secTypeAPIKey,
@@ -68,6 +70,7 @@ func (s *CloseUserStreamService) ListenKey(listenKey string) *CloseUserStreamSer
 // Do send request
 func (s *CloseUserStreamService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "CloseUserStreamService",
 		method:   http.MethodDelete,
 		endpoint: "/api/v3/userDataStream",
 		secType:  secTypeAPIKey,

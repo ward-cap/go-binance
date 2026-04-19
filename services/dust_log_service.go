@@ -39,6 +39,7 @@ func (s *ListDustLogService) EndTime(endTime int64) *ListDustLogService {
 // Do sends the request.
 func (s *ListDustLogService) Do(ctx context.Context) (withdraws *DustResult, err error) {
 	r := &request{
+		service:  "ListDustLogService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/asset/dribblet",
 		secType:  secTypeSigned,
@@ -102,6 +103,7 @@ func (s *DustTransferService) Asset(asset []string) *DustTransferService {
 // Do sends the request.
 func (s *DustTransferService) Do(ctx context.Context) (withdraws *DustTransferResponse, err error) {
 	r := &request{
+		service:  "DustTransferService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/asset/dust",
 		secType:  secTypeSigned,
@@ -147,6 +149,7 @@ type ListDustService struct {
 // Do sends the request.
 func (s *ListDustService) Do(ctx context.Context) (res *ListDustResponse, err error) {
 	r := &request{
+		service:  "ListDustService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/asset/dust-btc",
 		secType:  secTypeSigned,

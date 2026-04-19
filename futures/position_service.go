@@ -29,6 +29,7 @@ func (s *ChangeLeverageService) Leverage(leverage int) *ChangeLeverageService {
 // Do send request
 func (s *ChangeLeverageService) Do(ctx context.Context, opts ...RequestOption) (res *SymbolLeverage, err error) {
 	r := &request{
+		service:    "ChangeLeverageService",
 		method:     http.MethodPost,
 		endpoint:   "/fapi/v1/leverage",
 		secType:    secTypeSigned,
@@ -79,6 +80,7 @@ func (s *ChangeMarginTypeService) MarginType(marginType MarginType) *ChangeMargi
 // Do send request
 func (s *ChangeMarginTypeService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "ChangeMarginTypeService",
 		method:   http.MethodPost,
 		endpoint: "/fapi/v1/marginType",
 		secType:  secTypeSigned,
@@ -130,6 +132,7 @@ func (s *UpdatePositionMarginService) Type(actionType int) *UpdatePositionMargin
 // Do send request
 func (s *UpdatePositionMarginService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "UpdatePositionMarginService",
 		method:   http.MethodPost,
 		endpoint: "/fapi/v1/positionMargin",
 		secType:  secTypeSigned,
@@ -166,6 +169,7 @@ func (s *ChangePositionModeService) DualSide(dualSide bool) *ChangePositionModeS
 // Do send request
 func (s *ChangePositionModeService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "ChangePositionModeService",
 		method:   http.MethodPost,
 		endpoint: "/fapi/v1/positionSide/dual",
 		secType:  secTypeSigned,
@@ -193,6 +197,7 @@ type PositionMode struct {
 // Do send request
 func (s *GetPositionModeService) Do(ctx context.Context, opts ...RequestOption) (res *PositionMode, err error) {
 	r := &request{
+		service:  "GetPositionModeService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/positionSide/dual",
 		secType:  secTypeSigned,
@@ -225,6 +230,7 @@ func (s *ChangeMultiAssetModeService) MultiAssetsMargin(multiAssetsMargin bool) 
 // Do send request
 func (s *ChangeMultiAssetModeService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "ChangeMultiAssetModeService",
 		method:   http.MethodPost,
 		endpoint: "/fapi/v1/multiAssetsMargin",
 		secType:  secTypeSigned,
@@ -252,6 +258,7 @@ type MultiAssetMode struct {
 // Do send request
 func (s *GetMultiAssetModeService) Do(ctx context.Context, opts ...RequestOption) (res *MultiAssetMode, err error) {
 	r := &request{
+		service:  "GetMultiAssetModeService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/multiAssetsMargin",
 		secType:  secTypeSigned,

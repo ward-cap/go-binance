@@ -19,6 +19,7 @@ type EnableFuturesForSubAccountService struct {
 
 func (s *EnableFuturesForSubAccountService) Do(ctx context.Context, opts ...RequestOption) error {
 	r := &request{
+		service:  "EnableFuturesForSubAccountService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/subAccount/futures",
 		secType:  secTypeSigned,

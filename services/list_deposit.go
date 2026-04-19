@@ -39,6 +39,7 @@ type ListDepositsService struct {
 
 func (s *ListDepositsService) Do(ctx context.Context) (res []*Deposit, err error) {
 	r := &request{
+		service:  "ListDepositsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/capital/deposit/hisrec",
 		secType:  secTypeSigned,

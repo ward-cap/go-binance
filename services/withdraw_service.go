@@ -73,6 +73,7 @@ func (s *CreateWithdrawService) Name(v string) *CreateWithdrawService {
 // Do sends the request.
 func (s *CreateWithdrawService) Do(ctx context.Context) (*CreateWithdrawResponse, error) {
 	r := &request{
+		service:  "CreateWithdrawService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/capital/withdraw/apply",
 		secType:  secTypeSigned,
@@ -175,6 +176,7 @@ func (s *ListWithdrawsService) Limit(limit int) *ListWithdrawsService {
 // Do sends the request.
 func (s *ListWithdrawsService) Do(ctx context.Context) (res []*Withdraw, err error) {
 	r := &request{
+		service:  "ListWithdrawsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/capital/withdraw/history",
 		secType:  secTypeSigned,

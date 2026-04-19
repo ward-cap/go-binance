@@ -24,6 +24,7 @@ func (s *PremiumIndexService) Symbol(symbol string) *PremiumIndexService {
 // Do send request
 func (s *PremiumIndexService) Do(ctx context.Context, opts ...RequestOption) (res []*PremiumIndex, err error) {
 	r := &request{
+		service:  "PremiumIndexService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/premiumIndex",
 		secType:  secTypeNone,
@@ -89,6 +90,7 @@ func (s *FundingRateService) Limit(limit int) *FundingRateService {
 // Do send request
 func (s *FundingRateService) Do(ctx context.Context, opts ...RequestOption) (res []*FundingRate, err error) {
 	r := &request{
+		service:  "FundingRateService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/fundingRate",
 		secType:  secTypeNone,
@@ -138,6 +140,7 @@ func (s *GetLeverageBracketService) Symbol(symbol string) *GetLeverageBracketSer
 // Do send request
 func (s *GetLeverageBracketService) Do(ctx context.Context, opts ...RequestOption) (res []*LeverageBracket, err error) {
 	r := &request{
+		service:  "GetLeverageBracketService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/leverageBracket",
 		secType:  secTypeSigned,

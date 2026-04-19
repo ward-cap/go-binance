@@ -35,6 +35,7 @@ func (s *TransferToSubAccountService) Amount(amount string) *TransferToSubAccoun
 
 func (s *TransferToSubAccountService) transferToSubaccount(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "TransferToSubAccountService",
 		method:   "POST",
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -98,6 +99,7 @@ func (s *SubaccountDepositAddressService) Network(network string) *SubaccountDep
 
 func (s *SubaccountDepositAddressService) subaccountDepositAddress(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "SubaccountDepositAddressService",
 		method:   "GET",
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -149,6 +151,7 @@ func (s *SubaccountAssetsService) Email(email string) *SubaccountAssetsService {
 
 func (s *SubaccountAssetsService) subaccountAssets(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "SubaccountAssetsService",
 		method:   "GET",
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -214,6 +217,7 @@ func (s *SubaccountSpotSummaryService) Size(size int32) *SubaccountSpotSummarySe
 
 func (s *SubaccountSpotSummaryService) subaccountSpotSummary(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "SubaccountSpotSummaryService",
 		method:   "GET",
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -294,6 +298,7 @@ func (s *SubAccountListService) Limit(v int) *SubAccountListService {
 
 func (s *SubAccountListService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountList, err error) {
 	r := &request{
+		service:  "SubAccountListService",
 		method:   "GET",
 		endpoint: "/sapi/v1/sub-account/list",
 		secType:  secTypeSigned,
@@ -372,6 +377,7 @@ type ManagedSubAccountDepositResponse struct {
 // Do send request
 func (s *ManagedSubAccountDepositService) Do(ctx context.Context, opts ...RequestOption) (*ManagedSubAccountDepositResponse, error) {
 	r := &request{
+		service:  "ManagedSubAccountDepositService",
 		method:   "POST",
 		endpoint: "/sapi/v1/managed-subaccount/deposit",
 		secType:  secTypeSigned,
@@ -432,6 +438,7 @@ type ManagedSubAccountWithdrawalResponse struct {
 // Do send request
 func (s *ManagedSubAccountWithdrawalService) Do(ctx context.Context, opts ...RequestOption) (*ManagedSubAccountWithdrawalResponse, error) {
 	r := &request{
+		service:  "ManagedSubAccountWithdrawalService",
 		method:   "POST",
 		endpoint: "/sapi/v1/managed-subaccount/withdraw",
 		secType:  secTypeSigned,
@@ -481,6 +488,7 @@ type ManagedSubAccountAsset struct {
 
 func (s *ManagedSubAccountAssetsService) Do(ctx context.Context, opts ...RequestOption) ([]*ManagedSubAccountAsset, error) {
 	r := &request{
+		service:  "ManagedSubAccountAssetsService",
 		method:   "GET",
 		endpoint: "/sapi/v1/managed-subaccount/asset",
 		secType:  secTypeSigned,
@@ -515,6 +523,7 @@ func (s *SubAccountFuturesAccountService) Email(v string) *SubAccountFuturesAcco
 
 func (s *SubAccountFuturesAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountFuturesAccount, err error) {
 	r := &request{
+		service:  "SubAccountFuturesAccountService",
 		method:   "GET",
 		endpoint: "/sapi/v1/sub-account/futures/account",
 		secType:  secTypeSigned,
@@ -573,6 +582,7 @@ type SubAccountFuturesSummaryV1Service struct {
 
 func (s *SubAccountFuturesSummaryV1Service) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountFuturesSummaryV1, err error) {
 	r := &request{
+		service:  "SubAccountFuturesSummaryV1Service",
 		method:   "GET",
 		endpoint: "/sapi/v1/sub-account/futures/accountSummary",
 		secType:  secTypeSigned,
@@ -651,6 +661,7 @@ func (s *QuerySubAccountService) Page(page uint64) *QuerySubAccountService {
 // Do send request
 func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) (res []*QuerySubAccountResponse, err error) {
 	r := &request{
+		service:  "QuerySubAccountService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/subAccount",
 		secType:  secTypeSigned,
@@ -679,6 +690,7 @@ func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) 
 // Do send request
 func (s *CreateSubAccountService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountResponse, err error) {
 	r := &request{
+		service:  "CreateSubAccountService",
 		method:   "POST",
 		endpoint: "/sapi/v1/broker/subAccount",
 		secType:  secTypeSigned,
@@ -740,6 +752,7 @@ func (s *SubAccountApiKeyService) SubAccountID(subAccountID string) *SubAccountA
 // Do send request
 func (s *SubAccountApiKeyService) Do(ctx context.Context, opts ...RequestOption) (res *SubAccountAPIKeyResponse, err error) {
 	r := &request{
+		service:  "SubAccountApiKeyService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/subAccountApi",
 		secType:  secTypeSigned,

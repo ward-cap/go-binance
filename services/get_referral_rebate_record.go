@@ -50,6 +50,7 @@ type ReferralRebateRecordResponse struct {
 
 func (s *GetReferralRebateRecord) Do(ctx context.Context, opts ...RequestOption) (res []*ReferralRebateRecordResponse, err error) {
 	r := &request{
+		service:  "GetReferralRebateRecord",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/apiReferral/rebate/recentRecord",
 		secType:  secTypeSigned,

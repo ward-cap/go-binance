@@ -27,6 +27,7 @@ type ChangeSubAccountApiUniversalTransferService struct {
 
 func (s *ChangeSubAccountApiUniversalTransferService) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
+		service:  "ChangeSubAccountApiUniversalTransferService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/subAccountApi/permission/universalTransfer",
 		secType:  secTypeSigned,

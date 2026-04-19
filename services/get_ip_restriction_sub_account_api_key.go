@@ -21,6 +21,7 @@ type GetIPRestrictionSubAccountAPIKeyService struct {
 
 func (s *GetIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts ...RequestOption) (d GetIPRestrictionSubAccountAPIKeyResponse, _ error) {
 	r := &request{
+		service:  "GetIPRestrictionSubAccountAPIKeyService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/subAccountApi/ipRestriction",
 		secType:  secTypeSigned,

@@ -3,8 +3,9 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"github.com/shopspring/decimal"
 	"net/http"
+
+	"github.com/shopspring/decimal"
 
 	"github.com/ward-cap/go-binance/common"
 )
@@ -24,6 +25,7 @@ func (s *ListBookTickersService) Symbol(symbol string) *ListBookTickersService {
 // Do send request
 func (s *ListBookTickersService) Do(ctx context.Context, opts ...RequestOption) (res []*BookTicker, err error) {
 	r := &request{
+		service:  "ListBookTickersService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/ticker/bookTicker",
 	}
@@ -67,6 +69,7 @@ func (s *ListPricesService) Symbol(symbol string) *ListPricesService {
 // Do send request
 func (s *ListPricesService) Do(ctx context.Context, opts ...RequestOption) (res []*SymbolPrice, err error) {
 	r := &request{
+		service:  "ListPricesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v2/ticker/price",
 	}
@@ -107,6 +110,7 @@ func (s *ListPriceChangeStatsService) Symbol(symbol string) *ListPriceChangeStat
 // Do send request
 func (s *ListPriceChangeStatsService) Do(ctx context.Context, opts ...RequestOption) (res []*PriceChangeStats, err error) {
 	r := &request{
+		service:  "ListPriceChangeStatsService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/ticker/24hr",
 	}

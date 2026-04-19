@@ -99,6 +99,7 @@ func (s *CreateOrderService) NewOrderRespType(newOrderRespType NewOrderRespType)
 
 func (s *CreateOrderService) createOrder(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "CreateOrderService",
 		method:   http.MethodPost,
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -293,6 +294,7 @@ func (s *CreateOCOService) NewOrderRespType(newOrderRespType NewOrderRespType) *
 
 func (s *CreateOCOService) createOrder(ctx context.Context, endpoint string, opts ...RequestOption) (data []byte, err error) {
 	r := &request{
+		service:  "CreateOCOService",
 		method:   http.MethodPost,
 		endpoint: endpoint,
 		secType:  secTypeSigned,
@@ -411,6 +413,7 @@ type Oco struct {
 // Do send request
 func (s *ListOpenOcoService) Do(ctx context.Context, opts ...RequestOption) (res []*Oco, err error) {
 	r := &request{
+		service:  "ListOpenOcoService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/openOrderList",
 		secType:  secTypeSigned,
@@ -442,6 +445,7 @@ func (s *ListOpenOrdersService) Symbol(symbol string) *ListOpenOrdersService {
 // Do send request
 func (s *ListOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*Order, err error) {
 	r := &request{
+		service:  "ListOpenOrdersService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/openOrders",
 		secType:  secTypeSigned,
@@ -490,6 +494,7 @@ func (s *GetOrderService) OrigClientOrderID(origClientOrderID string) *GetOrderS
 // Do send request
 func (s *GetOrderService) Do(ctx context.Context, opts ...RequestOption) (res *Order, err error) {
 	r := &request{
+		service:  "GetOrderService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/order",
 		secType:  secTypeSigned,
@@ -579,6 +584,7 @@ func (s *ListOrdersService) Limit(limit int) *ListOrdersService {
 // Do send request
 func (s *ListOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*Order, err error) {
 	r := &request{
+		service:  "ListOrdersService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/allOrders",
 		secType:  secTypeSigned,
@@ -644,6 +650,7 @@ func (s *CancelOrderService) NewClientOrderID(newClientOrderID string) *CancelOr
 // Do send request
 func (s *CancelOrderService) Do(ctx context.Context, opts ...RequestOption) (res *CancelOrderResponse, err error) {
 	r := &request{
+		service:  "CancelOrderService",
 		method:   http.MethodDelete,
 		endpoint: "/api/v3/order",
 		secType:  secTypeSigned,
@@ -706,6 +713,7 @@ func (s *CancelOCOService) NewClientOrderID(newClientOrderID string) *CancelOCOS
 // Do send request
 func (s *CancelOCOService) Do(ctx context.Context, opts ...RequestOption) (res *CancelOCOResponse, err error) {
 	r := &request{
+		service:  "CancelOCOService",
 		method:   http.MethodDelete,
 		endpoint: "/api/v3/orderList",
 		secType:  secTypeSigned,
@@ -747,6 +755,7 @@ func (s *CancelOpenOrdersService) Symbol(symbol string) *CancelOpenOrdersService
 // Do send request
 func (s *CancelOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (res *CancelOpenOrdersResponse, err error) {
 	r := &request{
+		service:  "CancelOpenOrdersService",
 		method:   http.MethodDelete,
 		endpoint: "/api/v3/openOrders",
 		secType:  secTypeSigned,

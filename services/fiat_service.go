@@ -48,6 +48,7 @@ func (s *FiatDepositWithdrawHistoryService) Rows(rows int32) *FiatDepositWithdra
 // Do send request
 func (s *FiatDepositWithdrawHistoryService) Do(ctx context.Context, opts ...RequestOption) (*FiatDepositWithdrawHistory, error) {
 	r := &request{
+		service:  "FiatDepositWithdrawHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/fiat/orders",
 		secType:  secTypeSigned,
@@ -141,6 +142,7 @@ func (s *FiatPaymentsHistoryService) Rows(rows int32) *FiatPaymentsHistoryServic
 // Do send request
 func (s *FiatPaymentsHistoryService) Do(ctx context.Context, opts ...RequestOption) (*FiatPaymentsHistory, error) {
 	r := &request{
+		service:  "FiatPaymentsHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/fiat/payments",
 		secType:  secTypeSigned,

@@ -49,6 +49,7 @@ func (mpks *MarkPriceKlinesService) EndTime(endTime int64) *MarkPriceKlinesServi
 // Do send request
 func (mpks *MarkPriceKlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*Kline, err error) {
 	r := &request{
+		service:  "MarkPriceKlinesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/markPriceKlines",
 	}

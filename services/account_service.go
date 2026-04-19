@@ -13,6 +13,7 @@ type GetAccountService struct {
 // Do send request
 func (s *GetAccountService) Do(ctx context.Context, opts ...RequestOption) (res *Account, err error) {
 	r := &request{
+		service:  "GetAccountService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/account",
 		secType:  secTypeSigned,
@@ -95,6 +96,7 @@ func (s *GetAccountSnapshotService) Limit(limit int) *GetAccountSnapshotService 
 // Do send request
 func (s *GetAccountSnapshotService) Do(ctx context.Context, opts ...RequestOption) (res *Snapshot, err error) {
 	r := &request{
+		service:  "GetAccountSnapshotService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/accountSnapshot",
 		secType:  secTypeSigned,
@@ -190,6 +192,7 @@ type GetAPIKeyPermission struct {
 // Do send request
 func (s *GetAPIKeyPermission) Do(ctx context.Context, opts ...RequestOption) (res *APIKeyPermission, err error) {
 	r := &request{
+		service:  "GetAPIKeyPermission",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/account/apiRestrictions",
 		secType:  secTypeSigned,

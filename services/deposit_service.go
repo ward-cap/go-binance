@@ -45,6 +45,7 @@ func (s *GetDepositsAddressService) Network(network string) *GetDepositsAddressS
 // Do sends the request.
 func (s *GetDepositsAddressService) Do(ctx context.Context) (*GetDepositAddressResponse, error) {
 	r := &request{
+		service:  "GetDepositsAddressService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/capital/deposit/address",
 		secType:  secTypeSigned,

@@ -13,6 +13,7 @@ type GetBNBBurnService struct {
 // Do send request
 func (s *GetBNBBurnService) Do(ctx context.Context, opts ...RequestOption) (*BNBBurn, error) {
 	r := &request{
+		service:  "GetBNBBurnService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/bnbBurn",
 		secType:  secTypeSigned,
@@ -57,6 +58,7 @@ func (s *ToggleBNBBurnService) InterestBNBBurn(v bool) *ToggleBNBBurnService {
 // Do send request
 func (s *ToggleBNBBurnService) Do(ctx context.Context, opts ...RequestOption) (*BNBBurn, error) {
 	r := &request{
+		service:  "ToggleBNBBurnService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/bnbBurn",
 		secType:  secTypeSigned,

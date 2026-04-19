@@ -49,6 +49,7 @@ func (s *KlinesService) EndTime(endTime int64) *KlinesService {
 // Do send request
 func (s *KlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*Kline, err error) {
 	r := &request{
+		service:  "KlinesService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/klines",
 	}

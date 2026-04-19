@@ -33,6 +33,7 @@ type SubAccountTransferSpotService struct {
 
 func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestOption) (res AccountTransferSpotResponse, err error) {
 	r := &request{
+		service:  "SubAccountTransferSpotService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/broker/transfer",
 		secType:  secTypeSigned,

@@ -14,6 +14,7 @@ type RateLimitService struct {
 func (s *RateLimitService) Do(ctx context.Context, opts ...RequestOption) (res []*RateLimitFull, err error) {
 	res = make([]*RateLimitFull, 0)
 	r := &request{
+		service:  "RateLimitService",
 		method:   http.MethodGet,
 		endpoint: "/api/v3/rateLimit/order",
 		secType:  secTypeSigned,

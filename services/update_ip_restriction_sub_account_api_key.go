@@ -29,6 +29,7 @@ type UpdateIPRestrictionSubAccountAPIKeyService struct {
 
 func (s *UpdateIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opts ...RequestOption) (def UpdateIPRestrictionSubAccountAPIKeyResponse, _ error) {
 	r := &request{
+		service:  "UpdateIPRestrictionSubAccountAPIKeyService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v2/sub-account/subAccountApi/ipRestriction",
 		secType:  secTypeSigned,

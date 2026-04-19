@@ -42,6 +42,7 @@ type BrokerCommissionRebateResponse struct {
 
 func (s *QueryBrokerSpotCommissionRebateService) Do(ctx context.Context, opts ...RequestOption) (d []BrokerCommissionRebateResponse, _ error) {
 	r := &request{
+		service:  "QueryBrokerSpotCommissionRebateService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/rebate/recentRecord",
 		secType:  secTypeSigned,

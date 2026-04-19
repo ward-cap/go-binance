@@ -49,6 +49,7 @@ func (piks *PremiumIndexKlinesService) EndTime(endTime int64) *PremiumIndexKline
 // Do send request
 func (piks *PremiumIndexKlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*Kline, err error) {
 	r := &request{
+		service:  "PremiumIndexKlinesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/premiumIndexKlines",
 	}

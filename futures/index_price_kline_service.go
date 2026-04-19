@@ -49,6 +49,7 @@ func (ipks *IndexPriceKlinesService) EndTime(endTime int64) *IndexPriceKlinesSer
 // Do send request
 func (ipks *IndexPriceKlinesService) Do(ctx context.Context, opts ...RequestOption) (res []*Kline, err error) {
 	r := &request{
+		service:  "IndexPriceKlinesService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/indexPriceKlines",
 	}

@@ -14,6 +14,7 @@ type OpenAlgoOrdersService struct {
 // Do send request
 func (s *OpenAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*AlgoOrders, err error) {
 	r := &request{
+		service:  "OpenAlgoOrdersService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/openAlgoOrders",
 		secType:  secTypeSigned,
@@ -86,6 +87,7 @@ func (s *CloseAlgoOrdersService) SetSymbol(symbol string) *CloseAlgoOrdersServic
 
 func (s *CloseAlgoOrdersService) Do(ctx context.Context, opts ...RequestOption) (res CloseAlgoOrderResponse, err error) {
 	r := &request{
+		service: "CloseAlgoOrdersService",
 		method:  http.MethodDelete,
 		secType: secTypeSigned,
 	}

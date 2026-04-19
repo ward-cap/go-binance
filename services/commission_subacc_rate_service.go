@@ -32,6 +32,7 @@ func (s *CommissionSubAccountRateService) Do(
 	opts ...RequestOption,
 ) (res []CommissionRateSubAccount, err error) {
 	r := &request{
+		service:  "CommissionSubAccountRateService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/broker/subAccountApi/commission/futures",
 		secType:  secTypeSigned,

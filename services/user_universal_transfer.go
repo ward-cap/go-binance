@@ -58,6 +58,7 @@ func (s *CreateUserUniversalTransferService) ToSymbol(v string) *CreateUserUnive
 // Do sends the request.
 func (s *CreateUserUniversalTransferService) Do(ctx context.Context) (*CreateUserUniversalTransferResponse, error) {
 	r := &request{
+		service:  "CreateUserUniversalTransferService",
 		method:   "POST",
 		endpoint: "/sapi/v1/asset/transfer",
 		secType:  secTypeSigned,

@@ -33,6 +33,7 @@ func (s *ConvertTradeHistoryService) Limit(limit int32) *ConvertTradeHistoryServ
 // Do send request
 func (s *ConvertTradeHistoryService) Do(ctx context.Context, opts ...RequestOption) (*ConvertTradeHistory, error) {
 	r := &request{
+		service:  "ConvertTradeHistoryService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/convert/tradeFlow",
 		secType:  secTypeSigned,

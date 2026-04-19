@@ -16,6 +16,7 @@ type GetListingResponse struct {
 
 func (s *ListingService) Do(ctx context.Context) (res []GetListingResponse, err error) {
 	r := &request{
+		service:  "ListingService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/spot/open-symbol-list",
 		secType:  secTypeSigned,

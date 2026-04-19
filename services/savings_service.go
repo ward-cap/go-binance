@@ -41,6 +41,7 @@ func (s *ListSavingsFlexibleProductsService) Size(size int64) *ListSavingsFlexib
 // Do send request
 func (s *ListSavingsFlexibleProductsService) Do(ctx context.Context, opts ...RequestOption) ([]*SavingsFlexibleProduct, error) {
 	r := &request{
+		service:  "ListSavingsFlexibleProductsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/lending/daily/product/list",
 		secType:  secTypeSigned,
@@ -109,6 +110,7 @@ func (s *PurchaseSavingsFlexibleProductService) Amount(amount float64) *Purchase
 // Do send request
 func (s *PurchaseSavingsFlexibleProductService) Do(ctx context.Context, opts ...RequestOption) (uint64, error) {
 	r := &request{
+		service:  "PurchaseSavingsFlexibleProductService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/lending/daily/purchase",
 		secType:  secTypeSigned,
@@ -164,6 +166,7 @@ func (s *RedeemSavingsFlexibleProductService) Type(redeemType string) *RedeemSav
 // Do send request
 func (s *RedeemSavingsFlexibleProductService) Do(ctx context.Context, opts ...RequestOption) error {
 	r := &request{
+		service:  "RedeemSavingsFlexibleProductService",
 		method:   http.MethodPost,
 		endpoint: "/sapi/v1/lending/daily/redeem",
 		secType:  secTypeSigned,
@@ -238,6 +241,7 @@ func (s *ListSavingsFixedAndActivityProductsService) Size(size int64) *ListSavin
 // Do send request
 func (s *ListSavingsFixedAndActivityProductsService) Do(ctx context.Context, opts ...RequestOption) ([]*SavingsFixedProduct, error) {
 	r := &request{
+		service:  "ListSavingsFixedAndActivityProductsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/lending/project/list",
 		secType:  secTypeSigned,
@@ -310,6 +314,7 @@ func (s *SavingFlexibleProductPositionsService) Asset(asset string) *SavingFlexi
 // Do send request
 func (s *SavingFlexibleProductPositionsService) Do(ctx context.Context, opts ...RequestOption) ([]*SavingFlexibleProductPosition, error) {
 	r := &request{
+		service:  "SavingFlexibleProductPositionsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/lending/daily/token/position",
 		secType:  secTypeSigned,
@@ -377,6 +382,7 @@ func (s *SavingFixedProjectPositionsService) ProjectID(projectId string) *Saving
 // Do send request
 func (s *SavingFixedProjectPositionsService) Do(ctx context.Context, opts ...RequestOption) ([]*SavingFixedProjectPosition, error) {
 	r := &request{
+		service:  "SavingFixedProjectPositionsService",
 		method:   http.MethodGet,
 		endpoint: "/sapi/v1/lending/project/position/list",
 		secType:  secTypeSigned,

@@ -20,6 +20,7 @@ func (service *CommissionRateService) Symbol(symbol string) *CommissionRateServi
 // Do send request
 func (s *CommissionRateService) Do(ctx context.Context, opts ...RequestOption) (res *CommissionRate, err error) {
 	r := &request{
+		service:  "CommissionRateService",
 		method:   http.MethodGet,
 		endpoint: "/fapi/v1/commissionRate",
 		secType:  secTypeSigned,
