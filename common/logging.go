@@ -3,6 +3,7 @@ package common
 import (
 	"bytes"
 	"context"
+	"crypto/rand"
 	"io"
 	"net/http"
 	"net/url"
@@ -27,6 +28,36 @@ func AppendTraceFields(ctx context.Context, fields []any) []any {
 		"trace_id", sc.TraceID().String(),
 		"span_id", sc.SpanID().String(),
 	)
+}
+
+func EnsureTraceContext(ctx context.Context) context.Context {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	sc := trace.SpanContextFromContext(ctx)
+	if sc.IsValid() {
+		return ctx
+	}
+
+	var traceID trace.TraceID
+	if _, err := rand.Read(traceID[:]); err != nil {
+		return ctx
+	}
+
+	var spanID trace.SpanID
+	if _, err := rand.Read(spanID[:]); err != nil {
+		return ctx
+	}
+
+	sc = trace.NewSpanContext(trace.SpanContextConfig{
+		TraceID:    traceID,
+		SpanID:     spanID,
+		TraceFlags: trace.FlagsSampled,
+		Remote:     false,
+	})
+
+	return trace.ContextWithSpanContext(ctx, sc)
 }
 
 func SanitizeURL(raw string, hiddenParams ...string) string {

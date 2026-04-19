@@ -116,6 +116,7 @@ func (c *Client) parseRequest(r *request) (err error) {
 }
 
 func (c *Client) callAPI(ctx context.Context, r *request) (data []byte, err error) {
+	ctx = common.EnsureTraceContext(ctx)
 	startedAt := time.Now()
 	service := r.service
 
