@@ -370,7 +370,7 @@ func (c *Client) logAPIRequest(ctx context.Context, service string, r *request, 
 		"http.request.header", common.SanitizeHeaders(req.Header),
 		"http.request.body", common.ReadBodyForLog(r.body),
 	}
-	fields = common.AppendTraceFields(ctx, fields)
+	fields = common.AppendContextField(ctx, fields)
 
 	c.Logger.Debugw("binance api request", fields...)
 }
@@ -391,7 +391,7 @@ func (c *Client) logAPIResponse(ctx context.Context, service string, r *request,
 		"http.response.body", string(data),
 		"event.duration", time.Since(startedAt),
 	}
-	fields = common.AppendTraceFields(ctx, fields)
+	fields = common.AppendContextField(ctx, fields)
 
 	c.Logger.Debugw("binance api response", fields...)
 }
@@ -416,7 +416,7 @@ func (c *Client) logAPIError(ctx context.Context, service string, r *request, re
 		"event.duration", time.Since(startedAt),
 		"error", err,
 	}
-	fields = common.AppendTraceFields(ctx, fields)
+	fields = common.AppendContextField(ctx, fields)
 
 	c.Logger.Errorw("binance api error", fields...)
 }

@@ -12,22 +12,12 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-//const maxLoggedBodySize = 8 * 1024
-
-func AppendTraceFields(ctx context.Context, fields []any) []any {
+func AppendContextField(ctx context.Context, fields []any) []any {
 	if ctx == nil {
 		return fields
 	}
 
-	sc := trace.SpanContextFromContext(ctx)
-	if !sc.IsValid() {
-		return fields
-	}
-
-	return append(fields,
-		"trace_id", sc.TraceID().String(),
-		"span_id", sc.SpanID().String(),
-	)
+	return append(fields, "ctx", ctx)
 }
 
 func StartRequestSpan(ctx context.Context, instrumentationName, spanName string) (context.Context, trace.Span) {
