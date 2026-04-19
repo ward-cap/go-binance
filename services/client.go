@@ -376,9 +376,10 @@ func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
 }
 
 func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption) (data []byte, err error) {
-	ctx = common.EnsureTraceContext(ctx)
 	startedAt := time.Now()
 	service := r.service
+	ctx, span := common.StartRequestSpan(ctx, "go-binance/services", service)
+	defer span.End()
 
 	err = c.parseRequest(r, opts...)
 	if err != nil {

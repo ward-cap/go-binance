@@ -3,12 +3,12 @@ package common
 import (
 	"bytes"
 	"context"
-	"crypto/rand"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -30,34 +30,16 @@ func AppendTraceFields(ctx context.Context, fields []any) []any {
 	)
 }
 
-func EnsureTraceContext(ctx context.Context) context.Context {
+func StartRequestSpan(ctx context.Context, instrumentationName, spanName string) (context.Context, trace.Span) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 
-	sc := trace.SpanContextFromContext(ctx)
-	if sc.IsValid() {
-		return ctx
+	if spanName == "" {
+		spanName = "binance.api"
 	}
 
-	var traceID trace.TraceID
-	if _, err := rand.Read(traceID[:]); err != nil {
-		return ctx
-	}
-
-	var spanID trace.SpanID
-	if _, err := rand.Read(spanID[:]); err != nil {
-		return ctx
-	}
-
-	sc = trace.NewSpanContext(trace.SpanContextConfig{
-		TraceID:    traceID,
-		SpanID:     spanID,
-		TraceFlags: trace.FlagsSampled,
-		Remote:     false,
-	})
-
-	return trace.ContextWithSpanContext(ctx, sc)
+	return otel.Tracer(instrumentationName).Start(ctx, spanName)
 }
 
 func SanitizeURL(raw string, hiddenParams ...string) string {
