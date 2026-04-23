@@ -131,6 +131,7 @@ func (c *Client) callAPI(ctx context.Context, r *request) (data []byte, err erro
 		c.logAPIError(ctx, service, r, nil, startedAt, err)
 		return []byte{}, err
 	}
+	req = req.WithContext(common.WithHTTPConnTrace(req.Context()))
 	req.Header = r.header
 
 	c.logAPIRequest(ctx, service, r, req)
@@ -198,6 +199,9 @@ func (c *Client) logAPIResponse(ctx context.Context, service string, r *request,
 		"http.response.header", common.SanitizeHeaders(res.Header),
 		"http.response.body", string(data),
 		"event.duration", time.Since(startedAt),
+	}
+	if reused, ok := common.HTTPConnReused(req.Context()); ok {
+		fields = append(fields, "http.connection.reused", reused)
 	}
 	fields = common.AppendContextField(ctx, fields)
 

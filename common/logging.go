@@ -5,12 +5,21 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"net/http/httptrace"
 	"net/url"
 	"strings"
+	"sync/atomic"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 )
+
+type httpConnTraceContextKey struct{}
+
+type httpConnTraceState struct {
+	observed atomic.Bool
+	reused   atomic.Bool
+}
 
 func AppendContextField(ctx context.Context, fields []any) []any {
 	if ctx == nil {
@@ -18,6 +27,37 @@ func AppendContextField(ctx context.Context, fields []any) []any {
 	}
 
 	return append(fields, "ctx", ctx)
+}
+
+func WithHTTPConnTrace(ctx context.Context) context.Context {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	state := &httpConnTraceState{}
+	ctx = context.WithValue(ctx, httpConnTraceContextKey{}, state)
+
+	trace := &httptrace.ClientTrace{
+		GotConn: func(info httptrace.GotConnInfo) {
+			state.observed.Store(true)
+			state.reused.Store(info.Reused)
+		},
+	}
+
+	return httptrace.WithClientTrace(ctx, trace)
+}
+
+func HTTPConnReused(ctx context.Context) (reused bool, ok bool) {
+	if ctx == nil {
+		return false, false
+	}
+
+	state, _ := ctx.Value(httpConnTraceContextKey{}).(*httpConnTraceState)
+	if state == nil || !state.observed.Load() {
+		return false, false
+	}
+
+	return state.reused.Load(), true
 }
 
 func StartRequestSpan(ctx context.Context, instrumentationName, spanName string) (context.Context, trace.Span) {
