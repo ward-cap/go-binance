@@ -3,6 +3,8 @@ package binance
 import (
 	"bytes"
 	"context"
+	"crypto/hmac"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -28,6 +30,7 @@ func NewClient(client *http.Client) *Client {
 }
 
 type Client struct {
+	SecretKey  string
 	BaseURL    string
 	UserAgent  string
 	HTTPClient *http.Client
@@ -35,6 +38,16 @@ type Client struct {
 	TimeOffset int64
 
 	Logger *zap.SugaredLogger
+}
+
+// Sign returns an HMAC SHA256 signature for the provided payload.
+func (c *Client) Sign(payload string) (string, error) {
+	mac := hmac.New(sha256.New, []byte(c.SecretKey))
+	_, err := mac.Write([]byte(payload))
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%x", mac.Sum(nil)), nil
 }
 
 type request struct {
