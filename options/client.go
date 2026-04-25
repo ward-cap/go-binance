@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -214,13 +215,14 @@ func NewClient(apiKey, secretKey string) *Client {
 }
 
 // Sign returns an HMAC SHA256 signature for the provided payload.
-func (c *Client) Sign(payload string) (string, error) {
-	mac := hmac.New(sha256.New, []byte(c.SecretKey))
-	_, err := mac.Write([]byte(payload))
+func (c *Client) Sign(payload string) string {
+	h := hmac.New(sha256.New, []byte(c.SecretKey))
+	_, err := io.WriteString(h, payload)
 	if err != nil {
-		return "", err
+		panic(err)
 	}
-	return fmt.Sprintf("%x", mac.Sum(nil)), nil
+
+	return hex.EncodeToString(h.Sum(nil))
 }
 
 // NewProxiedClient passing a proxy url
@@ -300,10 +302,7 @@ func (c *Client) parseRequest(r *request, opts ...RequestOption) (err error) {
 
 	if r.secType == secTypeSigned {
 		raw := fmt.Sprintf("%s%s", queryString, bodyString)
-		signature, err := c.Sign(raw)
-		if err != nil {
-			return err
-		}
+		signature := c.Sign(raw)
 		v := url.Values{}
 		v.Set(signatureKey, signature)
 		if queryString == "" {
