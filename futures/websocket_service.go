@@ -453,7 +453,7 @@ func WsCombinedContinuousKlineServe(
 	errHandler ErrHandler,
 	logger *zap.SugaredLogger,
 ) (doneC chan struct{}, err error) {
-	const endpoint = "wss://fstream.binance.com/stream"
+	const endpoint = "wss://fstream.binance.com/market/ws"
 
 	rpc := WsRPC{
 		Method: "SUBSCRIBE",
