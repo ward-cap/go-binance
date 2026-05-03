@@ -49,7 +49,7 @@ func (r *request) setParam(key string, value interface{}) *request {
 
 	if value != nil {
 		if valueType := reflect.TypeOf(value); valueType != nil && valueType.Kind() == reflect.Slice {
-			v, err := json.Marshal(value)
+			v, err := jsonCodec.Marshal(value)
 			if err == nil {
 				value = string(v)
 			}

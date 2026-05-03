@@ -103,16 +103,11 @@ func (s *CreateWithdrawService) Do(ctx context.Context) (*CreateWithdrawResponse
 	}
 
 	res := &CreateWithdrawResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
 	return res, nil
-}
-
-// CreateWithdrawResponse represents a response from CreateWithdrawService.
-type CreateWithdrawResponse struct {
-	ID string `json:"id"`
 }
 
 // ListWithdrawsService fetches withdraw history.
@@ -207,26 +202,9 @@ func (s *ListWithdrawsService) Do(ctx context.Context) (res []*Withdraw, err err
 		return
 	}
 	res = make([]*Withdraw, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return
 	}
 	return res, nil
-}
-
-// Withdraw represents a single withdraw entry.
-type Withdraw struct {
-	Address         string `json:"address"`
-	Amount          string `json:"amount"`
-	ApplyTime       string `json:"applyTime"`
-	Coin            string `json:"coin"`
-	ID              string `json:"id"`
-	WithdrawOrderID string `json:"withdrawOrderId"`
-	Network         string `json:"network"`
-	TransferType    int    `json:"transferType"`
-	Status          int    `json:"status"`
-	TransactionFee  string `json:"transactionFee"`
-	ConfirmNo       int32  `json:"confirmNo"`
-	Info            string `json:"info"`
-	TxID            string `json:"txId"`
 }

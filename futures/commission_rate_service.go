@@ -39,10 +39,3 @@ func (s *CommissionRateService) Do(ctx context.Context, opts ...RequestOption) (
 	}
 	return res, nil
 }
-
-// Commission Rate
-type CommissionRate struct {
-	Symbol              string `json:"symbol"`
-	MakerCommissionRate string `json:"makerCommissionRate"`
-	TakerCommissionRate string `json:"takerCommissionRate"`
-}

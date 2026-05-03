@@ -11,16 +11,6 @@ type GetAllAssetsService struct {
 	c *Client
 }
 
-type GetAllAssetsResponse struct {
-	Data []struct {
-		AssetCode  string `json:"assetCode"`
-		LogoUrl    string `json:"logoUrl"`
-		AssetDigit int64  `json:"assetDigit"`
-		Trading    bool   `json:"trading"`
-	} `json:"data"`
-	Success bool `json:"success"`
-}
-
 func (s *GetAllAssetsService) Do(ctx context.Context) (res GetAllAssetsResponse, err error) {
 	r := &request{
 		service:  "GetAllAssetsService",

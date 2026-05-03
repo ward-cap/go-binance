@@ -9,9 +9,7 @@
 
 package binance
 
-import (
-	"context"
-)
+import "context"
 
 // CreateUserUniversalTransferService submits a transfer request.
 //
@@ -80,16 +78,11 @@ func (s *CreateUserUniversalTransferService) Do(ctx context.Context) (*CreateUse
 	}
 
 	res := &CreateUserUniversalTransferResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
 	return res, nil
-}
-
-// CreateUserUniversalTransferResponse represents a response from CreateUserUniversalTransferResponse.
-type CreateUserUniversalTransferResponse struct {
-	ID int64 `json:"tranId"`
 }
 
 // ListUserUniversalTransfer fetches transfer history.
@@ -179,7 +172,7 @@ type CreateUserUniversalTransferResponse struct {
 // 		return
 // 	}
 // 	res = make([]*TransferResult, 0)
-// 	err = json.Unmarshal(data, &res)
+// 	err = jsonCodec.Unmarshal(data, &res)
 // 	if err != nil {
 // 		return
 // 	}

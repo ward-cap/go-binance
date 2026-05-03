@@ -3,10 +3,8 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"github.com/shopspring/decimal"
-	"net/http"
-
 	"github.com/ward-cap/go-binance/common"
+	"net/http"
 )
 
 // PremiumIndexService get premium index
@@ -43,15 +41,6 @@ func (s *PremiumIndexService) Do(ctx context.Context, opts ...RequestOption) (re
 		return []*PremiumIndex{}, err
 	}
 	return res, nil
-}
-
-// PremiumIndex define premium index of mark price
-type PremiumIndex struct {
-	Symbol          string `json:"symbol"`
-	MarkPrice       string `json:"markPrice"`
-	LastFundingRate string `json:"lastFundingRate"`
-	NextFundingTime int64  `json:"nextFundingTime"`
-	Time            int64  `json:"time"`
 }
 
 // FundingRateService get funding rate
@@ -117,14 +106,6 @@ func (s *FundingRateService) Do(ctx context.Context, opts ...RequestOption) (res
 	return res, nil
 }
 
-// FundingRate define funding rate of mark price
-type FundingRate struct {
-	Symbol      string `json:"symbol"`
-	FundingRate string `json:"fundingRate"`
-	FundingTime int64  `json:"fundingTime"`
-	Time        int64  `json:"time"`
-}
-
 // GetLeverageBracketService get funding rate
 type GetLeverageBracketService struct {
 	c      *Client
@@ -165,21 +146,4 @@ func (s *GetLeverageBracketService) Do(ctx context.Context, opts ...RequestOptio
 	}
 
 	return res, nil
-}
-
-// LeverageBracket define the leverage bracket
-type LeverageBracket struct {
-	Symbol   string    `json:"symbol"`
-	Brackets []Bracket `json:"brackets"`
-}
-
-// Bracket define the bracket
-type Bracket struct {
-	InitialLeverage decimal.Decimal `json:"initialLeverage"`
-	NotionalCap     decimal.Decimal `json:"notionalCap"`
-
-	//Bracket          int             `json:"bracket"`
-	//NotionalFloor    float64         `json:"notionalFloor"`
-	//MaintMarginRatio float64         `json:"maintMarginRatio"`
-	//Cum              float64         `json:"cum"`
 }

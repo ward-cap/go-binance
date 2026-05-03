@@ -83,20 +83,9 @@ func (s *InterestHistoryService) Do(ctx context.Context) (*InterestHistory, erro
 		return nil, err
 	}
 	res := new(InterestHistory)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// InterestHistory represents a response from InterestHistoryService.
-type InterestHistory []InterestHistoryElement
-
-type InterestHistoryElement struct {
-	Asset       string      `json:"asset"`
-	Interest    string      `json:"interest"`
-	LendingType LendingType `json:"lendingType"`
-	ProductName string      `json:"productName"`
-	Time        int64       `json:"time"`
 }

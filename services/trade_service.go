@@ -2,7 +2,6 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -82,7 +81,7 @@ func (s *ListTradesService) Do(ctx context.Context, opts ...RequestOption) (res 
 		return []*TradeV3{}, err
 	}
 	res = make([]*TradeV3, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*TradeV3{}, err
 	}
@@ -136,41 +135,11 @@ func (s *HistoricalTradesService) Do(ctx context.Context, opts ...RequestOption)
 		return
 	}
 	res = make([]*Trade, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return
 	}
 	return
-}
-
-// Trade define trade info
-type Trade struct {
-	ID            int64  `json:"id"`
-	Price         string `json:"price"`
-	Quantity      string `json:"qty"`
-	QuoteQuantity string `json:"quoteQty"`
-	Time          int64  `json:"time"`
-	IsBuyerMaker  bool   `json:"isBuyerMaker"`
-	IsBestMatch   bool   `json:"isBestMatch"`
-	IsIsolated    bool   `json:"isIsolated"`
-}
-
-// TradeV3 define v3 trade info
-type TradeV3 struct {
-	ID              int64           `json:"id"`
-	Symbol          string          `json:"symbol"`
-	OrderID         int64           `json:"orderId"`
-	OrderListId     int64           `json:"orderListId"`
-	Price           decimal.Decimal `json:"price"`
-	Quantity        decimal.Decimal `json:"qty"`
-	QuoteQuantity   string          `json:"quoteQty"`
-	Commission      decimal.Decimal `json:"commission"`
-	CommissionAsset string          `json:"commissionAsset"`
-	Time            int64           `json:"time"`
-	IsBuyer         bool            `json:"isBuyer"`
-	IsMaker         bool            `json:"isMaker"`
-	IsBestMatch     bool            `json:"isBestMatch"`
-	IsIsolated      bool            `json:"isIsolated"`
 }
 
 // AggTradesService list aggregate trades
@@ -238,23 +207,11 @@ func (s *AggTradesService) Do(ctx context.Context, opts ...RequestOption) (res [
 		return []*AggTrade{}, err
 	}
 	res = make([]*AggTrade, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*AggTrade{}, err
 	}
 	return res, nil
-}
-
-// AggTrade define aggregate trade info
-type AggTrade struct {
-	AggTradeID       int64  `json:"a"`
-	Price            string `json:"p"`
-	Quantity         string `json:"q"`
-	FirstTradeID     int64  `json:"f"`
-	LastTradeID      int64  `json:"l"`
-	Timestamp        int64  `json:"T"`
-	IsBuyerMaker     bool   `json:"m"`
-	IsBestPriceMatch bool   `json:"M"`
 }
 
 // RecentTradesService list recent trades
@@ -292,7 +249,7 @@ func (s *RecentTradesService) Do(ctx context.Context, opts ...RequestOption) (re
 		return []*Trade{}, err
 	}
 	res = make([]*Trade, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Trade{}, err
 	}

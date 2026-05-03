@@ -48,31 +48,8 @@ func (s *ConvertTradeHistoryService) Do(ctx context.Context, opts ...RequestOpti
 		return nil, err
 	}
 	res := ConvertTradeHistory{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
-}
-
-// ConvertTradeHistory define the convert trade history
-type ConvertTradeHistory struct {
-	List      []ConvertTradeHistoryItem `json:"list"`
-	StartTime int64                     `json:"startTime"`
-	EndTime   int64                     `json:"endTime"`
-	Limit     int32                     `json:"limit"`
-	MoreData  bool                      `json:"moreData"`
-}
-
-// ConvertTradeHistoryItem define a convert trade history item
-type ConvertTradeHistoryItem struct {
-	QuoteId      string `json:"quoteId"`
-	OrderId      int64  `json:"orderId"`
-	OrderStatus  string `json:"orderStatus"`
-	FromAsset    string `json:"fromAsset"`
-	FromAmount   string `json:"fromAmount"`
-	ToAsset      string `json:"toAsset"`
-	ToAmount     string `json:"toAmount"`
-	Ratio        string `json:"ratio"`
-	InverseRatio string `json:"inverseRatio"`
-	CreateTime   int64  `json:"createTime"`
 }

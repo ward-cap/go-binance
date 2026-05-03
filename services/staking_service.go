@@ -71,44 +71,11 @@ func (s *StakingProductPositionService) Do(ctx context.Context) (*StakingProduct
 		return nil, err
 	}
 	res := new(StakingProductPositions)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// StakingProductPositions represents a list of staking product positions.
-type StakingProductPositions []StakingProductPosition
-
-// StakingProductPosition represents a staking product position.
-type StakingProductPosition struct {
-	PositionId                 int64  `json:"positionId"`
-	ProductId                  string `json:"productId"`
-	Asset                      string `json:"asset"`
-	Amount                     string `json:"amount"`
-	PurchaseTime               int64  `json:"purchaseTime"`
-	Duration                   int64  `json:"duration"`
-	AccrualDays                int64  `json:"accrualDays"`
-	RewardAsset                string `json:"rewardAsset"`
-	APY                        string `json:"apy"`
-	RewardAmount               string `json:"rewardAmt"`
-	ExtraRewardAsset           string `json:"extraRewardAsset"`
-	ExtraRewardAPY             string `json:"extraRewardAPY"`
-	EstimatedExtraRewardAmount string `json:"estExtraRewardAmt"`
-	NextInterestPay            string `json:"nextInterestPay"`
-	NextInterestPayDate        int64  `json:"nextInterestPayDate"`
-	PayInterestPeriod          int64  `json:"payInterestPeriod"`
-	RedeemAmountEarly          string `json:"redeemAmountEarly"`
-	InterestEndDate            int64  `json:"interestEndDate"`
-	DeliverDate                int64  `json:"deliverDate"`
-	RedeemPeriod               int64  `json:"redeemPeriod"`
-	RedeemingAmount            string `json:"redeemingAmt"`
-	PartialAmountDeliverDate   int64  `json:"partialAmtDeliverDate"`
-	CanRedeemEarly             bool   `json:"canRedeemEarly"`
-	Renewable                  bool   `json:"renewable"`
-	Type                       string `json:"type"`
-	Status                     string `json:"status"`
 }
 
 // StakingHistoryService fetches the staking history
@@ -195,25 +162,9 @@ func (s *StakingHistoryService) Do(ctx context.Context) (*StakingHistory, error)
 		return nil, err
 	}
 	res := new(StakingHistory)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// StakingHistory represents a list of staking history transactions.
-type StakingHistory []StakingHistoryTransaction
-
-// StakingHistoryTransaction represents a staking history transaction.
-type StakingHistoryTransaction struct {
-	PositionId  int64  `json:"positionId"`
-	Time        int64  `json:"time"`
-	Asset       string `json:"asset"`
-	Project     string `json:"project"`
-	Amount      string `json:"amount"`
-	LockPeriod  int64  `json:"lockPeriod"`
-	DeliverDate int64  `json:"deliverDate"`
-	Type        string `json:"type"`
-	Status      string `json:"status"`
 }

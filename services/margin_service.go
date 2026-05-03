@@ -51,16 +51,11 @@ func (s *MarginTransferService) Do(ctx context.Context, opts ...RequestOption) (
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// TransactionResponse define transaction response
-type TransactionResponse struct {
-	TranID int64 `json:"tranId"`
 }
 
 // MarginLoanService apply for a loan
@@ -121,7 +116,7 @@ func (s *MarginLoanService) Do(ctx context.Context, opts ...RequestOption) (res 
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +181,7 @@ func (s *MarginRepayService) Do(ctx context.Context, opts ...RequestOption) (res
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -269,25 +264,11 @@ func (s *ListMarginLoansService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 	res = new(MarginLoanResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginLoanResponse define margin loan response
-type MarginLoanResponse struct {
-	Rows  []MarginLoan `json:"rows"`
-	Total int64        `json:"total"`
-}
-
-// MarginLoan define margin loan
-type MarginLoan struct {
-	Asset     string               `json:"asset"`
-	Principal string               `json:"principal"`
-	Timestamp int64                `json:"timestamp"`
-	Status    MarginLoanStatusType `json:"status"`
 }
 
 // ListMarginRepaysService list repay record
@@ -366,28 +347,11 @@ func (s *ListMarginRepaysService) Do(ctx context.Context, opts ...RequestOption)
 		return nil, err
 	}
 	res = new(MarginRepayResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginRepayResponse define margin repay response
-type MarginRepayResponse struct {
-	Rows  []MarginRepay `json:"rows"`
-	Total int64         `json:"total"`
-}
-
-// MarginRepay define margin repay
-type MarginRepay struct {
-	Asset     string                `json:"asset"`
-	Amount    string                `json:"amount"`
-	Interest  string                `json:"interest"`
-	Principal string                `json:"principal"`
-	Timestamp int64                 `json:"timestamp"`
-	Status    MarginRepayStatusType `json:"status"`
-	TxID      int64                 `json:"txId"`
 }
 
 // GetIsolatedMarginAccountService gets isolated margin account info
@@ -421,51 +385,11 @@ func (s *GetIsolatedMarginAccountService) Do(ctx context.Context, opts ...Reques
 		return nil, err
 	}
 	res = new(IsolatedMarginAccount)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// IsolatedMarginAccount defines isolated user assets of margin account
-type IsolatedMarginAccount struct {
-	TotalAssetOfBTC     string                `json:"totalAssetOfBtc"`
-	TotalLiabilityOfBTC string                `json:"totalLiabilityOfBtc"`
-	TotalNetAssetOfBTC  string                `json:"totalNetAssetOfBtc"`
-	Assets              []IsolatedMarginAsset `json:"assets"`
-}
-
-// IsolatedMarginAsset defines isolated margin asset information, like margin level, liquidation price... etc
-type IsolatedMarginAsset struct {
-	Symbol     string            `json:"symbol"`
-	QuoteAsset IsolatedUserAsset `json:"quoteAsset"`
-	BaseAsset  IsolatedUserAsset `json:"baseAsset"`
-
-	IsolatedCreated   bool   `json:"isolatedCreated"`
-	Enabled           bool   `json:"enabled"`
-	MarginLevel       string `json:"marginLevel"`
-	MarginLevelStatus string `json:"marginLevelStatus"`
-	MarginRatio       string `json:"marginRatio"`
-	IndexPrice        string `json:"indexPrice"`
-	LiquidatePrice    string `json:"liquidatePrice"`
-	LiquidateRate     string `json:"liquidateRate"`
-	TradeEnabled      bool   `json:"tradeEnabled"`
-}
-
-// IsolatedUserAsset defines isolated user assets of the margin account
-type IsolatedUserAsset struct {
-	Asset         string `json:"asset"`
-	Borrowed      string `json:"borrowed"`
-	Free          string `json:"free"`
-	Interest      string `json:"interest"`
-	Locked        string `json:"locked"`
-	NetAsset      string `json:"netAsset"`
-	NetAssetOfBtc string `json:"netAssetOfBtc"`
-
-	BorrowEnabled bool   `json:"borrowEnabled"`
-	RepayEnabled  bool   `json:"repayEnabled"`
-	TotalAsset    string `json:"totalAsset"`
 }
 
 // GetMarginAccountService get margin account info
@@ -486,33 +410,11 @@ func (s *GetMarginAccountService) Do(ctx context.Context, opts ...RequestOption)
 		return nil, err
 	}
 	res = new(MarginAccount)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginAccount define margin account info
-type MarginAccount struct {
-	BorrowEnabled       bool        `json:"borrowEnabled"`
-	MarginLevel         string      `json:"marginLevel"`
-	TotalAssetOfBTC     string      `json:"totalAssetOfBtc"`
-	TotalLiabilityOfBTC string      `json:"totalLiabilityOfBtc"`
-	TotalNetAssetOfBTC  string      `json:"totalNetAssetOfBtc"`
-	TradeEnabled        bool        `json:"tradeEnabled"`
-	TransferEnabled     bool        `json:"transferEnabled"`
-	UserAssets          []UserAsset `json:"userAssets"`
-}
-
-// UserAsset define user assets of margin account
-type UserAsset struct {
-	Asset    string `json:"asset"`
-	Borrowed string `json:"borrowed"`
-	Free     string `json:"free"`
-	Interest string `json:"interest"`
-	Locked   string `json:"locked"`
-	NetAsset string `json:"netAsset"`
 }
 
 // GetMarginAssetService get margin asset info
@@ -541,21 +443,11 @@ func (s *GetMarginAssetService) Do(ctx context.Context, opts ...RequestOption) (
 		return nil, err
 	}
 	res = new(MarginAsset)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginAsset define margin asset info
-type MarginAsset struct {
-	FullName      string `json:"assetFullName"`
-	Name          string `json:"assetName"`
-	Borrowable    bool   `json:"isBorrowable"`
-	Mortgageable  bool   `json:"isMortgageable"`
-	UserMinBorrow string `json:"userMinBorrow"`
-	UserMinRepay  string `json:"userMinRepay"`
 }
 
 // GetMarginPairService get margin pair info
@@ -584,22 +476,11 @@ func (s *GetMarginPairService) Do(ctx context.Context, opts ...RequestOption) (r
 		return nil, err
 	}
 	res = new(MarginPair)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginPair define margin pair info
-type MarginPair struct {
-	ID            int64  `json:"id"`
-	Symbol        string `json:"symbol"`
-	Base          string `json:"base"`
-	Quote         string `json:"quote"`
-	IsMarginTrade bool   `json:"isMarginTrade"`
-	IsBuyAllowed  bool   `json:"isBuyAllowed"`
-	IsSellAllowed bool   `json:"isSellAllowed"`
 }
 
 // GetMarginAllPairsService get margin pair info
@@ -620,22 +501,11 @@ func (s *GetMarginAllPairsService) Do(ctx context.Context, opts ...RequestOption
 		return []*MarginAllPair{}, err
 	}
 	res = make([]*MarginAllPair, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*MarginAllPair{}, err
 	}
 	return res, nil
-}
-
-// MarginAllPair define margin pair info
-type MarginAllPair struct {
-	ID            int64  `json:"id"`
-	Symbol        string `json:"symbol"`
-	Base          string `json:"base"`
-	Quote         string `json:"quote"`
-	IsMarginTrade bool   `json:"isMarginTrade"`
-	IsBuyAllowed  bool   `json:"isBuyAllowed"`
-	IsSellAllowed bool   `json:"isSellAllowed"`
 }
 
 // GetMarginPriceIndexService get margin price index
@@ -664,18 +534,11 @@ func (s *GetMarginPriceIndexService) Do(ctx context.Context, opts ...RequestOpti
 		return nil, err
 	}
 	res = new(MarginPriceIndex)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MarginPriceIndex define margin price index
-type MarginPriceIndex struct {
-	CalcTime int64  `json:"calcTime"`
-	Price    string `json:"price"`
-	Symbol   string `json:"symbol"`
 }
 
 // ListMarginTradesService list trades
@@ -754,7 +617,7 @@ func (s *ListMarginTradesService) Do(ctx context.Context, opts ...RequestOption)
 		return []*TradeV3{}, err
 	}
 	res = make([]*TradeV3, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*TradeV3{}, err
 	}
@@ -797,16 +660,11 @@ func (s *GetMaxBorrowableService) Do(ctx context.Context, opts ...RequestOption)
 		return nil, err
 	}
 	res = new(MaxBorrowable)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MaxBorrowable define max borrowable response
-type MaxBorrowable struct {
-	Amount string `json:"amount"`
 }
 
 // GetMaxTransferableService get max transferable of asset
@@ -835,16 +693,11 @@ func (s *GetMaxTransferableService) Do(ctx context.Context, opts ...RequestOptio
 		return nil, err
 	}
 	res = new(MaxTransferable)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// MaxTransferable define max transferable response
-type MaxTransferable struct {
-	Amount string `json:"amount"`
 }
 
 // StartIsolatedMarginUserStreamService create listen key for margin user stream service
@@ -874,12 +727,7 @@ func (s *StartIsolatedMarginUserStreamService) Do(ctx context.Context, opts ...R
 	if err != nil {
 		return "", err
 	}
-	j, err := newJSON(data)
-	if err != nil {
-		return "", err
-	}
-	listenKey = j.Get("listenKey").MustString()
-	return listenKey, nil
+	return parseListenKey(data)
 }
 
 // KeepaliveIsolatedMarginUserStreamService updates listen key for isolated margin user data stream
@@ -970,12 +818,7 @@ func (s *StartMarginUserStreamService) Do(ctx context.Context, opts ...RequestOp
 	if err != nil {
 		return "", err
 	}
-	j, err := newJSON(data)
-	if err != nil {
-		return "", err
-	}
-	listenKey = j.Get("listenKey").MustString()
-	return listenKey, nil
+	return parseListenKey(data)
 }
 
 // KeepaliveMarginUserStreamService update listen key
@@ -1048,7 +891,7 @@ func (s *GetAllMarginAssetsService) Do(ctx context.Context, opts ...RequestOptio
 		return []*MarginAsset{}, err
 	}
 	res = make([]*MarginAsset, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*MarginAsset{}, err
 	}
@@ -1073,21 +916,11 @@ func (s *GetIsolatedMarginAllPairsService) Do(ctx context.Context, opts ...Reque
 		return []*IsolatedMarginAllPair{}, err
 	}
 	res = make([]*IsolatedMarginAllPair, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*IsolatedMarginAllPair{}, err
 	}
 	return res, nil
-}
-
-// IsolatedMarginAllPair define isolated margin pair info
-type IsolatedMarginAllPair struct {
-	Symbol        string `json:"symbol"`
-	Base          string `json:"base"`
-	Quote         string `json:"quote"`
-	IsMarginTrade bool   `json:"isMarginTrade"`
-	IsBuyAllowed  bool   `json:"isBuyAllowed"`
-	IsSellAllowed bool   `json:"isSellAllowed"`
 }
 
 // IsolatedMarginTransferService transfer assets between spot and isolated margin.
@@ -1146,7 +979,7 @@ func (s *IsolatedMarginTransferService) Do(ctx context.Context, opts ...RequestO
 		return nil, err
 	}
 	res = new(TransactionResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}

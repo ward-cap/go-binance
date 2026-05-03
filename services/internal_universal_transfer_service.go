@@ -89,16 +89,11 @@ func (s *InternalUniversalTransferService) Do(ctx context.Context, opts ...Reque
 	}
 
 	res := &InternalUniversalTransferResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
 	return res, nil
-}
-
-type InternalUniversalTransferResponse struct {
-	ID           int64  `json:"tranId"`
-	ClientTranID string `json:"clientTranId"`
 }
 
 // InternalUniversalTransferHistoryService Query Universal Transfer History (For Master Account)
@@ -182,27 +177,9 @@ func (s *InternalUniversalTransferHistoryService) Do(ctx context.Context, opts .
 		return
 	}
 	res.Result = make([]*InternalUniversalTransfer, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return
 	}
 	return res, nil
-}
-
-type InternalUniversalTransferHistoryResponse struct {
-	Result     []*InternalUniversalTransfer `json:"result"`
-	TotalCount int                          `json:"totalCount"`
-}
-
-type InternalUniversalTransfer struct {
-	TranId          int64  `json:"tranId"`
-	ClientTranId    string `json:"clientTranId"`
-	FromEmail       string `json:"fromEmail"`
-	ToEmail         string `json:"toEmail"`
-	Asset           string `json:"asset"`
-	Amount          string `json:"amount"`
-	FromAccountType string `json:"fromAccountType"`
-	ToAccountType   string `json:"toAccountType"`
-	Status          string `json:"status"`
-	CreateTimeStamp uint64 `json:"createTimeStamp"`
 }

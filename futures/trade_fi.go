@@ -3,9 +3,8 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"net/http"
-
 	"github.com/ward-cap/go-binance/common"
+	"net/http"
 )
 
 type SignTradeFiService struct {

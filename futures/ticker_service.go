@@ -3,11 +3,8 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"net/http"
-
-	"github.com/shopspring/decimal"
-
 	"github.com/ward-cap/go-binance/common"
+	"net/http"
 )
 
 // ListBookTickersService list best price/qty on the order book for a symbol or symbols
@@ -45,15 +42,6 @@ func (s *ListBookTickersService) Do(ctx context.Context, opts ...RequestOption) 
 	return res, nil
 }
 
-// BookTicker define book ticker info
-type BookTicker struct {
-	Symbol      string `json:"symbol"`
-	BidPrice    string `json:"bidPrice"`
-	BidQuantity string `json:"bidQty"`
-	AskPrice    string `json:"askPrice"`
-	AskQuantity string `json:"askQty"`
-}
-
 // ListPricesService list latest price for a symbol or symbols
 type ListPricesService struct {
 	c      *Client
@@ -89,12 +77,6 @@ func (s *ListPricesService) Do(ctx context.Context, opts ...RequestOption) (res 
 	return res, nil
 }
 
-// SymbolPrice define symbol and price pair
-type SymbolPrice struct {
-	Symbol string `json:"symbol"`
-	Price  string `json:"price"`
-}
-
 // ListPriceChangeStatsService show stats of price change in last 24 hours for all symbols
 type ListPriceChangeStatsService struct {
 	c      *Client
@@ -128,25 +110,4 @@ func (s *ListPriceChangeStatsService) Do(ctx context.Context, opts ...RequestOpt
 		return nil, err
 	}
 	return res, nil
-}
-
-// PriceChangeStats define price change stats
-type PriceChangeStats struct {
-	Symbol             string              `json:"symbol"`
-	PriceChange        string              `json:"priceChange"`
-	PriceChangePercent string              `json:"priceChangePercent"`
-	WeightedAvgPrice   string              `json:"weightedAvgPrice"`
-	PrevClosePrice     string              `json:"prevClosePrice"`
-	LastPrice          string              `json:"lastPrice"`
-	LastQuantity       string              `json:"lastQty"`
-	OpenPrice          decimal.NullDecimal `json:"openPrice"`
-	HighPrice          string              `json:"highPrice"`
-	LowPrice           string              `json:"lowPrice"`
-	Volume             string              `json:"volume"`
-	QuoteVolume        string              `json:"quoteVolume"`
-	OpenTime           int64               `json:"openTime"`
-	CloseTime          int64               `json:"closeTime"`
-	FirstID            int64               `json:"firstId"`
-	LastID             int64               `json:"lastId"`
-	Count              int64               `json:"count"`
 }

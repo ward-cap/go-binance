@@ -52,6 +52,6 @@ func (s *QueryBrokerFuturesCommissionRebateService) Do(ctx context.Context, opts
 		return nil, err
 	}
 
-	err = json.Unmarshal(data, &d)
+	err = jsonCodec.Unmarshal(data, &d)
 	return d, err
 }

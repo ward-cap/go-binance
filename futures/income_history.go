@@ -90,15 +90,3 @@ func (s *GetIncomeHistoryService) Do(ctx context.Context, opts ...RequestOption)
 	}
 	return res, nil
 }
-
-// IncomeHistory define position margin history info
-type IncomeHistory struct {
-	Asset      string `json:"asset"`
-	Income     string `json:"income"`
-	IncomeType string `json:"incomeType"`
-	Info       string `json:"info"`
-	Symbol     string `json:"symbol"`
-	Time       int64  `json:"time"`
-	TranID     int64  `json:"tranId"`
-	TradeID    string `json:"tradeId"`
-}

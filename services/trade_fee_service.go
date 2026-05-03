@@ -35,16 +35,9 @@ func (s *TradeFeeService) Do(ctx context.Context) (res []*TradeFeeDetails, err e
 		return res, err
 	}
 	res = make([]*TradeFeeDetails, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// TradeFeeDetails represents details about fees
-type TradeFeeDetails struct {
-	Symbol          string `json:"symbol"`
-	MakerCommission string `json:"makerCommission"`
-	TakerCommission string `json:"takerCommission"`
 }

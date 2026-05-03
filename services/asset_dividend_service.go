@@ -67,25 +67,9 @@ func (s *AssetDividendService) Do(ctx context.Context) (*DividendResponseWrapper
 		return nil, err
 	}
 	res := new(DividendResponseWrapper)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// DividendResponseWrapper represents a wrapper around a AssetDividendService.
-type DividendResponseWrapper struct {
-	Rows  *[]DividendResponse `json:"rows"`
-	Total int32               `json:"total"`
-}
-
-// DividendResponse represents a response from AssetDividendService.
-type DividendResponse struct {
-	ID     int64  `json:"id"`
-	Amount string `json:"amount"`
-	Asset  string `json:"asset"`
-	Info   string `json:"enInfo"`
-	Time   int64  `json:"divTime"`
-	TranID int64  `json:"tranId"`
 }

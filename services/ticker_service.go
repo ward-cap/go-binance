@@ -2,10 +2,8 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
-	"net/http"
-
 	"github.com/ward-cap/go-binance/common"
+	"net/http"
 )
 
 // ListBookTickersService list best price/qty on the order book for a symbol or symbols
@@ -36,20 +34,11 @@ func (s *ListBookTickersService) Do(ctx context.Context, opts ...RequestOption) 
 		return []*BookTicker{}, err
 	}
 	res = make([]*BookTicker, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*BookTicker{}, err
 	}
 	return res, nil
-}
-
-// BookTicker define book ticker info
-type BookTicker struct {
-	Symbol      string `json:"symbol"`
-	BidPrice    string `json:"bidPrice"`
-	BidQuantity string `json:"bidQty"`
-	AskPrice    string `json:"askPrice"`
-	AskQuantity string `json:"askQty"`
 }
 
 // ListPricesService list latest price for a symbol or symbols
@@ -75,7 +64,7 @@ func (s *ListPricesService) Do(ctx context.Context, opts ...RequestOption) (res 
 	if s.symbol != nil {
 		r.setParam("symbol", *s.symbol)
 	} else if s.symbols != nil {
-		s, _ := json.Marshal(s.symbols)
+		s, _ := jsonCodec.Marshal(s.symbols)
 		r.setParam("symbols", string(s))
 	}
 	data, err := s.c.callAPI(ctx, r, opts...)
@@ -84,17 +73,11 @@ func (s *ListPricesService) Do(ctx context.Context, opts ...RequestOption) (res 
 	}
 	data = common.ToJSONList(data)
 	res = make([]*SymbolPrice, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*SymbolPrice{}, err
 	}
 	return res, nil
-}
-
-// SymbolPrice define symbol and price pair
-type SymbolPrice struct {
-	Symbol string `json:"symbol"`
-	Price  string `json:"price"`
 }
 
 // ListPriceChangeStatsService show stats of price change in last 24 hours for all symbols
@@ -142,36 +125,11 @@ func (s *ListPriceChangeStatsService) Do(ctx context.Context, opts ...RequestOpt
 	}
 	data = common.ToJSONList(data)
 	res = make([]*PriceChangeStats, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// PriceChangeStats define price change stats
-type PriceChangeStats struct {
-	Symbol             string              `json:"symbol"`
-	PriceChange        string              `json:"priceChange"`
-	PriceChangePercent string              `json:"priceChangePercent"`
-	WeightedAvgPrice   string              `json:"weightedAvgPrice"`
-	PrevClosePrice     string              `json:"prevClosePrice"`
-	LastPrice          string              `json:"lastPrice"`
-	LastQty            string              `json:"lastQty"`
-	BidPrice           string              `json:"bidPrice"`
-	BidQty             string              `json:"bidQty"`
-	AskPrice           string              `json:"askPrice"`
-	AskQty             string              `json:"askQty"`
-	OpenPrice          decimal.NullDecimal `json:"openPrice"`
-	HighPrice          string              `json:"highPrice"`
-	LowPrice           string              `json:"lowPrice"`
-	Volume             string              `json:"volume"`
-	QuoteVolume        string              `json:"quoteVolume"`
-	OpenTime           int64               `json:"openTime"`
-	CloseTime          int64               `json:"closeTime"`
-	FirstID            int64               `json:"firstId"`
-	LastID             int64               `json:"lastId"`
-	Count              int64               `json:"count"`
 }
 
 // AveragePriceService show current average price for a symbol
@@ -199,17 +157,11 @@ func (s *AveragePriceService) Do(ctx context.Context, opts ...RequestOption) (re
 		return res, err
 	}
 	res = new(AvgPrice)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// AvgPrice define average price
-type AvgPrice struct {
-	Mins  int64  `json:"mins"`
-	Price string `json:"price"`
 }
 
 type ListSymbolTickerService struct {
@@ -217,24 +169,6 @@ type ListSymbolTickerService struct {
 	symbol     *string
 	symbols    []string
 	windowSize *string
-}
-
-type SymbolTicker struct {
-	Symbol             string `json:"symbol"`
-	PriceChange        string `json:"priceChange"`
-	PriceChangePercent string `json:"priceChangePercent"`
-	WeightedAvgPrice   string `json:"weightedAvgPrice"`
-	OpenPrice          string `json:"openPrice"`
-	HighPrice          string `json:"highPrice"`
-	LowPrice           string `json:"lowPrice"`
-	LastPrice          string `json:"lastPrice"`
-	Volume             string `json:"volume"`
-	QuoteVolume        string `json:"quoteVolume"`
-	OpenTime           int64  `json:"openTime"`
-	CloseTime          int64  `json:"closeTime"`
-	FirstId            int64  `json:"firstId"`
-	LastId             int64  `json:"lastId"`
-	Count              int64  `json:"count"`
 }
 
 func (s *ListSymbolTickerService) Symbol(symbol string) *ListSymbolTickerService {
@@ -274,7 +208,7 @@ func (s *ListSymbolTickerService) Do(ctx context.Context, opts ...RequestOption)
 	if s.symbol != nil {
 		r.setParam("symbol", *s.symbol)
 	} else if s.symbols != nil {
-		s, _ := json.Marshal(s.symbols)
+		s, _ := jsonCodec.Marshal(s.symbols)
 		r.setParam("symbols", string(s))
 	}
 
@@ -288,7 +222,7 @@ func (s *ListSymbolTickerService) Do(ctx context.Context, opts ...RequestOption)
 		return []*SymbolTicker{}, err
 	}
 	res = make([]*SymbolTicker, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*SymbolTicker{}, err
 	}

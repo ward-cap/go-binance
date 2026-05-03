@@ -23,16 +23,10 @@ func (s *GetBNBBurnService) Do(ctx context.Context, opts ...RequestOption) (*BNB
 		return nil, err
 	}
 	res := BNBBurn{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
-}
-
-// BNBBurn response
-type BNBBurn struct {
-	SpotBNBBurn     bool `json:"spotBNBBurn"`
-	InterestBNBBurn bool `json:"interestBNBBurn"`
 }
 
 // ToggleBNBBurnService toggle BNB Burn on spot trade and margin interest
@@ -75,7 +69,7 @@ func (s *ToggleBNBBurnService) Do(ctx context.Context, opts ...RequestOption) (*
 		return nil, err
 	}
 	res := BNBBurn{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil

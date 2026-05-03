@@ -12,13 +12,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/bitly/go-simplejson"
 	jsoniter "github.com/json-iterator/go"
-	"go.uber.org/zap"
-
 	"github.com/ward-cap/go-binance/common"
 	"github.com/ward-cap/go-binance/futures"
-	"github.com/ward-cap/go-binance/options"
+	"go.uber.org/zap"
 )
 
 // SideType define side type of order
@@ -109,7 +106,7 @@ const (
 var UseTestnet = false
 
 // Redefining the standard package
-var json = jsoniter.ConfigCompatibleWithStandardLibrary
+var jsonCodec = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // Global enums
 const (
@@ -247,14 +244,6 @@ func FormatTimestamp(t time.Time) int64 {
 	return t.UnixNano() / int64(time.Millisecond)
 }
 
-func newJSON(data []byte) (j *simplejson.Json, err error) {
-	j, err = simplejson.NewJson(data)
-	if err != nil {
-		return nil, err
-	}
-	return j, nil
-}
-
 // getAPIEndpoint return the base endpoint of the Rest API according the UseTestnet flag
 func getAPIEndpoint() string {
 	return baseAPIMainURL
@@ -311,11 +300,6 @@ func (c *Client) Sign(payload string) string {
 // NewFuturesClient initialize client for futures API
 func NewFuturesClient(apiKey, secretKey string, client *http.Client) *futures.Client {
 	return futures.NewClient(apiKey, secretKey, client)
-}
-
-// NewOptionsClient initialize client for options API
-func NewOptionsClient(apiKey, secretKey string) *options.Client {
-	return options.NewClient(apiKey, secretKey)
 }
 
 // Client define API client
@@ -427,7 +411,7 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 
 	if res.StatusCode >= http.StatusBadRequest {
 		apiErr := new(common.APIError)
-		_ = json.Unmarshal(data, apiErr)
+		_ = jsonCodec.Unmarshal(data, apiErr)
 		c.logAPIError(ctx, service, r, req, startedAt, apiErr)
 		return nil, apiErr
 	}

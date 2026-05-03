@@ -40,12 +40,6 @@ func (s *GetOpenInterestService) Do(ctx context.Context, opts ...RequestOption) 
 	return res, nil
 }
 
-type OpenInterest struct {
-	OpenInterest string `json:"openInterest"`
-	Symbol       string `json:"symbol"`
-	Time         int64  `json:"time"`
-}
-
 // OpenInterestStatisticsService list open history data of a symbol.
 type OpenInterestStatisticsService struct {
 	c         *Client
@@ -119,11 +113,4 @@ func (s *OpenInterestStatisticsService) Do(ctx context.Context, opts ...RequestO
 	}
 
 	return res, nil
-}
-
-type OpenInterestStatistic struct {
-	Symbol               string `json:"symbol"`
-	SumOpenInterest      string `json:"sumOpenInterest"`
-	SumOpenInterestValue string `json:"sumOpenInterestValue"`
-	Timestamp            int64  `json:"timestamp"`
 }

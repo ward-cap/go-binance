@@ -1,14 +1,6 @@
 package common
 
-import (
-	"fmt"
-)
-
-// APIError define API error when response status is 4xx or 5xx
-type APIError struct {
-	Code    int64  `json:"code"`
-	Message string `json:"msg"`
-}
+import "fmt"
 
 // Error return error code and message
 func (e APIError) Error() string {

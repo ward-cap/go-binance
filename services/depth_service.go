@@ -3,8 +3,6 @@ package binance
 import (
 	"context"
 	"net/http"
-
-	"github.com/ward-cap/go-binance/common"
 )
 
 // DepthService show depth info
@@ -41,42 +39,5 @@ func (s *DepthService) Do(ctx context.Context, opts ...RequestOption) (res *Dept
 	if err != nil {
 		return nil, err
 	}
-	j, err := newJSON(data)
-	if err != nil {
-		return nil, err
-	}
-	res = new(DepthResponse)
-	res.LastUpdateID = j.Get("lastUpdateId").MustInt64()
-	bidsLen := len(j.Get("bids").MustArray())
-	res.Bids = make([]Bid, bidsLen)
-	for i := 0; i < bidsLen; i++ {
-		item := j.Get("bids").GetIndex(i)
-		res.Bids[i] = Bid{
-			Price:    item.GetIndex(0).MustString(),
-			Quantity: item.GetIndex(1).MustString(),
-		}
-	}
-	asksLen := len(j.Get("asks").MustArray())
-	res.Asks = make([]Ask, asksLen)
-	for i := 0; i < asksLen; i++ {
-		item := j.Get("asks").GetIndex(i)
-		res.Asks[i] = Ask{
-			Price:    item.GetIndex(0).MustString(),
-			Quantity: item.GetIndex(1).MustString(),
-		}
-	}
-	return res, nil
+	return parseDepth(data)
 }
-
-// DepthResponse define depth info with bids and asks
-type DepthResponse struct {
-	LastUpdateID int64 `json:"lastUpdateId"`
-	Bids         []Bid `json:"bids"`
-	Asks         []Ask `json:"asks"`
-}
-
-// Ask is a type alias for PriceLevel.
-type Ask = common.PriceLevel
-
-// Bid is a type alias for PriceLevel.
-type Bid = common.PriceLevel

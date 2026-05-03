@@ -71,35 +71,8 @@ func (s *C2CTradeHistoryService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 	res := C2CTradeHistory{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
-}
-
-// C2CTradeHistory response
-type C2CTradeHistory struct {
-	Code    string      `json:"code"`
-	Message string      `json:"message"`
-	Data    []C2CRecord `json:"data"`
-	Total   int64       `json:"total"`
-	Success bool        `json:"success"`
-}
-
-// C2CRecord a record of c2c
-type C2CRecord struct {
-	OrderNumber         string `json:"orderNumber"`
-	AdvNo               string `json:"advNo"`
-	TradeType           string `json:"tradeType"`
-	Asset               string `json:"asset"`
-	Fiat                string `json:"fiat"`
-	FiatSymbol          string `json:"fiatSymbol"`
-	Amount              string `json:"amount"`
-	TotalPrice          string `json:"totalPrice"`
-	UnitPrice           string `json:"unitPrice"`
-	OrderStatus         string `json:"orderStatus"`
-	CreateTime          int64  `json:"createTime"`
-	Commission          string `json:"commission"`
-	CounterPartNickName string `json:"counterPartNickName"`
-	AdvertisementRole   string `json:"advertisementRole"`
 }

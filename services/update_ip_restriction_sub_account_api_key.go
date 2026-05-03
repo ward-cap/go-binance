@@ -46,14 +46,7 @@ func (s *UpdateIPRestrictionSubAccountAPIKeyService) Do(ctx context.Context, opt
 	if err != nil {
 		return def, err
 	}
-	err = json.Unmarshal(data, &def)
+	err = jsonCodec.Unmarshal(data, &def)
 
 	return def, err
-}
-
-type UpdateIPRestrictionSubAccountAPIKeyResponse struct {
-	Status     string   `json:"status"`
-	IpList     []string `json:"ipList"`
-	UpdateTime int64    `json:"updateTime"`
-	ApiKey     string   `json:"apiKey"`
 }

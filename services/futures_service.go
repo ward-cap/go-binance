@@ -50,7 +50,7 @@ func (s *FuturesTransferService) Do(ctx context.Context, opts ...RequestOption) 
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -123,25 +123,9 @@ func (s *ListFuturesTransferService) Do(ctx context.Context, opts ...RequestOpti
 		return nil, err
 	}
 	res = new(FuturesTransferHistory)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// FuturesTransferHistory define futures transfer history
-type FuturesTransferHistory struct {
-	Rows  []FuturesTransfer `json:"rows"`
-	Total int64             `json:"total"`
-}
-
-// FuturesTransfer define futures transfer history item
-type FuturesTransfer struct {
-	Asset     string                    `json:"asset"`
-	TranID    int64                     `json:"tranId"`
-	Amount    string                    `json:"amount"`
-	Type      int64                     `json:"type"`
-	Timestamp int64                     `json:"timestamp"`
-	Status    FuturesTransferStatusType `json:"status"`
 }

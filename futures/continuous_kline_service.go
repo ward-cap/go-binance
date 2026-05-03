@@ -2,7 +2,6 @@ package futures
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 )
 
@@ -76,46 +75,9 @@ func (s *ContinuousKlinesService) Do(ctx context.Context, opts ...RequestOption)
 	if err != nil {
 		return []*ContinuousKline{}, err
 	}
-	j, err := newJSON(data)
+	res, err = parseContinuousKlines(data)
 	if err != nil {
 		return []*ContinuousKline{}, err
 	}
-	num := len(j.MustArray())
-	res = make([]*ContinuousKline, num)
-	for i := 0; i < num; i++ {
-		item := j.GetIndex(i)
-		if len(item.MustArray()) < 11 {
-			err = fmt.Errorf("invalid kline response")
-			return []*ContinuousKline{}, err
-		}
-		res[i] = &ContinuousKline{
-			OpenTime:                 item.GetIndex(0).MustInt64(),
-			Open:                     item.GetIndex(1).MustString(),
-			High:                     item.GetIndex(2).MustString(),
-			Low:                      item.GetIndex(3).MustString(),
-			Close:                    item.GetIndex(4).MustString(),
-			Volume:                   item.GetIndex(5).MustString(),
-			CloseTime:                item.GetIndex(6).MustInt64(),
-			QuoteAssetVolume:         item.GetIndex(7).MustString(),
-			TradeNum:                 item.GetIndex(8).MustInt64(),
-			TakerBuyBaseAssetVolume:  item.GetIndex(9).MustString(),
-			TakerBuyQuoteAssetVolume: item.GetIndex(10).MustString(),
-		}
-	}
 	return res, nil
-}
-
-// ContinuousKline define ContinuousKline info
-type ContinuousKline struct {
-	OpenTime                 int64  `json:"openTime"`
-	Open                     string `json:"open"`
-	High                     string `json:"high"`
-	Low                      string `json:"low"`
-	Close                    string `json:"close"`
-	Volume                   string `json:"volume"`
-	CloseTime                int64  `json:"closeTime"`
-	QuoteAssetVolume         string `json:"quoteAssetVolume"`
-	TradeNum                 int64  `json:"tradeNum"`
-	TakerBuyBaseAssetVolume  string `json:"takerBuyBaseAssetVolume"`
-	TakerBuyQuoteAssetVolume string `json:"takerBuyQuoteAssetVolume"`
 }

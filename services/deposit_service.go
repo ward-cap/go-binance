@@ -2,24 +2,8 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"net/http"
 )
-
-// Deposit represents a single deposit entry.
-type Deposit struct {
-	Amount        decimal.Decimal `json:"amount"`
-	Coin          string          `json:"coin"`
-	Network       string          `json:"network"`
-	Status        int             `json:"status"`
-	Address       string          `json:"address"`
-	AddressTag    string          `json:"addressTag"`
-	TxID          string          `json:"txId"`
-	InsertTime    int64           `json:"insertTime"`
-	TransferType  int64           `json:"transferType"`
-	UnlockConfirm int64           `json:"unlockConfirm"`
-	ConfirmTimes  string          `json:"confirmTimes"`
-}
 
 // GetDepositsAddressService retrieves the details of a deposit address.
 //
@@ -61,17 +45,9 @@ func (s *GetDepositsAddressService) Do(ctx context.Context) (*GetDepositAddressR
 	}
 
 	res := &GetDepositAddressResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
 	return res, nil
-}
-
-// GetDepositAddressResponse represents a response from GetDepositsAddressService.
-type GetDepositAddressResponse struct {
-	Address string `json:"address"`
-	Tag     string `json:"tag"`
-	Coin    string `json:"coin"`
-	URL     string `json:"url"`
 }

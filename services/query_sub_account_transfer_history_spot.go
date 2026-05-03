@@ -2,7 +2,6 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"net/http"
 	"strconv"
 	"time"
@@ -83,16 +82,7 @@ func (s *SubAccountTransferHistorySpotService) Do(ctx context.Context, opts ...R
 		return nil, err
 	}
 
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 
 	return res, err
-}
-
-type AccountTransferHistorySpotResponse struct {
-	FromId string          `json:"fromId"`
-	ToId   string          `json:"toId"`
-	Asset  string          `json:"asset"`
-	Qty    decimal.Decimal `json:"qty"`
-	Time   int64           `json:"time"`
-	TxnId  int64           `json:"txnId"`
 }

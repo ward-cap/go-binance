@@ -3,8 +3,6 @@ package binance
 import (
 	"context"
 	"net/http"
-
-	"github.com/shopspring/decimal"
 )
 
 // TransferToSubAccountService transfer to subaccount
@@ -60,16 +58,11 @@ func (s *TransferToSubAccountService) Do(ctx context.Context, opts ...RequestOpt
 		return nil, err
 	}
 	res = &TransferToSubAccountResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// TransferToSubAccountResponse define transfer to subaccount response
-type TransferToSubAccountResponse struct {
-	TxnID int64 `json:"txnId"`
 }
 
 type SubaccountDepositAddressService struct {
@@ -124,18 +117,11 @@ func (s *SubaccountDepositAddressService) Do(ctx context.Context, opts ...Reques
 		return nil, err
 	}
 	res = &SubaccountDepositAddressResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type SubaccountDepositAddressResponse struct {
-	Address string `json:"address"`
-	Coin    string `json:"coin"`
-	Tag     string `json:"tag"`
-	URL     string `json:"url"`
 }
 
 type SubaccountAssetsService struct {
@@ -174,22 +160,11 @@ func (s *SubaccountAssetsService) Do(ctx context.Context, opts ...RequestOption)
 		return nil, err
 	}
 	res = &SubaccountAssetsResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SubaccountAssetsResponse Query Sub-account Assets response
-type SubaccountAssetsResponse struct {
-	Balances []AssetBalance `json:"balances"`
-}
-
-type AssetBalance struct {
-	Asset  string  `json:"asset"`
-	Free   float64 `json:"free"`
-	Locked float64 `json:"locked"`
 }
 
 type SubaccountSpotSummaryService struct {
@@ -248,23 +223,11 @@ func (s *SubaccountSpotSummaryService) Do(ctx context.Context, opts ...RequestOp
 		return nil, err
 	}
 	res = &SubaccountSpotSummaryResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SubaccountSpotSummaryResponse Query Sub-account Spot Assets Summary response
-type SubaccountSpotSummaryResponse struct {
-	TotalCount                int64                       `json:"totalCount"`
-	MasterAccountTotalAsset   string                      `json:"masterAccountTotalAsset"`
-	SpotSubUserAssetBtcVoList []SpotSubUserAssetBtcVoList `json:"spotSubUserAssetBtcVoList"`
-}
-
-type SpotSubUserAssetBtcVoList struct {
-	Email      string `json:"email"`
-	TotalAsset string `json:"totalAsset"`
 }
 
 // SubAccountListService Query Sub-account List (For Master Account)
@@ -326,23 +289,11 @@ func (s *SubAccountListService) Do(ctx context.Context, opts ...RequestOption) (
 		return nil, err
 	}
 	res = new(SubAccountList)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type SubAccountList struct {
-	SubAccounts []SubAccount `json:"subAccounts"`
-}
-
-type SubAccount struct {
-	Email                       string `json:"email"`
-	IsFreeze                    bool   `json:"isFreeze"`
-	CreateTime                  uint64 `json:"createTime"`
-	IsManagedSubAccount         bool   `json:"isManagedSubAccount"`
-	IsAssetManagementSubAccount bool   `json:"isAssetManagementSubAccount"`
 }
 
 // ManagedSubAccountDepositService
@@ -370,10 +321,6 @@ func (s *ManagedSubAccountDepositService) Amount(amount float64) *ManagedSubAcco
 	return s
 }
 
-type ManagedSubAccountDepositResponse struct {
-	ID int64 `json:"tranId"`
-}
-
 // Do send request
 func (s *ManagedSubAccountDepositService) Do(ctx context.Context, opts ...RequestOption) (*ManagedSubAccountDepositResponse, error) {
 	r := &request{
@@ -393,7 +340,7 @@ func (s *ManagedSubAccountDepositService) Do(ctx context.Context, opts ...Reques
 	}
 
 	res := &ManagedSubAccountDepositResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
@@ -431,10 +378,6 @@ func (s *ManagedSubAccountWithdrawalService) TransferDate(val int64) *ManagedSub
 	return s
 }
 
-type ManagedSubAccountWithdrawalResponse struct {
-	ID int64 `json:"tranId"`
-}
-
 // Do send request
 func (s *ManagedSubAccountWithdrawalService) Do(ctx context.Context, opts ...RequestOption) (*ManagedSubAccountWithdrawalResponse, error) {
 	r := &request{
@@ -457,7 +400,7 @@ func (s *ManagedSubAccountWithdrawalService) Do(ctx context.Context, opts ...Req
 	}
 
 	res := &ManagedSubAccountWithdrawalResponse{}
-	if err := json.Unmarshal(data, res); err != nil {
+	if err := jsonCodec.Unmarshal(data, res); err != nil {
 		return nil, err
 	}
 
@@ -477,15 +420,6 @@ func (s *ManagedSubAccountAssetsService) Email(email string) *ManagedSubAccountA
 	return s
 }
 
-type ManagedSubAccountAsset struct {
-	Coin             string `json:"coin"`
-	Name             string `json:"name"`
-	TotalBalance     string `json:"totalBalance"`
-	AvailableBalance string `json:"availableBalance"`
-	InOrder          string `json:"inOrder"`
-	BtcValue         string `json:"btcValue"`
-}
-
 func (s *ManagedSubAccountAssetsService) Do(ctx context.Context, opts ...RequestOption) ([]*ManagedSubAccountAsset, error) {
 	r := &request{
 		service:  "ManagedSubAccountAssetsService",
@@ -502,7 +436,7 @@ func (s *ManagedSubAccountAssetsService) Do(ctx context.Context, opts ...Request
 	}
 
 	res := make([]*ManagedSubAccountAsset, 0)
-	if err := json.Unmarshal(data, &res); err != nil {
+	if err := jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 
@@ -536,42 +470,11 @@ func (s *SubAccountFuturesAccountService) Do(ctx context.Context, opts ...Reques
 		return nil, err
 	}
 	res = new(SubAccountFuturesAccount)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type SubAccountFuturesAccount struct {
-	Email                       string                          `json:"email"`
-	Asset                       string                          `json:"asset"`
-	Assets                      []SubAccountFuturesAccountAsset `json:"assets"`
-	CanDeposit                  bool                            `json:"canDeposit"`
-	CanTrade                    bool                            `json:"canTrade"`
-	CanWithdraw                 bool                            `json:"canWithdraw"`
-	FeeTier                     int                             `json:"feeTier"`
-	MaxWithdrawAmount           string                          `json:"maxWithdrawAmount"`
-	TotalInitialMargin          string                          `json:"totalInitialMargin"`
-	TotalMaintenanceMargin      string                          `json:"totalMaintenanceMargin"`
-	TotalMarginBalance          string                          `json:"totalMarginBalance"`
-	TotalOpenOrderInitialMargin string                          `json:"totalOpenOrderInitialMargin"`
-	TotalPositionInitialMargin  string                          `json:"totalPositionInitialMargin"`
-	TotalUnrealizedProfit       string                          `json:"totalUnrealizedProfit"`
-	TotalWalletBalance          string                          `json:"totalWalletBalance"`
-	UpdateTime                  int64                           `json:"updateTime"`
-}
-
-type SubAccountFuturesAccountAsset struct {
-	Asset                  string `json:"asset"`
-	InitialMargin          string `json:"initialMargin"`
-	MaintenanceMargin      string `json:"maintenanceMargin"`
-	MarginBalance          string `json:"marginBalance"`
-	MaxWithdrawAmount      string `json:"maxWithdrawAmount"`
-	OpenOrderInitialMargin string `json:"openOrderInitialMargin"`
-	PositionInitialMargin  string `json:"positionInitialMargin"`
-	UnrealizedProfit       string `json:"unrealizedProfit"`
-	WalletBalance          string `json:"walletBalance"`
 }
 
 // SubaccountFuturesSummaryV1Service Get Summary of Sub-account's Futures Account (For Master Account)
@@ -593,49 +496,11 @@ func (s *SubAccountFuturesSummaryV1Service) Do(ctx context.Context, opts ...Requ
 		return nil, err
 	}
 	res = new(SubAccountFuturesSummaryV1)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type SubAccountFuturesSummaryCommon struct {
-	Asset                       string `json:"asset"`
-	TotalInitialMargin          string `json:"totalInitialMargin"`
-	TotalMaintenanceMargin      string `json:"totalMaintenanceMargin"`
-	TotalMarginBalance          string `json:"totalMarginBalance"`
-	TotalOpenOrderInitialMargin string `json:"totalOpenOrderInitialMargin"`
-	TotalPositionInitialMargin  string `json:"totalPositionInitialMargin"`
-	TotalUnrealizedProfit       string `json:"totalUnrealizedProfit"`
-	TotalWalletBalance          string `json:"totalWalletBalance"`
-}
-
-type SubAccountFuturesSummaryV1 struct {
-	SubAccountFuturesSummaryCommon
-	SubAccountList []SubAccountFuturesSummaryV1SubAccountList `json:"subAccountList"`
-}
-
-type SubAccountFuturesSummaryV1SubAccountList struct {
-	Email string `json:"email"`
-	SubAccountFuturesSummaryCommon
-}
-
-type SubAccountResponse struct {
-	Email        string `json:"email"`
-	SubAccountID string `json:"subaccountId"`
-	Tag          string `json:"tag"`
-}
-
-type QuerySubAccountResponse struct {
-	SubaccountId          string          `json:"subaccountId"`
-	Email                 string          `json:"email"`
-	Tag                   string          `json:"tag"`
-	MakerCommission       decimal.Decimal `json:"makerCommission"`
-	TakerCommission       decimal.Decimal `json:"takerCommission"`
-	MarginMakerCommission decimal.Decimal `json:"marginMakerCommission"`
-	MarginTakerCommission decimal.Decimal `json:"marginTakerCommission"`
-	CreateTime            int64           `json:"createTime"`
 }
 
 type CreateSubAccountService struct {
@@ -680,7 +545,7 @@ func (s *QuerySubAccountService) Do(ctx context.Context, opts ...RequestOption) 
 	}
 
 	res = make([]*QuerySubAccountResponse, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
@@ -703,16 +568,11 @@ func (s *CreateSubAccountService) Do(ctx context.Context, opts ...RequestOption)
 	}
 
 	res = new(SubAccountResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type SubAccountAPIKeyResponse struct {
-	APIKey    string `json:"apiKey"`
-	SecretKey string `json:"secretKey"`
 }
 
 type SubAccountApiKeyService struct {
@@ -774,7 +634,7 @@ func (s *SubAccountApiKeyService) Do(ctx context.Context, opts ...RequestOption)
 	}
 
 	res = new(SubAccountAPIKeyResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}

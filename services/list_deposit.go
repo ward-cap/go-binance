@@ -71,7 +71,7 @@ func (s *ListDepositsService) Do(ctx context.Context) (res []*Deposit, err error
 		return
 	}
 	res = make([]*Deposit, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return
 	}

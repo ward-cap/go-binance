@@ -2,13 +2,6 @@ package common
 
 import "strconv"
 
-// PriceLevel is a common structure for bids and asks in the
-// order book.
-type PriceLevel struct {
-	Price    string
-	Quantity string
-}
-
 // Parse parses this PriceLevel's Price and Quantity and
 // returns them both.  It also returns an error if either
 // fails to parse.

@@ -80,11 +80,3 @@ func (s *LongShortRatioService) Do(ctx context.Context, opts ...RequestOption) (
 
 	return res, nil
 }
-
-type LongShortRatio struct {
-	Symbol         string `json:"symbol"`
-	LongShortRatio string `json:"longShortRatio"`
-	LongAccount    string `json:"longAccount"`
-	ShortAccount   string `json:"shortAccount"`
-	Timestamp      int64  `json:"timestamp"`
-}

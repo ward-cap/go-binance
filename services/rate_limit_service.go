@@ -23,17 +23,9 @@ func (s *RateLimitService) Do(ctx context.Context, opts ...RequestOption) (res [
 	if err != nil {
 		return res, err
 	}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return res, err
 	}
 	return res, nil
-}
-
-type RateLimitFull struct {
-	RateLimitType RateLimitType     `json:"rateLimitType"`
-	Interval      RateLimitInterval `json:"interval"`
-	IntervalNum   int               `json:"intervalNum"`
-	Limit         int               `json:"limit"`
-	Count         int               `json:"count"`
 }

@@ -23,16 +23,10 @@ func (s *GetAllLiquidityPoolService) Do(ctx context.Context, opts ...RequestOpti
 		return nil, err
 	}
 	res := []*LiquidityPool{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type LiquidityPool struct {
-	PoolId   int64    `json:"poolId"`
-	PoolName string   `json:"poolName"`
-	Assets   []string `json:"assets"`
 }
 
 // GetLiquidityPoolDetailService get swap pool detail by pool id
@@ -45,20 +39,6 @@ type GetLiquidityPoolDetailService struct {
 func (s *GetLiquidityPoolDetailService) PoolId(poolId int64) *GetLiquidityPoolDetailService {
 	s.poolId = &poolId
 	return s
-}
-
-type LiquidityPoolDetail struct {
-	PoolId     int64                 `json:"poolId"`
-	PoolName   string                `json:"poolName"`
-	UpdateTime int64                 `json:"updateTime"`
-	Liquidity  map[string]string     `json:"liquidity"`
-	Share      *PoolShareInformation `json:"share"`
-}
-
-type PoolShareInformation struct {
-	ShareAmount     string            `json:"shareAmount"`
-	SharePercentage string            `json:"sharePercentage"`
-	Assets          map[string]string `json:"asset"`
 }
 
 // Do sends the request.
@@ -77,7 +57,7 @@ func (s *GetLiquidityPoolDetailService) Do(ctx context.Context) ([]*LiquidityPoo
 		return nil, err
 	}
 	res := []*LiquidityPoolDetail{}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
@@ -117,17 +97,6 @@ func (s *AddLiquidityPreviewService) OperationType(operationType LiquidityOperat
 	return s
 }
 
-type AddLiquidityPreviewResponse struct {
-	QuoteAsset string `json:"quoteAsset"`
-	BaseAsset  string `json:"baseAsset"` // only existed when type is COMBINATION
-	QuoteAmt   string `json:"quoteAmt"`
-	BaseAmt    string `json:"baseAmt"` // only existed when type is COMBINATION
-	Price      string `json:"price"`
-	Share      string `json:"share"`
-	Slippage   string `json:"slippage"`
-	Fee        string `json:"fee"`
-}
-
 // Do sends the request.
 func (s *AddLiquidityPreviewService) Do(ctx context.Context) (*AddLiquidityPreviewResponse, error) {
 	r := &request{
@@ -147,7 +116,7 @@ func (s *AddLiquidityPreviewService) Do(ctx context.Context) (*AddLiquidityPrevi
 		return nil, err
 	}
 	res := &AddLiquidityPreviewResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -180,16 +149,6 @@ func (s *GetSwapQuoteService) BaseAsset(baseAsset string) *GetSwapQuoteService {
 	return s
 }
 
-type GetSwapQuoteResponse struct {
-	QuoteAsset string `json:"quoteAsset"`
-	BaseAsset  string `json:"baseAsset"`
-	QuoteQty   string `json:"quoteQty"`
-	BaseQty    string `json:"baseQty"`
-	Price      string `json:"price"`
-	Slippage   string `json:"slippage"`
-	Fee        string `json:"fee"`
-}
-
 // Do sends the request.
 func (s *GetSwapQuoteService) Do(ctx context.Context) (*GetSwapQuoteResponse, error) {
 	r := &request{
@@ -208,7 +167,7 @@ func (s *GetSwapQuoteService) Do(ctx context.Context) (*GetSwapQuoteResponse, er
 		return nil, err
 	}
 	res := &GetSwapQuoteResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -241,10 +200,6 @@ func (s *SwapService) BaseAsset(baseAsset string) *SwapService {
 	return s
 }
 
-type SwapResponse struct {
-	SwapId int64 `json:"swapId"`
-}
-
 // Do sends the request.
 func (s *SwapService) Do(ctx context.Context) (*SwapResponse, error) {
 	r := &request{
@@ -263,7 +218,7 @@ func (s *SwapService) Do(ctx context.Context) (*SwapResponse, error) {
 		return nil, err
 	}
 	res := &SwapResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -279,18 +234,6 @@ type GetUserSwapRecordsService struct {
 	quoteAsset *string
 	baseAsset  *string
 	resultSize *int64
-}
-
-type SwapRecord struct {
-	SwapId     int64          `json:"swapId"`
-	SwapTime   int64          `json:"swapTime"`
-	Status     SwappingStatus `json:"status"`
-	QuoteAsset string         `json:"quoteAsset"`
-	BaseAsset  string         `json:"baseAsset"`
-	QuoteQty   string         `json:"quoteQty"`
-	BaseQty    string         `json:"baseQty"`
-	Price      string         `json:"price"`
-	Fee        string         `json:"fee"`
 }
 
 // SwapId set swapId
@@ -371,7 +314,7 @@ func (s *GetUserSwapRecordsService) Do(ctx context.Context) ([]*SwapRecord, erro
 		return nil, err
 	}
 	res := []*SwapRecord{}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
@@ -411,10 +354,6 @@ func (s *AddLiquidityService) OperationType(operationType LiquidityOperationType
 	return s
 }
 
-type AddLiquidityResponse struct {
-	OperationId int64 `json:"operationId"`
-}
-
 // Do sends the request.
 func (s *AddLiquidityService) Do(ctx context.Context) (*AddLiquidityResponse, error) {
 	r := &request{
@@ -434,7 +373,7 @@ func (s *AddLiquidityService) Do(ctx context.Context) (*AddLiquidityResponse, er
 		return nil, err
 	}
 	res := &AddLiquidityResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -474,10 +413,6 @@ func (s *RemoveLiquidityService) OperationType(operationType LiquidityOperationT
 	return s
 }
 
-type RemoveLiquidityResponse struct {
-	OperationId int64 `json:"operationId"`
-}
-
 // Do sends the request.
 func (s *RemoveLiquidityService) Do(ctx context.Context) (*RemoveLiquidityResponse, error) {
 	r := &request{
@@ -499,7 +434,7 @@ func (s *RemoveLiquidityService) Do(ctx context.Context) (*RemoveLiquidityRespon
 		return nil, err
 	}
 	res := &RemoveLiquidityResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -516,10 +451,6 @@ type ClaimRewardService struct {
 func (s *ClaimRewardService) RewardType(t LiquidityRewardType) *ClaimRewardService {
 	s.rewardType = &t
 	return s
-}
-
-type ClaimRewardResponse struct {
-	Success bool `json:"success"`
 }
 
 // Do sends the request.
@@ -539,7 +470,7 @@ func (s *ClaimRewardService) Do(ctx context.Context) (*ClaimRewardResponse, erro
 		return nil, err
 	}
 	res := &ClaimRewardResponse{}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -593,15 +524,6 @@ func (s *QueryClaimedRewardHistoryService) ResultSize(resultSize int64) *QueryCl
 	return s
 }
 
-type ClaimedRewardHistory struct {
-	PoolId        int               `json:"poolId"`
-	PoolName      string            `json:"poolName"`
-	AssetRewards  string            `json:"assetRewards"`
-	ClaimedAt     int64             `json:"claimedTime"`
-	ClaimedAmount string            `json:"claimAmount"`
-	Status        RewardClaimStatus `json:"status"`
-}
-
 // Do sends the request.
 func (s *QueryClaimedRewardHistoryService) Do(ctx context.Context) ([]*ClaimedRewardHistory, error) {
 	r := &request{
@@ -634,7 +556,7 @@ func (s *QueryClaimedRewardHistoryService) Do(ctx context.Context) ([]*ClaimedRe
 		return nil, err
 	}
 	res := []*ClaimedRewardHistory{}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}

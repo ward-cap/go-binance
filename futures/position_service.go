@@ -51,13 +51,6 @@ func (s *ChangeLeverageService) Do(ctx context.Context, opts ...RequestOption) (
 	return res, nil
 }
 
-// SymbolLeverage define leverage info of symbol
-type SymbolLeverage struct {
-	Leverage         int    `json:"leverage"`
-	MaxNotionalValue string `json:"maxNotionalValue"`
-	Symbol           string `json:"symbol"`
-}
-
 // ChangeMarginTypeService change user's margin type of specific symbol market
 type ChangeMarginTypeService struct {
 	c          *Client
@@ -189,11 +182,6 @@ type GetPositionModeService struct {
 	c *Client
 }
 
-// Response of user's position mode
-type PositionMode struct {
-	DualSidePosition bool `json:"dualSidePosition"`
-}
-
 // Do send request
 func (s *GetPositionModeService) Do(ctx context.Context, opts ...RequestOption) (res *PositionMode, err error) {
 	r := &request{
@@ -248,11 +236,6 @@ func (s *ChangeMultiAssetModeService) Do(ctx context.Context, opts ...RequestOpt
 // GetMultiAssetModeService get user's multi-asset mode
 type GetMultiAssetModeService struct {
 	c *Client
-}
-
-// Response of user's multi-asset mode
-type MultiAssetMode struct {
-	MultiAssetsMargin bool `json:"multiAssetsMargin"`
 }
 
 // Do send request

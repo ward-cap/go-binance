@@ -4,8 +4,6 @@ import (
 	"context"
 	stdjson "encoding/json"
 	"net/http"
-
-	"github.com/shopspring/decimal"
 )
 
 // CreateOrderService create order
@@ -151,7 +149,7 @@ func (s *CreateOrderService) Do(ctx context.Context, opts ...RequestOption) (res
 		return nil, err
 	}
 	res = new(CreateOrderResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -162,38 +160,6 @@ func (s *CreateOrderService) Do(ctx context.Context, opts ...RequestOption) (res
 func (s *CreateOrderService) Test(ctx context.Context, opts ...RequestOption) (err error) {
 	_, err = s.createOrder(ctx, "/api/v3/order/test", opts...)
 	return err
-}
-
-// CreateOrderResponse define create order response
-type CreateOrderResponse struct {
-	Symbol                   string `json:"symbol"`
-	OrderID                  int64  `json:"orderId"`
-	ClientOrderID            string `json:"clientOrderId"`
-	TransactTime             int64  `json:"transactTime"`
-	Price                    string `json:"price"`
-	OrigQuantity             string `json:"origQty"`
-	ExecutedQuantity         string `json:"executedQty"`
-	CummulativeQuoteQuantity string `json:"cummulativeQuoteQty"`
-	IsIsolated               bool   `json:"isIsolated"` // for isolated margin
-
-	Status      OrderStatusType `json:"status"`
-	TimeInForce TimeInForceType `json:"timeInForce"`
-	Type        OrderType       `json:"type"`
-	Side        SideType        `json:"side"`
-
-	// for order response is set to FULL
-	Fills                 []*Fill `json:"fills"`
-	MarginBuyBorrowAmount string  `json:"marginBuyBorrowAmount"` // for margin
-	MarginBuyBorrowAsset  string  `json:"marginBuyBorrowAsset"`
-}
-
-// Fill may be returned in an array of fills in a CreateOrderResponse.
-type Fill struct {
-	TradeID         int64  `json:"tradeId"`
-	Price           string `json:"price"`
-	Quantity        string `json:"qty"`
-	Commission      string `json:"commission"`
-	CommissionAsset string `json:"commissionAsset"`
 }
 
 // CreateOCOService create order
@@ -346,68 +312,16 @@ func (s *CreateOCOService) Do(ctx context.Context, opts ...RequestOption) (res *
 		return nil, err
 	}
 	res = new(CreateOCOResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
 }
 
-// CreateOCOResponse define create order response
-type CreateOCOResponse struct {
-	OrderListID       int64             `json:"orderListId"`
-	ContingencyType   string            `json:"contingencyType"`
-	ListStatusType    string            `json:"listStatusType"`
-	ListOrderStatus   string            `json:"listOrderStatus"`
-	ListClientOrderID string            `json:"listClientOrderId"`
-	TransactionTime   int64             `json:"transactionTime"`
-	Symbol            string            `json:"symbol"`
-	Orders            []*OCOOrder       `json:"orders"`
-	OrderReports      []*OCOOrderReport `json:"orderReports"`
-}
-
-// OCOOrder may be returned in an array of OCOOrder in a CreateOCOResponse.
-type OCOOrder struct {
-	Symbol        string `json:"symbol"`
-	OrderID       int64  `json:"orderId"`
-	ClientOrderID string `json:"clientOrderId"`
-}
-
-// OCOOrderReport may be returned in an array of OCOOrderReport in a CreateOCOResponse.
-type OCOOrderReport struct {
-	Symbol                   string          `json:"symbol"`
-	OrderID                  int64           `json:"orderId"`
-	OrderListID              int64           `json:"orderListId"`
-	ClientOrderID            string          `json:"clientOrderId"`
-	OrigClientOrderID        string          `json:"origClientOrderId"`
-	TransactionTime          int64           `json:"transactionTime"`
-	Price                    string          `json:"price"`
-	OrigQuantity             string          `json:"origQty"`
-	ExecutedQuantity         string          `json:"executedQty"`
-	CummulativeQuoteQuantity string          `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType `json:"status"`
-	TimeInForce              TimeInForceType `json:"timeInForce"`
-	Type                     OrderType       `json:"type"`
-	Side                     SideType        `json:"side"`
-	StopPrice                string          `json:"stopPrice"`
-	IcebergQuantity          string          `json:"icebergQty"`
-}
-
 // ListOpenOcoService list opened oco
 type ListOpenOcoService struct {
 	c *Client
-}
-
-// oco define oco info
-type Oco struct {
-	Symbol            string   `json:"symbol"`
-	OrderListId       int64    `json:"orderListId"`
-	ContingencyType   string   `json:"contingencyType"`
-	ListStatusType    string   `json:"listStatusType"`
-	ListOrderStatus   string   `json:"listOrderStatus"`
-	ListClientOrderID string   `json:"listClientOrderId"`
-	TransactionTime   int64    `json:"transactionTime"`
-	Orders            []*Order `json:"orders"`
 }
 
 // Do send request
@@ -423,7 +337,7 @@ func (s *ListOpenOcoService) Do(ctx context.Context, opts ...RequestOption) (res
 		return []*Oco{}, err
 	}
 	res = make([]*Oco, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Oco{}, err
 	}
@@ -458,7 +372,7 @@ func (s *ListOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (
 		return []*Order{}, err
 	}
 	res = make([]*Order, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Order{}, err
 	}
@@ -511,34 +425,11 @@ func (s *GetOrderService) Do(ctx context.Context, opts ...RequestOption) (res *O
 		return nil, err
 	}
 	res = new(Order)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// Order define order info
-type Order struct {
-	Symbol                   string              `json:"symbol"`
-	OrderID                  int64               `json:"orderId"`
-	OrderListId              int64               `json:"orderListId"`
-	ClientOrderID            string              `json:"clientOrderId"`
-	Price                    decimal.Decimal     `json:"price"`
-	OrigQuantity             decimal.Decimal     `json:"origQty"`
-	ExecutedQuantity         decimal.NullDecimal `json:"executedQty"`
-	CummulativeQuoteQuantity string              `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType     `json:"status"`
-	TimeInForce              TimeInForceType     `json:"timeInForce"`
-	Type                     OrderType           `json:"type"`
-	Side                     SideType            `json:"side"`
-	StopPrice                decimal.NullDecimal `json:"stopPrice"`
-	IcebergQuantity          string              `json:"icebergQty"`
-	Time                     int64               `json:"time"`
-	UpdateTime               int64               `json:"updateTime"`
-	IsWorking                bool                `json:"isWorking"`
-	IsIsolated               bool                `json:"isIsolated"`
-	OrigQuoteOrderQuantity   string              `json:"origQuoteOrderQty"`
 }
 
 // ListOrdersService all account orders; active, canceled, or filled
@@ -607,7 +498,7 @@ func (s *ListOrdersService) Do(ctx context.Context, opts ...RequestOption) (res 
 		return []*Order{}, err
 	}
 	res = make([]*Order, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Order{}, err
 	}
@@ -670,7 +561,7 @@ func (s *CancelOrderService) Do(ctx context.Context, opts ...RequestOption) (res
 		return nil, err
 	}
 	res = new(CancelOrderResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -733,7 +624,7 @@ func (s *CancelOCOService) Do(ctx context.Context, opts ...RequestOption) (res *
 		return nil, err
 	}
 	res = new(CancelOCOResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -766,14 +657,14 @@ func (s *CancelOpenOrdersService) Do(ctx context.Context, opts ...RequestOption)
 		return &CancelOpenOrdersResponse{}, err
 	}
 	rawMessages := make([]*stdjson.RawMessage, 0)
-	err = json.Unmarshal(data, &rawMessages)
+	err = jsonCodec.Unmarshal(data, &rawMessages)
 	if err != nil {
 		return &CancelOpenOrdersResponse{}, err
 	}
 	cancelOpenOrdersResponse := new(CancelOpenOrdersResponse)
 	for _, j := range rawMessages {
 		o := new(CancelOrderResponse)
-		if err := json.Unmarshal(*j, o); err != nil {
+		if err := jsonCodec.Unmarshal(*j, o); err != nil {
 			return &CancelOpenOrdersResponse{}, err
 		}
 		// Non-OCO orders guaranteed to have order list ID of -1
@@ -782,47 +673,10 @@ func (s *CancelOpenOrdersService) Do(ctx context.Context, opts ...RequestOption)
 			continue
 		}
 		oco := new(CancelOCOResponse)
-		if err := json.Unmarshal(*j, oco); err != nil {
+		if err := jsonCodec.Unmarshal(*j, oco); err != nil {
 			return &CancelOpenOrdersResponse{}, err
 		}
 		cancelOpenOrdersResponse.OCOOrders = append(cancelOpenOrdersResponse.OCOOrders, oco)
 	}
 	return cancelOpenOrdersResponse, nil
-}
-
-// CancelOpenOrdersResponse defines cancel open orders response.
-type CancelOpenOrdersResponse struct {
-	Orders    []*CancelOrderResponse
-	OCOOrders []*CancelOCOResponse
-}
-
-// CancelOrderResponse may be returned included in a CancelOpenOrdersResponse.
-type CancelOrderResponse struct {
-	Symbol                   string          `json:"symbol"`
-	OrigClientOrderID        string          `json:"origClientOrderId"`
-	OrderID                  int64           `json:"orderId"`
-	OrderListID              int64           `json:"orderListId"`
-	ClientOrderID            string          `json:"clientOrderId"`
-	TransactTime             int64           `json:"transactTime"`
-	Price                    string          `json:"price"`
-	OrigQuantity             string          `json:"origQty"`
-	ExecutedQuantity         string          `json:"executedQty"`
-	CummulativeQuoteQuantity string          `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType `json:"status"`
-	TimeInForce              TimeInForceType `json:"timeInForce"`
-	Type                     OrderType       `json:"type"`
-	Side                     SideType        `json:"side"`
-}
-
-// CancelOCOResponse may be returned included in a CancelOpenOrdersResponse.
-type CancelOCOResponse struct {
-	OrderListID       int64             `json:"orderListId"`
-	ContingencyType   string            `json:"contingencyType"`
-	ListStatusType    string            `json:"listStatusType"`
-	ListOrderStatus   string            `json:"listOrderStatus"`
-	ListClientOrderID string            `json:"listClientOrderId"`
-	TransactionTime   int64             `json:"transactionTime"`
-	Symbol            string            `json:"symbol"`
-	Orders            []*OCOOrder       `json:"orders"`
-	OrderReports      []*OCOOrderReport `json:"orderReports"`
 }

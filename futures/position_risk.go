@@ -3,7 +3,6 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -40,23 +39,4 @@ func (s *GetPositionRiskService) Do(ctx context.Context, opts ...RequestOption) 
 		return []*PositionRisk{}, err
 	}
 	return res, nil
-}
-
-// PositionRisk define position risk info
-type PositionRisk struct {
-	EntryPrice       decimal.Decimal `json:"entryPrice"`
-	BreakEvenPrice   string          `json:"breakEvenPrice"`
-	MarginType       string          `json:"marginType"`
-	IsAutoAddMargin  string          `json:"isAutoAddMargin"`
-	IsolatedMargin   string          `json:"isolatedMargin"`
-	Leverage         string          `json:"leverage"`
-	LiquidationPrice string          `json:"liquidationPrice"`
-	MarkPrice        string          `json:"markPrice"`
-	MaxNotionalValue string          `json:"maxNotionalValue"`
-	PositionAmt      decimal.Decimal `json:"positionAmt"`
-	Symbol           string          `json:"symbol"`
-	UnRealizedProfit string          `json:"unRealizedProfit"`
-	PositionSide     string          `json:"positionSide"`
-	Notional         string          `json:"notional"`
-	IsolatedWallet   string          `json:"isolatedWallet"`
 }

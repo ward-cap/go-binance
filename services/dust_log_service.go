@@ -55,36 +55,11 @@ func (s *ListDustLogService) Do(ctx context.Context) (withdraws *DustResult, err
 		return
 	}
 	res := new(DustResult)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return
 	}
 	return res, nil
-}
-
-// DustResult represents the result of a DustLog API Call.
-type DustResult struct {
-	Total              uint8               `json:"total"` //Total counts of exchange
-	UserAssetDribblets []UserAssetDribblet `json:"userAssetDribblets"`
-}
-
-// UserAssetDribblet represents one dust log row
-type UserAssetDribblet struct {
-	OperateTime              int64                     `json:"operateTime"`
-	TotalTransferedAmount    string                    `json:"totalTransferedAmount"`    //Total transfered BNB amount for this exchange.
-	TotalServiceChargeAmount string                    `json:"totalServiceChargeAmount"` //Total service charge amount for this exchange.
-	TransID                  int64                     `json:"transId"`
-	UserAssetDribbletDetails []UserAssetDribbletDetail `json:"userAssetDribbletDetails"` //Details of this exchange.
-}
-
-// DustLog represents one dust log informations
-type UserAssetDribbletDetail struct {
-	TransID             int    `json:"transId"`
-	ServiceChargeAmount string `json:"serviceChargeAmount"`
-	Amount              string `json:"amount"`
-	OperateTime         int64  `json:"operateTime"` //The time of this exchange.
-	TransferedAmount    string `json:"transferedAmount"`
-	FromAsset           string `json:"fromAsset"`
 }
 
 // DustTransferService convert dust assets to BNB.
@@ -116,28 +91,11 @@ func (s *DustTransferService) Do(ctx context.Context) (withdraws *DustTransferRe
 		return
 	}
 	res := new(DustTransferResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return
 	}
 	return res, nil
-}
-
-// DustTransferResponse represents the response from DustTransferService.
-type DustTransferResponse struct {
-	TotalServiceCharge string                `json:"totalServiceCharge"`
-	TotalTransfered    string                `json:"totalTransfered"`
-	TransferResult     []*DustTransferResult `json:"transferResult"`
-}
-
-// DustTransferResult represents the result of a dust transfer.
-type DustTransferResult struct {
-	Amount              string `json:"amount"`
-	FromAsset           string `json:"fromAsset"`
-	OperateTime         int64  `json:"operateTime"`
-	ServiceChargeAmount string `json:"serviceChargeAmount"`
-	TranID              int64  `json:"tranId"`
-	TransferedAmount    string `json:"transferedAmount"`
 }
 
 // ListDustService get list of dust to BNB.
@@ -159,26 +117,9 @@ func (s *ListDustService) Do(ctx context.Context) (res *ListDustResponse, err er
 		return
 	}
 	res = new(ListDustResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return
 	}
 	return res, nil
-}
-
-type ListDustDetail struct {
-	Asset            string `json:"asset"`
-	AssetFullName    string `json:"assetFullName"`
-	AmountFree       string `json:"amountFree"`
-	ToBTC            string `json:"toBTC"`
-	ToBNB            string `json:"toBNB"`
-	ToBNBOffExchange string `json:"toBNBOffExchange"`
-	Exchange         string `json:"exchange"`
-}
-
-type ListDustResponse struct {
-	Details            []ListDustDetail `json:"details"`
-	TotalTransferBtc   string           `json:"totalTransferBtc"`
-	TotalTransferBNB   string           `json:"totalTransferBNB"`
-	DribbletPercentage string           `json:"dribbletPercentage"`
 }

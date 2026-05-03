@@ -79,13 +79,3 @@ func (s *GetPositionMarginHistoryService) Do(ctx context.Context, opts ...Reques
 	}
 	return res, nil
 }
-
-// PositionMarginHistory define position margin history info
-type PositionMarginHistory struct {
-	Amount       string `json:"amount"`
-	Asset        string `json:"asset"`
-	Symbol       string `json:"symbol"`
-	Time         int64  `json:"time"`
-	Type         int    `json:"type"`
-	PositionSide string `json:"positionSide"`
-}

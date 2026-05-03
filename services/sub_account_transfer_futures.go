@@ -62,11 +62,6 @@ func (s *SubAccountTransferFuturesService) Do(ctx context.Context, opts ...Reque
 	if err != nil {
 		return res, err
 	}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	return res, err
-}
-
-type AccountTransferFuturesResponse struct {
-	TxnId     int64  `json:"txnId"`
-	ErrorData string `json:"errorData"`
 }

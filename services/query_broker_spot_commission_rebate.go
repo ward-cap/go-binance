@@ -3,8 +3,6 @@ package binance
 import (
 	"context"
 	"net/http"
-
-	"github.com/shopspring/decimal"
 )
 
 func (c *Client) NewQueryBrokerSpotCommissionRebateService(
@@ -30,16 +28,6 @@ type QueryBrokerSpotCommissionRebateService struct {
 	size      uint
 }
 
-type BrokerCommissionRebateResponse struct {
-	SubAccountID string          `json:"subaccountId"`
-	Income       decimal.Decimal `json:"income"`
-	Asset        string          `json:"asset"`
-	Symbol       string          `json:"symbol"`
-	Time         int64           `json:"time"`
-	TradeId      int             `json:"tradeId"`
-	Status       int             `json:"status"`
-}
-
 func (s *QueryBrokerSpotCommissionRebateService) Do(ctx context.Context, opts ...RequestOption) (d []BrokerCommissionRebateResponse, _ error) {
 	r := &request{
 		service:  "QueryBrokerSpotCommissionRebateService",
@@ -60,6 +48,6 @@ func (s *QueryBrokerSpotCommissionRebateService) Do(ctx context.Context, opts ..
 		return nil, err
 	}
 
-	err = json.Unmarshal(data, &d)
+	err = jsonCodec.Unmarshal(data, &d)
 	return d, err
 }

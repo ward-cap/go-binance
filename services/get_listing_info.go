@@ -9,11 +9,6 @@ type ListingService struct {
 	c *Client
 }
 
-type GetListingResponse struct {
-	OpenTime int64    `json:"openTime"`
-	Symbols  []string `json:"symbols"`
-}
-
 func (s *ListingService) Do(ctx context.Context) (res []GetListingResponse, err error) {
 	r := &request{
 		service:  "ListingService",
@@ -27,7 +22,7 @@ func (s *ListingService) Do(ctx context.Context) (res []GetListingResponse, err 
 		return
 	}
 
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 
 	return res, err
 }

@@ -71,32 +71,10 @@ func (s *FiatDepositWithdrawHistoryService) Do(ctx context.Context, opts ...Requ
 		return nil, err
 	}
 	res := FiatDepositWithdrawHistory{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
-}
-
-// FiatDepositWithdrawHistory define the fiat deposit/withdraw history
-type FiatDepositWithdrawHistory struct {
-	Code    string                           `json:"code"`
-	Message string                           `json:"message"`
-	Data    []FiatDepositWithdrawHistoryItem `json:"data"`
-	Total   int32                            `json:"total"`
-	Success bool                             `json:"success"`
-}
-
-// FiatDepositWithdrawHistoryItem define a fiat deposit/withdraw history item
-type FiatDepositWithdrawHistoryItem struct {
-	OrderNo         string `json:"orderNo"`
-	FiatCurrency    string `json:"fiatCurrency"`
-	IndicatedAmount string `json:"indicatedAmount"`
-	Amount          string `json:"amount"`
-	TotalFee        string `json:"totalFee"`
-	Method          string `json:"method"`
-	Status          string `json:"status"`
-	CreateTime      int64  `json:"createTime"`
-	UpdateTime      int64  `json:"updateTime"`
 }
 
 // FiatPaymentsHistoryService retrieve the fiat payments history
@@ -165,31 +143,8 @@ func (s *FiatPaymentsHistoryService) Do(ctx context.Context, opts ...RequestOpti
 		return nil, err
 	}
 	res := FiatPaymentsHistory{}
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
-}
-
-// FiatPaymentsHistory define the fiat payments history
-type FiatPaymentsHistory struct {
-	Code    string                    `json:"code"`
-	Message string                    `json:"message"`
-	Data    []FiatPaymentsHistoryItem `json:"data"`
-	Total   int32                     `json:"total"`
-	Success bool                      `json:"success"`
-}
-
-// FiatPaymentsHistoryItem define a fiat payments history item
-type FiatPaymentsHistoryItem struct {
-	OrderNo        string `json:"orderNo"`
-	SourceAmount   string `json:"sourceAmount"`
-	FiatCurrency   string `json:"fiatCurrency"`
-	ObtainAmount   string `json:"obtainAmount"`
-	CryptoCurrency string `json:"cryptoCurrency"`
-	TotalFee       string `json:"totalFee"`
-	Price          string `json:"price"`
-	Status         string `json:"status"`
-	CreateTime     int64  `json:"createTime"`
-	UpdateTime     int64  `json:"updateTime"`
 }

@@ -59,12 +59,7 @@ func (s *SubAccountTransferSpotService) Do(ctx context.Context, opts ...RequestO
 		return res, err
 	}
 
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 
 	return res, err
-}
-
-type AccountTransferSpotResponse struct {
-	TxnId     int64  `json:"txnId"`
-	ErrorData string `json:"errorData"`
 }

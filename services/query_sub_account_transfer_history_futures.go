@@ -2,7 +2,6 @@ package binance
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"net/http"
 	"time"
 )
@@ -39,22 +38,6 @@ type SubAccountTransferHistoryFuturesService struct {
 	limit        *int
 }
 
-type Transfer struct {
-	From   string          `json:"from"`
-	To     string          `json:"to"`
-	Asset  string          `json:"asset"`
-	Qty    decimal.Decimal `json:"qty"`
-	TranId string          `json:"tranId"`
-	//ClientTranId string          `json:"clientTranId"`
-	Time int64 `json:"time"`
-}
-
-type AccountTransferHistoryFuturesResponse struct {
-	Success     bool       `json:"success"`
-	FuturesType int64      `json:"futuresType"`
-	Transfers   []Transfer `json:"transfers"`
-}
-
 func (s *SubAccountTransferHistoryFuturesService) Do(ctx context.Context, opts ...RequestOption) (res AccountTransferHistoryFuturesResponse, err error) {
 	r := &request{
 		service:  "SubAccountTransferHistoryFuturesService",
@@ -89,7 +72,7 @@ func (s *SubAccountTransferHistoryFuturesService) Do(ctx context.Context, opts .
 		return res, err
 	}
 
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 
 	return res, err
 }

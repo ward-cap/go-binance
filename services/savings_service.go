@@ -65,27 +65,11 @@ func (s *ListSavingsFlexibleProductsService) Do(ctx context.Context, opts ...Req
 		return nil, err
 	}
 	var res []*SavingsFlexibleProduct
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SavingsFlexibleProduct define a flexible product (Savings)
-type SavingsFlexibleProduct struct {
-	Asset                    string `json:"asset"`
-	AvgAnnualInterestRate    string `json:"avgAnnualInterestRate"`
-	CanPurchase              bool   `json:"canPurchase"`
-	CanRedeem                bool   `json:"canRedeem"`
-	DailyInterestPerThousand string `json:"dailyInterestPerThousand"`
-	Featured                 bool   `json:"featured"`
-	MinPurchaseAmount        string `json:"minPurchaseAmount"`
-	ProductId                string `json:"productId"`
-	PurchasedAmount          string `json:"purchasedAmount"`
-	Status                   string `json:"status"`
-	UpLimit                  string `json:"upLimit"`
-	UpLimitPerUser           string `json:"upLimitPerUser"`
 }
 
 // PurchaseSavingsFlexibleProductService https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data
@@ -126,15 +110,11 @@ func (s *PurchaseSavingsFlexibleProductService) Do(ctx context.Context, opts ...
 	}
 
 	var res *PurchaseSavingsFlexibleProductResponse
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return 0, err
 	}
 
 	return res.PurchaseId, nil
-}
-
-type PurchaseSavingsFlexibleProductResponse struct {
-	PurchaseId uint64 `json:"purchaseId"`
 }
 
 // RedeemSavingsFlexibleProductService https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data
@@ -273,30 +253,10 @@ func (s *ListSavingsFixedAndActivityProductsService) Do(ctx context.Context, opt
 		return nil, err
 	}
 	var res []*SavingsFixedProduct
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SavingsFixedProduct define a fixed product (Savings)
-type SavingsFixedProduct struct {
-	Asset              string `json:"asset"`
-	DisplayPriority    int    `json:"displayPriority"`
-	Duration           int    `json:"duration"`
-	InterestPerLot     string `json:"interestPerLot"`
-	InterestRate       string `json:"interestRate"`
-	LotSize            string `json:"lotSize"`
-	LotsLowLimit       int    `json:"lotsLowLimit"`
-	LotsPurchased      int    `json:"lotsPurchased"`
-	LotsUpLimit        int    `json:"lotsUpLimit"`
-	MaxLotsPerUser     int    `json:"maxLotsPerUser"`
-	NeedKyc            bool   `json:"needKyc"`
-	ProjectId          string `json:"projectId"`
-	ProjectName        string `json:"projectName"`
-	Status             string `json:"status"`
-	Type               string `json:"type"`
-	WithAreaLimitation bool   `json:"withAreaLimitation"`
 }
 
 // SavingFlexibleProductPositionsService fetches the saving flexible product positions
@@ -329,28 +289,10 @@ func (s *SavingFlexibleProductPositionsService) Do(ctx context.Context, opts ...
 		return nil, err
 	}
 	var res []*SavingFlexibleProductPosition
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SavingFlexibleProductPosition represents a saving flexible product position.
-type SavingFlexibleProductPosition struct {
-	Asset                 string `json:"asset"`
-	ProductId             string `json:"productId"`
-	ProductName           string `json:"productName"`
-	AvgAnnualInterestRate string `json:"avgAnnualInterestRate"`
-	AnnualInterestRate    string `json:"annualInterestRate"`
-	DailyInterestRate     string `json:"dailyInterestRate"`
-	TotalInterest         string `json:"totalInterest"`
-	TotalAmount           string `json:"totalAmount"`
-	TotalPurchasedAmount  string `json:"todayPurchasedAmount"`
-	RedeemingAmount       string `json:"redeemingAmount"`
-	FreeAmount            string `json:"freeAmount"`
-	FreezeAmount          string `json:"freezeAmount,omitempty"`
-	LockedAmount          string `json:"lockedAmount,omitempty"`
-	CanRedeem             bool   `json:"canRedeem"`
 }
 
 // SavingFixedProjectPositionsService fetches the saving flexible product positions
@@ -403,29 +345,8 @@ func (s *SavingFixedProjectPositionsService) Do(ctx context.Context, opts ...Req
 		return nil, err
 	}
 	var res []*SavingFixedProjectPosition
-	if err = json.Unmarshal(data, &res); err != nil {
+	if err = jsonCodec.Unmarshal(data, &res); err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// SavingFixedProjectPosition represents a saving flexible product position.
-type SavingFixedProjectPosition struct {
-	Asset           string `json:"asset"`
-	CanTransfer     bool   `json:"canTransfer"`
-	CreateTimestamp int64  `json:"createTimestamp"`
-	Duration        int64  `json:"duration"`
-	StartTime       int64  `json:"startTime"`
-	EndTime         int64  `json:"endTime"`
-	PurchaseTime    int64  `json:"purchaseTime"`
-	RedeemDate      string `json:"redeemDate"`
-	Interest        string `json:"interest"`
-	InterestRate    string `json:"interestRate"`
-	Lot             int32  `json:"lot"`
-	PositionId      int64  `json:"positionId"`
-	Principal       string `json:"principal"`
-	ProjectId       string `json:"projectId"`
-	ProjectName     string `json:"projectName"`
-	Status          string `json:"status"`
-	ProjectType     string `json:"type"`
 }

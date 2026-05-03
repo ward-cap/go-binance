@@ -154,7 +154,7 @@ func (s *CreateMarginOrderService) Do(ctx context.Context, opts ...RequestOption
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func (s *CancelMarginOrderService) Do(ctx context.Context, opts ...RequestOption
 		return nil, err
 	}
 	res = new(CancelMarginOrderResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -296,7 +296,7 @@ func (s *GetMarginOrderService) Do(ctx context.Context, opts ...RequestOption) (
 		return nil, err
 	}
 	res = new(Order)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
@@ -342,7 +342,7 @@ func (s *ListMarginOpenOrdersService) Do(ctx context.Context, opts ...RequestOpt
 		return []*Order{}, err
 	}
 	res = make([]*Order, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Order{}, err
 	}
@@ -426,28 +426,11 @@ func (s *ListMarginOrdersService) Do(ctx context.Context, opts ...RequestOption)
 		return []*Order{}, err
 	}
 	res = make([]*Order, 0)
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return []*Order{}, err
 	}
 	return res, nil
-}
-
-// CancelMarginOrderResponse define response of canceling order
-type CancelMarginOrderResponse struct {
-	Symbol                   string          `json:"symbol"`
-	OrigClientOrderID        string          `json:"origClientOrderId"`
-	OrderID                  string          `json:"orderId"`
-	ClientOrderID            string          `json:"clientOrderId"`
-	TransactTime             int64           `json:"transactTime"`
-	Price                    string          `json:"price"`
-	OrigQuantity             string          `json:"origQty"`
-	ExecutedQuantity         string          `json:"executedQty"`
-	CummulativeQuoteQuantity string          `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType `json:"status"`
-	TimeInForce              TimeInForceType `json:"timeInForce"`
-	Type                     OrderType       `json:"type"`
-	Side                     SideType        `json:"side"`
 }
 
 // CreateMarginOCOService create a new OCO for a margin account
@@ -624,52 +607,11 @@ func (s *CreateMarginOCOService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 	res = new(CreateMarginOCOResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// CreateMarginOCOResponse define create order response
-type CreateMarginOCOResponse struct {
-	OrderListID           int64                   `json:"orderListId"`
-	ContingencyType       string                  `json:"contingencyType"`
-	ListStatusType        string                  `json:"listStatusType"`
-	ListOrderStatus       string                  `json:"listOrderStatus"`
-	ListClientOrderID     string                  `json:"listClientOrderId"`
-	TransactionTime       int64                   `json:"transactionTime"`
-	Symbol                string                  `json:"symbol"`
-	MarginBuyBorrowAmount string                  `json:"marginBuyBorrowAmount"`
-	MarginBuyBorrowAsset  string                  `json:"marginBuyBorrowAsset"`
-	IsIsolated            bool                    `json:"isIsolated"`
-	Orders                []*MarginOCOOrder       `json:"orders"`
-	OrderReports          []*MarginOCOOrderReport `json:"orderReports"`
-}
-
-// MarginOCOOrder may be returned in an array of MarginOCOOrder in a CreateMarginOCOResponse
-type MarginOCOOrder struct {
-	Symbol        string `json:"symbol"`
-	OrderID       int64  `json:"orderId"`
-	ClientOrderID string `json:"clientOrderId"`
-}
-
-// MarginOCOOrderReport may be returned in an array of MarginOCOOrderReport in a CreateMarginOCOResponse
-type MarginOCOOrderReport struct {
-	Symbol                   string          `json:"symbol"`
-	OrderID                  int64           `json:"orderId"`
-	OrderListID              int64           `json:"orderListId"`
-	ClientOrderID            string          `json:"clientOrderId"`
-	TransactionTime          int64           `json:"transactionTime"`
-	Price                    string          `json:"price"`
-	OrigQuantity             string          `json:"origQty"`
-	ExecutedQuantity         string          `json:"executedQty"`
-	CummulativeQuoteQuantity string          `json:"cummulativeQuoteQty"`
-	Status                   OrderStatusType `json:"status"`
-	TimeInForce              TimeInForceType `json:"timeInForce"`
-	Type                     OrderType       `json:"type"`
-	Side                     SideType        `json:"side"`
-	StopPrice                string          `json:"stopPrice"`
 }
 
 // CancelMarginOCOService cancel an entire Order List for a margin account
@@ -738,23 +680,9 @@ func (s *CancelMarginOCOService) Do(ctx context.Context, opts ...RequestOption) 
 		return nil, err
 	}
 	res = new(CancelMarginOCOResponse)
-	err = json.Unmarshal(data, res)
+	err = jsonCodec.Unmarshal(data, res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-// CancelMarginOCOResponse define create cancelled oco response.
-type CancelMarginOCOResponse struct {
-	OrderListID       int64                   `json:"orderListId"`
-	ContingencyType   string                  `json:"contingencyType"`
-	ListStatusType    string                  `json:"listStatusType"`
-	ListOrderStatus   string                  `json:"listOrderStatus"`
-	ListClientOrderID string                  `json:"listClientOrderId"`
-	TransactionTime   int64                   `json:"transactionTime"`
-	Symbol            string                  `json:"symbol"`
-	IsIsolated        bool                    `json:"isIsolated"`
-	Orders            []*MarginOCOOrder       `json:"orders"`
-	OrderReports      []*MarginOCOOrderReport `json:"orderReports"`
 }

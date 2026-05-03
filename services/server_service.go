@@ -37,12 +37,7 @@ func (s *ServerTimeService) Do(ctx context.Context, opts ...RequestOption) (serv
 	if err != nil {
 		return 0, err
 	}
-	j, err := newJSON(data)
-	if err != nil {
-		return 0, err
-	}
-	serverTime = j.Get("serverTime").MustInt64()
-	return serverTime, nil
+	return parseServerTime(data)
 }
 
 // SetServerTimeService set server time

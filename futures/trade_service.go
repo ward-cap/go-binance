@@ -3,7 +3,6 @@ package futures
 import (
 	"context"
 	"encoding/json"
-	"github.com/shopspring/decimal"
 	"net/http"
 )
 
@@ -59,32 +58,6 @@ func (s *HistoricalTradesService) Do(ctx context.Context, opts ...RequestOption)
 		return
 	}
 	return
-}
-
-// Trade define trade info
-type Trade struct {
-	ID            int64  `json:"id"`
-	Price         string `json:"price"`
-	Quantity      string `json:"qty"`
-	QuoteQuantity string `json:"quoteQty"`
-	Time          int64  `json:"time"`
-	IsBuyerMaker  bool   `json:"isBuyerMaker"`
-}
-
-// TradeV3 define v3 trade info
-type TradeV3 struct {
-	ID              int64  `json:"id"`
-	Symbol          string `json:"symbol"`
-	OrderID         int64  `json:"orderId"`
-	Price           string `json:"price"`
-	Quantity        string `json:"qty"`
-	QuoteQuantity   string `json:"quoteQty"`
-	Commission      string `json:"commission"`
-	CommissionAsset string `json:"commissionAsset"`
-	Time            int64  `json:"time"`
-	IsBuyer         bool   `json:"isBuyer"`
-	IsMaker         bool   `json:"isMaker"`
-	IsBestMatch     bool   `json:"isBestMatch"`
 }
 
 // AggTradesService list aggregate trades
@@ -157,17 +130,6 @@ func (s *AggTradesService) Do(ctx context.Context, opts ...RequestOption) (res [
 		return []*AggTrade{}, err
 	}
 	return res, nil
-}
-
-// AggTrade define aggregate trade info
-type AggTrade struct {
-	AggTradeID   int64  `json:"a"`
-	Price        string `json:"p"`
-	Quantity     string `json:"q"`
-	FirstTradeID int64  `json:"f"`
-	LastTradeID  int64  `json:"l"`
-	Timestamp    int64  `json:"T"`
-	IsBuyerMaker bool   `json:"m"`
 }
 
 // RecentTradesService list recent trades
@@ -293,22 +255,4 @@ func (s *ListAccountTradeService) Do(ctx context.Context, opts ...RequestOption)
 		return []*AccountTrade{}, err
 	}
 	return res, nil
-}
-
-// AccountTrade define account trade
-type AccountTrade struct {
-	Buyer           bool             `json:"buyer"`
-	Commission      decimal.Decimal  `json:"commission"`
-	CommissionAsset string           `json:"commissionAsset"`
-	ID              int64            `json:"id"`
-	Maker           bool             `json:"maker"`
-	OrderID         int64            `json:"orderId"`
-	Price           decimal.Decimal  `json:"price"`
-	Quantity        decimal.Decimal  `json:"qty"`
-	QuoteQuantity   string           `json:"quoteQty"`
-	RealizedPnl     string           `json:"realizedPnl"`
-	Side            SideType         `json:"side"`
-	PositionSide    PositionSideType `json:"positionSide"`
-	Symbol          string           `json:"symbol"`
-	Time            int64            `json:"time"`
 }

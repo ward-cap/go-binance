@@ -41,14 +41,6 @@ func (s *TraderSummaryService) EndTime(endTime int64) *TraderSummaryService {
 	return s
 }
 
-type TraderSummaryResponse struct {
-	CustomerId string `json:"customerId"`
-	Unit       string `json:"unit"`
-	TradeVol   string `json:"tradeVol"`
-	RebateVol  string `json:"rebateVol"`
-	Time       int64  `json:"time"`
-}
-
 // Do send request
 func (s *TraderSummaryService) Do(ctx context.Context, opts ...RequestOption) (res []*TraderSummaryResponse, err error) {
 	r := &request{

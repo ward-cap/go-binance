@@ -22,12 +22,7 @@ func (s *StartUserStreamService) Do(ctx context.Context, opts ...RequestOption) 
 	if err != nil {
 		return "", err
 	}
-	j, err := newJSON(data)
-	if err != nil {
-		return "", err
-	}
-	listenKey = j.Get("listenKey").MustString()
-	return listenKey, nil
+	return parseListenKey(data)
 }
 
 // KeepaliveUserStreamService update listen key

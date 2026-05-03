@@ -55,11 +55,7 @@ func (s *UniversalTransferService) Do(ctx context.Context, opts ...RequestOption
 	if err != nil {
 		return def, err
 	}
-	err = json.Unmarshal(data, &def)
+	err = jsonCodec.Unmarshal(data, &def)
 
 	return def, err
-}
-
-type UniversalTransferServiceResponse struct {
-	TxnId int64 `json:"txnId"`
 }

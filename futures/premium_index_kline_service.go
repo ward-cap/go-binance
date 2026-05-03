@@ -2,7 +2,6 @@ package futures
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 )
 
@@ -68,26 +67,9 @@ func (piks *PremiumIndexKlinesService) Do(ctx context.Context, opts ...RequestOp
 	if err != nil {
 		return []*Kline{}, err
 	}
-	j, err := newJSON(data)
+	res, err = parsePriceKlines(data)
 	if err != nil {
 		return []*Kline{}, err
-	}
-	num := len(j.MustArray())
-	res = make([]*Kline, num)
-	for i := 0; i < num; i++ {
-		item := j.GetIndex(i)
-		if len(item.MustArray()) < 11 {
-			err = fmt.Errorf("invalid kline response")
-			return []*Kline{}, err
-		}
-		res[i] = &Kline{
-			OpenTime:  item.GetIndex(0).MustInt64(),
-			Open:      item.GetIndex(1).MustString(),
-			High:      item.GetIndex(2).MustString(),
-			Low:       item.GetIndex(3).MustString(),
-			Close:     item.GetIndex(4).MustString(),
-			CloseTime: item.GetIndex(6).MustInt64(),
-		}
 	}
 	return res, nil
 }

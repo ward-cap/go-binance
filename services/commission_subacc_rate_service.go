@@ -45,18 +45,9 @@ func (s *CommissionSubAccountRateService) Do(
 	if err != nil {
 		return nil, err
 	}
-	err = json.Unmarshal(data, &res)
+	err = jsonCodec.Unmarshal(data, &res)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-}
-
-type CommissionRateSubAccount struct {
-	SubAccountId    int64  `json:"subAccountId"`
-	Symbol          string `json:"symbol"`
-	MakerAdjustment int    `json:"makerAdjustment"`
-	TakerAdjustment int    `json:"takerAdjustment"`
-	MakerCommission int    `json:"makerCommission"`
-	TakerCommission int    `json:"takerCommission"`
 }
